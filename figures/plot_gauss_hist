@@ -1,0 +1,135 @@
+#!/bin/bash
+
+light="#DCBCBC"
+light_highlight="#C79999"
+mid="#B97C7C"
+mid_highlight="#A25050"
+dark="#8F2727"
+dark_highlight="#7C0000"
+
+gnuplot << END
+
+set border 3
+
+set title ""
+
+set xtics scale 0
+set xlabel 'r / {/Symbol s} {/Symbol @\326\140}D'
+set xrange[0:2]
+
+set ytics scale 0
+set ylabel ''
+set format y ''
+set yrange[0:7]
+
+binwidth = 2.0 / 50.0
+set boxwidth binwidth
+bin(x, width) = width * floor(x / width) + 0.5 * binwidth
+weight = 1e-3 / binwidth
+
+set style fill solid 1.0
+
+set terminal postscript enhanced eps color font 'Times-Roman, 35' size 5, 5
+set output "gauss_hist1.eps"
+
+unset label
+set label "d = 1" at screen 0.9, screen 0.9 right font "Times-Roman, 45"
+
+N = 1.0
+sigma2 = 1 / N
+
+plot \
+"random_gauss.txt" using (bin(\$1, binwidth)):(weight) smooth freq with boxes \
+lt 1 lc rgb "$dark" fs border lc rgb '$dark_highlight' notitle, \
+exp(  log(2.0) - lgamma(0.5 * N) \
+- 0.5 * N * log(2.0 * sigma2) \
++ (N - 1) * log(x) - 0.5 * x * x / sigma2 )  \
+with lines lt 1 lw 7 lc rgb '$light' notitle
+
+END
+
+gnuplot << END
+
+set border 3
+
+set title ""
+
+set xtics scale 0
+set xlabel 'r / {/Symbol s} {/Symbol @\326\140}D'
+set xrange[0:2]
+
+set ytics scale 0
+set ylabel ''
+set format y ''
+set yrange[0:7]
+
+binwidth = 2.0 / 50.0
+set boxwidth binwidth
+bin(x, width) = width * floor(x / width) + 0.5 * binwidth
+weight = 1e-3 / binwidth
+
+set style fill solid 1.0
+
+set terminal postscript enhanced eps color font 'Times-Roman, 35' size 5, 5
+set output "gauss_hist2.eps"
+
+unset label
+set label "d = 10" at screen 0.9, screen 0.9 right font "Times-Roman, 45"
+
+N = 10.0
+sigma2 = 1 / N
+
+plot \
+"random_gauss.txt" using (bin(\$2, binwidth)):(weight) smooth freq with boxes \
+lt 1 lc rgb "$dark" fs border lc rgb '$dark_highlight' notitle, \
+exp(  log(2.0) - lgamma(0.5 * N) \
+- 0.5 * N * log(2.0 * sigma2) \
++ (N - 1) * log(x) - 0.5 * x * x / sigma2 )  \
+with lines lt 1 lw 7 lc rgb '$light' notitle
+
+
+END
+
+gnuplot << END
+
+set border 3
+
+set title ""
+
+set xtics scale 0
+set xlabel 'r / {/Symbol s} {/Symbol @\326\140}D'
+set xrange[0:2]
+
+set ytics scale 0
+set ylabel ''
+set format y ''
+set yrange[0:7]
+
+binwidth = 2.0 / 50.0
+set boxwidth binwidth
+bin(x, width) = width * floor(x / width) + 0.5 * binwidth
+weight = 1e-3 / binwidth
+
+set style fill solid 1.0
+
+set terminal postscript enhanced eps color font 'Times-Roman, 35' size 5, 5
+set output "gauss_hist3.eps"
+
+unset label
+set label "d = 100" at screen 0.9, screen 0.9 right font "Times-Roman, 45"
+
+N = 100.0
+sigma2 = 1 / N
+
+set samples 250
+
+plot \
+"random_gauss.txt" using (bin(\$3, binwidth)):(weight) smooth freq with boxes \
+lt 1 lc rgb "$dark" fs border lc rgb '$dark_highlight' notitle, \
+exp(  log(2.0) - lgamma(0.5 * N) \
+    - 0.5 * N * log(2.0 * sigma2) \
+    + (N - 1) * log(x) - 0.5 * x * x / sigma2 )  \
+with lines lt 1 lw 7 lc rgb '$light' notitle
+
+
+END

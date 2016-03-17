@@ -1,0 +1,52 @@
+#!/bin/bash
+
+light="#DCBCBC"
+light_highlight="#C79999"
+mid="#B97C7C"
+mid_highlight="#A25050"
+dark="#8F2727"
+dark_highlight="#7C0000"
+
+gnuplot << END
+
+set terminal postscript enhanced eps color font 'Times-Roman, 35' size 5, 5
+set output "conc_of_meas_anal.eps"
+
+set title ""
+
+set xtics nomirror scale 0
+set xlabel 'r / {/Symbol s} {/Symbol @\326\140}D'
+set xrange[0:2]
+
+set ytics nomirror scale 0
+set format y ''
+set ylabel ''
+set yrange[0:3]
+
+deltaX=0.006
+deltaY=deltaX * 1.5
+
+set label "Typical" at 0.325 + deltaX, 2.2 - deltaY tc rgb "black"
+set label "Typical" at 0.325, 2.2 tc rgb "#DDDDDD"
+set label "Set" at 0.325 + deltaX, 2.0 - deltaY tc rgb "black"
+set label "Set" at 0.325, 2.0 tc rgb "#DDDDDD"
+set obj rect from 0.7, 0 to 1.2, 3 fs noborder solid 1.0 fc rgb '#EEEEEE'
+
+set label "Density" at 0.05, 0.6 tc rgb "$light"
+set label "Differential" at 1.2, 2.75 tc rgb "$mid"
+set label "Volume" at 1.2, 2.55 tc rgb "$mid"
+set label "Mass" at 1.3, 1.0 tc rgb "$dark"
+
+N = 10.0
+sigma2 = 1 / N
+
+plot \
+exp(  log(2.0) - lgamma(0.5 * N) \
+- 0.5 * N * log(2.0 * sigma2) \
++ (N - 1) * log(x) - 0.5 * x * x / sigma2 ) \
+with lines lt 1 lw 5 lc rgb '$dark' notitle, \
+x**(N - 1) with lines lt 1 lw 5 lc rgb '$mid' notitle, \
+exp(- 0.5 * x * x) / sqrt(2 * pi) with lines lt 1 lw 5 lc rgb '$light' notitle
+
+
+END

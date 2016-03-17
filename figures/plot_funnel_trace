@@ -1,0 +1,86 @@
+#!/bin/bash
+
+light="#DCBCBC"
+light_highlight="#C79999"
+mid="#B97C7C"
+mid_highlight="#A25050"
+dark="#8F2727"
+dark_highlight="#7C0000"
+
+gnuplot << END
+
+set border 3
+
+set title ""
+
+set xtics scale 0
+set xlabel 'Iteration'
+set xrange[0:700]
+
+set ytics scale 0
+set ylabel ''
+set format y ''
+set yrange[-5:5]
+
+set datafile separator ','
+
+set terminal postscript enhanced eps color font 'Times-Roman, 40' size 6, 4
+set output "funnel_trace1.eps"
+
+plot \
+"funnel_trace.csv" using (3*\$0):5 every 3::0::400 with points pt 7 ps 2 lc rgb '$dark' notitle, \
+"funnel_trace.csv" using (3*\$0):5 every 3::0::400 with points pt 7 ps 1 lc rgb '$light' notitle
+
+END
+
+gnuplot << END
+
+set border 3
+
+set title ""
+
+set xtics scale 0
+set xlabel 'Iteration'
+set xrange[0:700]
+
+set ytics scale 0
+set ylabel ''
+set format y ''
+set yrange[-5:5]
+
+set datafile separator ','
+
+set terminal postscript enhanced eps color font 'Times-Roman, 40' size 6, 4
+set output "funnel_trace2.eps"
+
+plot \
+"funnel_trace.csv" using (3*\$0):5 every 3::0::600 with points pt 7 ps 2 lc rgb '$dark' notitle, \
+"funnel_trace.csv" using (3*\$0):5 every 3::0::600 with points pt 7 ps 1 lc rgb '$light' notitle
+
+END
+
+gnuplot << END
+
+set border 3
+
+set title ""
+
+set xtics scale 0
+set xlabel 'Iteration'
+set xrange[0:700]
+
+set ytics scale 0
+set ylabel ''
+set format y ''
+set yrange[-5:5]
+
+set datafile separator ','
+
+set terminal postscript enhanced eps color font 'Times-Roman, 40' size 6, 4
+set output "funnel_trace3.eps"
+
+plot \
+"funnel_trace.csv" using (3*\$0):5 every 3::0::700 with points pt 7 ps 2 lc rgb '$dark' notitle, \
+"funnel_trace.csv" using (3*\$0):5 every 3::0::700 with points pt 7 ps 1 lc rgb '$light' notitle
+
+END

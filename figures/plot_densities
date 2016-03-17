@@ -1,0 +1,83 @@
+#!/bin/bash
+
+light="#DCBCBC"
+light_highlight="#C79999"
+mid="#B97C7C"
+mid_highlight="#A25050"
+dark="#8F2727"
+dark_highlight="#7C0000"
+
+light_teal="#6B8E8E"
+mid_teal="#487575"
+dark_teal="#1D4F4F"
+
+light_olive="#CBDDA6"
+mid_olive="#9FB670"
+dark_olive="#617B2D"
+
+gnuplot << END
+
+set terminal postscript enhanced eps color font 'Times-Roman, 30' size 5, 5
+set output "density.eps"
+
+set pm3d map implicit at s
+
+unset border
+
+set xtics nomirror scale 0
+set format x ''
+set xrange[-10:10]
+
+set ytics nomirror scale 0
+set format y ''
+set yrange[-10:10]
+
+set zlabel ''
+set zrange[0:1]
+unset cbtics
+unset colorbox
+
+set palette model RGB rgbformulae 8, 9, 9 negative
+
+set samples 100
+set isosamples 100
+
+splot exp(-0.5 * 0.1 * (x * x + y * y)) notitle
+
+END
+
+gnuplot << END
+
+set terminal postscript enhanced eps color font 'Times-Roman, 30' size 5, 5
+set output "transformed_density.eps"
+
+set pm3d map implicit at s
+
+unset border
+
+set xtics nomirror scale 0
+set format x ''
+set xrange[-10:10]
+
+set ytics nomirror scale 0
+set format y ''
+set yrange[-10:10]
+
+set zlabel ''
+set zrange[0.1:4]
+unset cbtics
+unset colorbox
+
+set palette model RGB rgbformulae 8, 9, 9 negative
+
+set samples 250
+set isosamples 250
+
+alpha = 5
+f_inv(y) = tan(0.5 * pi * (exp(y) - 1) / (exp(y) + 1)) / alpha
+J(y) = (pi / alpha) * exp(y) / (1 + exp(y))**2 * 1.0 / sin(pi / (1 + exp(y)))**2
+
+splot \
+exp(-0.5 * 0.1 * (f_inv(x)**2 + f_inv(y)**2)) * J(x) * J(y) notitle
+
+END
