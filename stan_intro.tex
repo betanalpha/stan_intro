@@ -255,7 +255,9 @@ and the exclusion rule,
 \end{equation*}
 %
 where $E^{c}$ is the \emph{complement} of $E$ satisfying
-$E \cup E^{c} = \Theta$.
+$E \cup E^{c} = \Theta$. \\
+
+
 \subsubsection*{All of probability theory reduces to expectations}
 
 Probability distributions also allow us to compute \emph{expectation values} 
@@ -308,7 +310,10 @@ probability distributions know as \emph{conditional probability
 distributions}.
 
 A conditional probability distribution is a set of probability distributions 
-indexed by some auxiliary space, $\Phi$,
+indexed by some auxiliary space, $\Phi$. For any value of $\phi \in \Phi$, 
+the conditional probability distribution defines a probability distribution on 
+$\Theta$; for any event in $\Theta$, the conditional probability 
+distribution defines a function from $\Phi$ to probabilities:
 %
 \begin{align*}
 \PP_{\Theta \mid \Phi} 
@@ -316,17 +321,15 @@ indexed by some auxiliary space, $\Phi$,
 &\quad \left( E_{\Theta}, \phi \right) \;\; \mapsto 
 \PP_{\Theta \mid \Phi} \! \left[ E_{\Theta} \mid \phi \right].
 \end{align*}
-%
-In other words, for any value of $\phi \in \Phi$ the conditional probability
-distribution defines a probability distribution on $\Theta$, and for any
-event in $\Theta$ the conditional probability distribution defines a 
-function from $\Phi$ to probabilities.  By combining a conditional
-probability distribution with a probability distribution on the conditioning
-space, $\Phi$, we can construct a probability distribution on the joint
-sample space, $\Theta \times \Phi$.
 
-This \emph{joint distribution} is defined implicitly by its probability assignments
-or expectation values.  For example, the probability of any joint event, 
+\subsubsection*{Joint distributions implied by expectations}
+
+By combining a conditional probability distribution with a probability distribution 
+on the conditioning space, $\Phi$, we can construct a probability distribution on 
+the joint sample space, $\Theta \times \Phi$. This \emph{joint distribution} is 
+defined implicitly by its probability assignments or expectation values.  
+
+For example, the probability of any joint event, 
 $E_{\Theta} \times E_{\Phi}$, is given by first using the conditional 
 probability distribution to assign a probability to $E_{\Theta}$, 
 $\PP_{\Theta|\Phi} \! \left[ E_{\Theta} \mid \phi \right]$, and then 
