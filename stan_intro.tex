@@ -1335,10 +1335,10 @@ probability using a univariate Gaussian random number generator
 available in any computing library,
 %
 \begin{equation*}
-\theta_{n} \sim \mathcal{N} \! \left(0, \sigma^{2} \right),
+\theta_{d} \sim \mathcal{N} \! \left(0, \sigma^{2} \right), \quad d = 1, \dots, D,
 \end{equation*}
 %
-with the corresponding radial distance $r = \sqrt{ \sum_{d = 1}^{D} x_{d}^{2} }$.
+with the corresponding radial distance $r = \sqrt{ \sum_{d = 1}^{D} \theta_{d}^{2} }$.
 Generating a sequence of samples and then histogramming the radial 
 distance reveals the same $\chi$ distribution that we arrived at analytically
 (Figure \ref{fig:concentration_of_measure_emp}).
