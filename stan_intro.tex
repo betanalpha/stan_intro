@@ -55,7 +55,7 @@ After reviewing some mathematical administration we'll introduce
 probability theory, keeping the presentation abstract but focusing on 
 concepts instead of mathematical pedantry.  We'll then introduce how
 we implement these abstract ideas in practice, both in terms of
-concrete representations and computation, before discuss many
+concrete representations and computation, before discussing many
 popular computational methods.  Finally we'll show how all of these
 ideas come together in Bayesian inference.
 
@@ -92,7 +92,7 @@ have such a structure and consequently for all intents and purposes
 set and space will be used interchangeably.  The only important
 consequence of topologies that will be relevant for us is that ultimately
 it is this topological structure that allows us to characterize spaces as 
-either discrete and continuous.
+either discrete or continuous.
 
 Throughout we will use the common notation for maps from one set into 
 another, $f : A \rightarrow B$ which defines $f$ as a map taking elements 
@@ -120,7 +120,7 @@ This means, for example, that in many places we will appeal to vague
 notions like ``well-behaved'', as their technical definitions do not offer
 much pedagogical benefit.
 
-The fundamental object in probability theory are probability distributions
+The fundamental objects in probability theory are probability distributions
 defined over event spaces.  In this section these objects are defined
 only abstractly, which unfortunately means that we cannot rely on
 helpful visualizations to support the definitions and manipulations.
@@ -152,7 +152,7 @@ as specified by well-behaved subset of the sample space,
 $E \subset \Theta$.  We also denote the \emph{event space} of 
 well-behaved subsets of the sample space as $\EV{\Theta}$.
 
-For example, if $\bt$ took values on the real like, $\Theta = \RR$, then 
+For example, if $\bt$ took values on the real line, $\Theta = \RR$, then 
 events could be points in the sample space, $E = \left\{ \theta = 5 \right\}$, 
 intervals, $E = \left\{ \theta \in \Theta \mid \theta < 5 \right\}$ or 
 $E = \left\{ \theta \in \Theta \mid 1 < \theta < 5 \right\}$, or various
@@ -200,12 +200,12 @@ If we are uncertain about our target system, $\bt$, then we cannot
 ensure that any particular event is true.  Instead all we can do
 is quantify our uncertainty about $\bt$ by assigning each event a
 \emph{probability} that quantifies which events are more likely to
-be true that others.  Probabilities themselves are bounded between 
+be true than others.  Probabilities themselves are bounded between 
 0, indicating that an event is absolutely false, and 1, indicating that 
 an event is absolutely true.
 
-In probability theory probabilities are assigned by a \emph{probability 
-distribution} which assigns probability to events,
+In probability theory probabilities are assigned to events by a \emph{probability 
+distribution},
 %
 \begin{equation*}
 \PP : \mathcal{E} \! \left( \Theta \right) \rightarrow \left[0, 1 \right],
@@ -214,18 +214,19 @@ distribution} which assigns probability to events,
 where $\left[0, 1\right]$ is the interval
 %
 \begin{equation*}
-\left[ 0, 1 \right] = \left\{ x \in \RR \mid 0 \le x \le 1 \right\},
+\left[ 0, 1 \right] = \left\{ x \in \RR \mid 0 \le x \le 1 \right\}.
 \end{equation*}
 %
-such that the probability of the null event is zero, 
+The probability of the null event is zero, 
 $\PP \! \left[ \emptyset \right] = 0$, and the probability of the trivial
 event is one, $\PP \! \left[ \Theta \right] = 1$.  These latter
 two conditions are an immediate consequence of our initial
-assumption that $\bt$ has to take values in sample space.
+assumption that $\bt$ has to take values in the sample space.
 
-If logical statements quantify information about the system $\bt$ then
-probability distributions quantify our uncertainty about those statements
-and hence the system itself.  When using a probability distribution to 
+If logical statements quantify information about the system $\bt$, 
+then probability distributions quantify our uncertainty about those 
+statements and hence our uncertainty about the the system itself.  
+When using a probability distribution to 
 quantify our uncertainty about $\bt$ we often write $\bt \sim \PP$ which 
 is usually read as, ``$\bt$ is distributed according to the probability 
 distribution $\PP$'' but should really read ``Logical statements about 
@@ -297,7 +298,7 @@ them!
 Reasoning about probability distributions on low-dimensional spaces
 is usually straightforward -- or at least as straightforward as the
 mathematics will allow -- but reasoning about probability distributions
-on high-dimensional spaces is much more sublte.  One
+on high-dimensional spaces is much more subtle.  One
 very elegant way to simplify these high-dimensional probability
 distributions is to treat them as a product of simpler, one-dimensional
 probability distributions know as \emph{conditional probability
@@ -385,7 +386,7 @@ all correlations between the components.
 Consequently, conditional probability distributions are powerful ways of
 building probability distributions on high-dimensional spaces.  We simply 
 start with a probability distribution on one low-dimensional component and 
-then build up a joint distribution by adding conditional probability distributions 
+then build up a joint distribution using conditional probability distributions 
 for each new component,
 %
 \begin{align*}
