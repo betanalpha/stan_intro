@@ -55,7 +55,7 @@ After reviewing some mathematical administration we'll introduce
 probability theory, keeping the presentation abstract but focusing on 
 concepts instead of mathematical pedantry.  We'll then introduce how
 we implement these abstract ideas in practice, both in terms of
-concrete representations and computation, before discuss many
+concrete representations and computation, before discussing many
 popular computational methods.  Finally we'll show how all of these
 ideas come together in Bayesian inference.
 
@@ -92,7 +92,7 @@ have such a structure and consequently for all intents and purposes
 set and space will be used interchangeably.  The only important
 consequence of topologies that will be relevant for us is that ultimately
 it is this topological structure that allows us to characterize spaces as 
-either discrete and continuous.
+either discrete or continuous.
 
 Throughout we will use the common notation for maps from one set into 
 another, $f : A \rightarrow B$ which defines $f$ as a map taking elements 
@@ -120,7 +120,7 @@ This means, for example, that in many places we will appeal to vague
 notions like ``well-behaved'', as their technical definitions do not offer
 much pedagogical benefit.
 
-The fundamental object in probability theory are probability distributions
+The fundamental objects in probability theory are probability distributions
 defined over event spaces.  In this section these objects are defined
 only abstractly, which unfortunately means that we cannot rely on
 helpful visualizations to support the definitions and manipulations.
@@ -152,7 +152,7 @@ as specified by well-behaved subset of the sample space,
 $E \subset \Theta$.  We also denote the \emph{event space} of 
 well-behaved subsets of the sample space as $\EV{\Theta}$.
 
-For example, if $\bt$ took values on the real like, $\Theta = \RR$, then 
+For example, if $\bt$ took values on the real line, $\Theta = \RR$, then 
 events could be points in the sample space, $E = \left\{ \theta = 5 \right\}$, 
 intervals, $E = \left\{ \theta \in \Theta \mid \theta < 5 \right\}$ or 
 $E = \left\{ \theta \in \Theta \mid 1 < \theta < 5 \right\}$, or various
@@ -169,6 +169,8 @@ E =
 %
 Event spaces always include the null event, $E = \emptyset$, and the 
 trivial event, $E = \Theta$.
+
+\subsubsection*{Different ways of specifying logical statements quantify the same information}
 
 One subtlety with this construction is that we can specify the
 same logical statements, and hence events, using different 
@@ -200,12 +202,12 @@ If we are uncertain about our target system, $\bt$, then we cannot
 ensure that any particular event is true.  Instead all we can do
 is quantify our uncertainty about $\bt$ by assigning each event a
 \emph{probability} that quantifies which events are more likely to
-be true that others.  Probabilities themselves are bounded between 
+be true than others.  Probabilities themselves are bounded between 
 0, indicating that an event is absolutely false, and 1, indicating that 
 an event is absolutely true.
 
-In probability theory probabilities are assigned by a \emph{probability 
-distribution} which assigns probability to events,
+In probability theory probabilities are assigned to events by a \emph{probability 
+distribution},
 %
 \begin{equation*}
 \PP : \mathcal{E} \! \left( \Theta \right) \rightarrow \left[0, 1 \right],
@@ -214,18 +216,19 @@ distribution} which assigns probability to events,
 where $\left[0, 1\right]$ is the interval
 %
 \begin{equation*}
-\left[ 0, 1 \right] = \left\{ x \in \RR \mid 0 \le x \le 1 \right\},
+\left[ 0, 1 \right] = \left\{ x \in \RR \mid 0 \le x \le 1 \right\}.
 \end{equation*}
 %
-such that the probability of the null event is zero, 
+The probability of the null event is zero, 
 $\PP \! \left[ \emptyset \right] = 0$, and the probability of the trivial
 event is one, $\PP \! \left[ \Theta \right] = 1$.  These latter
 two conditions are an immediate consequence of our initial
-assumption that $\bt$ has to take values in sample space.
+assumption that $\bt$ has to take values in the sample space.
 
-If logical statements quantify information about the system $\bt$ then
-probability distributions quantify our uncertainty about those statements
-and hence the system itself.  When using a probability distribution to 
+If logical statements quantify information about the system $\bt$, 
+then probability distributions quantify our uncertainty about those 
+statements and hence our uncertainty about the the system itself.  
+When using a probability distribution to 
 quantify our uncertainty about $\bt$ we often write $\bt \sim \PP$ which 
 is usually read as, ``$\bt$ is distributed according to the probability 
 distribution $\PP$'' but should really read ``Logical statements about 
@@ -252,7 +255,10 @@ and the exclusion rule,
 \end{equation*}
 %
 where $E^{c}$ is the \emph{complement} of $E$ satisfying
-$E \cup E^{c} = \Theta$.
+$E \cup E^{c} = \Theta$. \\
+
+
+\subsubsection*{All of probability theory reduces to expectations}
 
 Probability distributions also allow us to compute \emph{expectation values} 
 of well-behaved functions on the sample space,
@@ -297,14 +303,17 @@ them!
 Reasoning about probability distributions on low-dimensional spaces
 is usually straightforward -- or at least as straightforward as the
 mathematics will allow -- but reasoning about probability distributions
-on high-dimensional spaces is much more sublte.  One
+on high-dimensional spaces is much more subtle.  One
 very elegant way to simplify these high-dimensional probability
 distributions is to treat them as a product of simpler, one-dimensional
 probability distributions know as \emph{conditional probability
 distributions}.
 
 A conditional probability distribution is a set of probability distributions 
-indexed by some auxiliary space, $\Phi$,
+indexed by some auxiliary space, $\Phi$. For any value of $\phi \in \Phi$, 
+the conditional probability distribution defines a probability distribution on 
+$\Theta$; for any event in $\Theta$, the conditional probability 
+distribution defines a function from $\Phi$ to probabilities:
 %
 \begin{align*}
 \PP_{\Theta \mid \Phi} 
@@ -312,17 +321,15 @@ indexed by some auxiliary space, $\Phi$,
 &\quad \left( E_{\Theta}, \phi \right) \;\; \mapsto 
 \PP_{\Theta \mid \Phi} \! \left[ E_{\Theta} \mid \phi \right].
 \end{align*}
-%
-In other words, for any value of $\phi \in \Phi$ the conditional probability
-distribution defines a probability distribution on $\Theta$, and for any
-event in $\Theta$ the conditional probability distribution defines a 
-function from $\Phi$ to probabilities.  By combining a conditional
-probability distribution with a probability distribution on the conditioning
-space, $\Phi$, we can construct a probability distribution on the joint
-sample space, $\Theta \times \Phi$.
 
-This \emph{joint distribution} is defined implicitly by its probability assignments
-or expectation values.  For example, the probability of any joint event, 
+\subsubsection*{Joint distributions implied by expectations}
+
+By combining a conditional probability distribution with a probability distribution 
+on the conditioning space, $\Phi$, we can construct a probability distribution on 
+the joint sample space, $\Theta \times \Phi$. This \emph{joint distribution} is 
+defined implicitly by its probability assignments or expectation values.  
+
+For example, the probability of any joint event, 
 $E_{\Theta} \times E_{\Phi}$, is given by first using the conditional 
 probability distribution to assign a probability to $E_{\Theta}$, 
 $\PP_{\Theta|\Phi} \! \left[ E_{\Theta} \mid \phi \right]$, and then 
@@ -338,8 +345,8 @@ taking the expectation of this assignment over the distribution on $\Phi$,
 \end{equation*}
 %
 where the indicator function, $\mathbb{I}_{E_{\Phi}}$, ensures that we 
-take the expectation only over the event in $\Phi$.  Similarly, joint 
-expectations are defined iteratively as
+take the expectation only over the appropriate event in $\Phi$.  Similarly, 
+joint expectations are defined iteratively as
 %
 \begin{equation*}
 \EE_{\PP_{\Theta \times \Phi}} \! \left[ g \! \left( \theta, \phi \right) \right]
@@ -350,6 +357,9 @@ g \! \left( \theta, \phi \right) \mid \phi
 \Big]
 \right].
 \end{equation*}
+
+
+\subsubsection*{Marginalization collapses joint distribution onto component spaces}
 
 If we consider only the trivial event on the conditioning space $E_{\Phi} 
 = \Phi$, then this construction also defines a  \emph{marginal distribution} 
@@ -378,14 +388,16 @@ f \! \left( \theta \right) \mid \phi
 \right].
 \end{align*}
 %
-This marginalization process allows us to collapse a joint probability 
+This \emph{marginalization process} allows us to collapse a joint probability 
 distribution onto any of the component spaces while taking into account 
 all correlations between the components.
+
+\subsubsection*{Generative modeling is building joint distribution from conditionals}
 
 Consequently, conditional probability distributions are powerful ways of
 building probability distributions on high-dimensional spaces.  We simply 
 start with a probability distribution on one low-dimensional component and 
-then build up a joint distribution by adding conditional probability distributions 
+then build up a joint distribution using conditional probability distributions 
 for each new component,
 %
 \begin{align*}
