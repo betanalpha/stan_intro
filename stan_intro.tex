@@ -3642,7 +3642,7 @@ measurements.  An infinite number of measurements would
 certainly inform us of the data generating process exactly,
 but measurements are expensive and in practice we have
 to learn about the data generating process from only a few
-measurements, if not just a single measurements. \emph{Inference}
+measurements, if not just a single measurement. \emph{Inference}
 is the process of learning about the data generating process
 using only a finite number measurements.  
 
@@ -3674,7 +3674,7 @@ data generating processes over $D$, $\mathcal{P}_{D}$.
 \label{fig:big_world}
 \end{figure*}
 
-The big world is much to ungainly to be even be well-defined in practice, 
+The big world is much too ungainly to even be well-defined in practice, 
 let alone exhaustively explored.  Instead we have to limit our consideration 
 to only a subset of probability distributions over the measurement space 
 called a \emph{small world}, $\Theta \subset \mathcal{P}_{D}$ 
@@ -3682,7 +3682,7 @@ called a \emph{small world}, $\Theta \subset \mathcal{P}_{D}$
 
 Each point in the small world, $\theta \in \Theta$, identifies a unique 
 probability distribution over data.  Consequently the small world is 
-equivalent to a probability distribution over the measurements space
+equivalent to a probability distribution over the measurement space
 conditioned on the small world,
 %
 \begin{align*}
@@ -3762,11 +3762,11 @@ which elements are most consistent with the latent data generating process.
 The information inherent in the prior distribution can come from previous 
 measurements, theoretical constraints, or even elicitation of experts.  
 
-Learning in the small world is the process of the updating of the prior distribution
-with any information contained in the measurement to give a \emph{posterior
+Learning in the small world is the process of updating the prior distribution
+with any information contained in the measurement to obtain a \emph{posterior
 distribution}, $\PP_{\Theta}^{\mathrm{post}}$, that quantifies our uncertainty
 about the small world after the measurement  (Figure \ref{fig:learning}).  The 
-likelihood implicit defines any information contained in a measurement and 
+likelihood implicitly defines any information contained in a measurement and 
 then the actual mechanism for this update is immediately given by probability 
 theory.  It is most simply written in terms of probability density functions,
 %
@@ -3781,7 +3781,7 @@ which can be recognized as the celebrated Bayes' Theorem.
 Bayes' Theorem, however, is just a mathematical consequence of probability
 theory and its appearance is an inevitability once we use probabilities to
 quantify our uncertainty about the small world.  Ultimately, all of this
-abstraction is just means to formalize the intuition that \emph{what we know 
+abstraction is just a means to formalize the intuition that \emph{what we know 
 after a measurement is what we knew before the measurement plus any 
 information contained in the measurement}.
 
