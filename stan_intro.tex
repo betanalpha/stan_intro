@@ -1724,9 +1724,9 @@ need strategies that do not depend on these irrelevant properties.
 
 \subsection{Variational Estimators}
 
-In order to construct a approximation that is not sensitive to the choice 
+In order to construct an approximation that is not sensitive to the choice 
 of a particular sample space we need to frame the problem as an 
-optimization over a space of approximating distributions directly.
+optimization over a space of approximating distributions.
 Optimizations over spaces of probability distributions fall into a class 
 of algorithms known as \emph{variational methods}.
 
@@ -1759,7 +1759,7 @@ objective (Figure \ref{fig:variational_cartoon}).
 D \! \left( \PP \mid\mid \mathbb{Q} \right).
 \end{equation*}
 %
-Although straightforward to define, this variational optimization can
+Although straightforward to define, this variational optimization can be
 quite challenging in practice.  Depending on how the target distribution
 interacts with the choice of variational distribution and divergence
 function, the variational objective might feature multiple critical points
@@ -1860,7 +1860,7 @@ distribution, allowing us to identify the best approximation, $\mathbb{Q}^{*}$.
   node[right, color=white] {$\PP$};
   
 \end{tikzpicture}
-\caption{In practice typically different elements of the variational family
+\caption{Typically different elements of the variational family
 are able to capture different characteristics of the target distribution and 
 the variational objective manifests multiple optima.  Even if a global
 optimum, $\mathbb{Q}^{*}$, exists it will be difficult to find and we may
