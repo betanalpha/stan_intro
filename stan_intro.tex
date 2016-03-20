@@ -1484,16 +1484,16 @@ and will prove a powerful way to estimate expectations.
 \subfigure[]{ \includegraphics[width=1.85in]{gauss_hist3.eps} }
 \caption{Concentration of measure can be visualized with samples 
 from a given distribution, which concentrate across the typical set.  
-For low-dimensions the concentration is weak the the typical set 
+For low-dimensions the concentration is weak and the typical set 
 is diffuse, but as the dimensionality of the target distribution grows
-so do does the concentration of measure.
+so does the concentration of measure.
 }
 \label{fig:concentration_of_measure_emp}
 \end{figure*}
 
 \section{Probability in Practice: Deterministic Estimators}
 
-If we can't quantify the target typical set exactly, one immediately
+If we can't quantify the target typical set exactly, one immediate
 strategy is to just replace it with a simpler one.  In other words,
 we can approximate a complex target distribution, $\PP$, with a 
 simpler distribution, $\widetilde{\PP}$, whose expectations, or at 
@@ -1557,7 +1557,7 @@ so ubiquitous?
 
 MAP estimators are seductive because the optimization on which they
 rely is relatively computationally inexpensive.  Moreover, in some very 
-simple cases MAP estimators constructed from probability density function
+simple cases MAP estimators constructed from probability density functions
 in \emph{some} sample spaces can be reasonably accurate for 
 \emph{some} functions.  For example, if the target probability distribution 
 is sufficiently simple that the typical set is convex \emph{and} if a 
@@ -1673,11 +1673,11 @@ Expectations are then estimated with Gaussian integrals
 which often admit analytic solutions.
 
 The accuracy of Laplace approximations depends on how well the
-mode and at the Hessian of the probability density function
-quantifies the geometry of the typical set (Figure \ref{fig:laplace}).
+mode and the Hessian of the probability density function
+quantify the geometry of the typical set (Figure \ref{fig:laplace}).
 Unfortunately the conditions that are necessary for these estimates
 to be reasonably accurate hold only for very simple probability
-distributions, and only then only if an appropriate sample space
+distributions, and only then if an appropriate sample space
 can be found.  
 
 \begin{figure*}
