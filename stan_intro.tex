@@ -55,7 +55,7 @@ After reviewing some mathematical administration we'll introduce
 probability theory, keeping the presentation abstract but focusing on 
 concepts instead of mathematical pedantry.  We'll then introduce how
 we implement these abstract ideas in practice, both in terms of
-concrete representations and computation, before discuss many
+concrete representations and computation, before discussing many
 popular computational methods.  Finally we'll show how all of these
 ideas come together in Bayesian inference.
 
@@ -92,7 +92,7 @@ have such a structure and consequently for all intents and purposes
 set and space will be used interchangeably.  The only important
 consequence of topologies that will be relevant for us is that ultimately
 it is this topological structure that allows us to characterize spaces as 
-either discrete and continuous.
+either discrete or continuous.
 
 Throughout we will use the common notation for maps from one set into 
 another, $f : A \rightarrow B$ which defines $f$ as a map taking elements 
@@ -120,7 +120,7 @@ This means, for example, that in many places we will appeal to vague
 notions like ``well-behaved'', as their technical definitions do not offer
 much pedagogical benefit.
 
-The fundamental object in probability theory are probability distributions
+The fundamental objects in probability theory are probability distributions
 defined over event spaces.  In this section these objects are defined
 only abstractly, which unfortunately means that we cannot rely on
 helpful visualizations to support the definitions and manipulations.
@@ -152,7 +152,7 @@ as specified by well-behaved subset of the sample space,
 $E \subset \Theta$.  We also denote the \emph{event space} of 
 well-behaved subsets of the sample space as $\EV{\Theta}$.
 
-For example, if $\bt$ took values on the real like, $\Theta = \RR$, then 
+For example, if $\bt$ took values on the real line, $\Theta = \RR$, then 
 events could be points in the sample space, $E = \left\{ \theta = 5 \right\}$, 
 intervals, $E = \left\{ \theta \in \Theta \mid \theta < 5 \right\}$ or 
 $E = \left\{ \theta \in \Theta \mid 1 < \theta < 5 \right\}$, or various
@@ -200,12 +200,12 @@ If we are uncertain about our target system, $\bt$, then we cannot
 ensure that any particular event is true.  Instead all we can do
 is quantify our uncertainty about $\bt$ by assigning each event a
 \emph{probability} that quantifies which events are more likely to
-be true that others.  Probabilities themselves are bounded between 
+be true than others.  Probabilities themselves are bounded between 
 0, indicating that an event is absolutely false, and 1, indicating that 
 an event is absolutely true.
 
-In probability theory probabilities are assigned by a \emph{probability 
-distribution} which assigns probability to events,
+In probability theory probabilities are assigned to events by a \emph{probability 
+distribution},
 %
 \begin{equation*}
 \PP : \mathcal{E} \! \left( \Theta \right) \rightarrow \left[0, 1 \right],
@@ -214,18 +214,19 @@ distribution} which assigns probability to events,
 where $\left[0, 1\right]$ is the interval
 %
 \begin{equation*}
-\left[ 0, 1 \right] = \left\{ x \in \RR \mid 0 \le x \le 1 \right\},
+\left[ 0, 1 \right] = \left\{ x \in \RR \mid 0 \le x \le 1 \right\}.
 \end{equation*}
 %
-such that the probability of the null event is zero, 
+The probability of the null event is zero, 
 $\PP \! \left[ \emptyset \right] = 0$, and the probability of the trivial
 event is one, $\PP \! \left[ \Theta \right] = 1$.  These latter
 two conditions are an immediate consequence of our initial
-assumption that $\bt$ has to take values in sample space.
+assumption that $\bt$ has to take values in the sample space.
 
-If logical statements quantify information about the system $\bt$ then
-probability distributions quantify our uncertainty about those statements
-and hence the system itself.  When using a probability distribution to 
+If logical statements quantify information about the system $\bt$, 
+then probability distributions quantify our uncertainty about those 
+statements and hence our uncertainty about the the system itself.  
+When using a probability distribution to 
 quantify our uncertainty about $\bt$ we often write $\bt \sim \PP$ which 
 is usually read as, ``$\bt$ is distributed according to the probability 
 distribution $\PP$'' but should really read ``Logical statements about 
@@ -297,7 +298,7 @@ them!
 Reasoning about probability distributions on low-dimensional spaces
 is usually straightforward -- or at least as straightforward as the
 mathematics will allow -- but reasoning about probability distributions
-on high-dimensional spaces is much more sublte.  One
+on high-dimensional spaces is much more subtle.  One
 very elegant way to simplify these high-dimensional probability
 distributions is to treat them as a product of simpler, one-dimensional
 probability distributions know as \emph{conditional probability
@@ -385,7 +386,7 @@ all correlations between the components.
 Consequently, conditional probability distributions are powerful ways of
 building probability distributions on high-dimensional spaces.  We simply 
 start with a probability distribution on one low-dimensional component and 
-then build up a joint distribution by adding conditional probability distributions 
+then build up a joint distribution using conditional probability distributions 
 for each new component,
 %
 \begin{align*}
@@ -1009,7 +1010,7 @@ discrete and continuous representations of conditional distributions.
 
 For example, a distribution over $\Theta = \Phi \times \Psi$ can be
 specified by conditioning the discrete component with the real
-component, $\PP_{\Phi \mid \Psi}$ and providing a marginal distribution
+component, $\PP_{\Phi \mid \Psi}$, and providing a marginal distribution
 over the real component, $\PP_{\Psi}$.  Using a conditional
 probability mass function for the former and a probability density function
 for the latter, the probability of any event is given by
@@ -1047,8 +1048,8 @@ p_{\Phi \mid \Psi} \! \left( \phi \mid \psi \right)
 p_{\Psi} \! \left( \psi \right) \dd \psi.
 \end{align*}
 
-Equivalently, we could also conditioning the real component on the
-discrete component, $\PP_{\Psi \mid \Phi}$ and provide a marginal 
+Equivalently, we could also condition the real component on the
+discrete component, $\PP_{\Psi \mid \Phi}$, and provide a marginal 
 distribution over the discrete component, $\PP_{\Phi}$.  We could 
 then represent the distribution with a conditional probability density 
 function for the former and a probability mass function for the latter.  
@@ -1148,25 +1149,25 @@ and computing.
 
 Once we've settled on a representation of our probability distribution, 
 these computations reduce to straightforward manipulations, either 
-summations in the discrete case or integration in the real case.  
+summations in the discrete case or integrations in the real case.  
 Unfortunately, the conceptual elegance of these computations does not 
 imply that the calculations themselves are trivial.  
 
 Outside of the most simple problems the necessary summations and 
 integrations cannot be calculated analytically and we must be satisfied 
-with only approximate estimates.  Moreover, the only way to guarantee
-accurate estimation is to exhaustively survey the sample space, and
-for large sample spaces the cost of such surveys easily overwhelm our 
+with approximations.  Moreover, the only way to guarantee
+accurate estimation is to exhaustively survey the sample space, but
+for large sample spaces the cost of such surveys easily overwhelms our 
 finite computational resources.  Consequently, computationally efficient 
-yet accurate estimates requires more sophisticated approaches that take
+yet accurate estimates require more sophisticated approaches that take
 advantage of the geometry of the target probability distribution itself.
 
 In this section we study the geometry of probability distributions
 on high-dimensional sample spaces and how that geometry frustrates
 approximate algorithms, both in theory and with an explicit example.  
-From here on we will consider only real sample spaces -- much of the 
-intuition we will develop does carry over to the discrete case, but 
-developing algorithms around that corresponding intuition is still an 
+From here on we will consider only real (continuous) sample spaces.
+Much of the intuition we develop does carry over to the discrete case, 
+but developing algorithms around that corresponding intuition is still an 
 open problem in statistics.
 
 \subsection{Concentration of Measure}
@@ -1175,11 +1176,11 @@ The key to constructing robust estimates of any expectation is identifying
 which neighborhoods of our target sample space contribute to the 
 corresponding integrals; any computation outside of those relevant 
 neighborhoods is wasted.  How to identify those relevant neighborhoods 
-for a given target distribution, however, is not immediately obvious
-All that we know is that, because those neighborhoods define expectations,
+for a given target distribution, however, is not immediately obvious.
+All we know is that, because those neighborhoods define expectations,
 they should be equivalent for equivalent sample spaces.
 
-Naively we might consider a neighborhood around the mode of our 
+Naively, we might consider a neighborhood around the mode of our 
 representative probability density function where the density, and 
 presumably also contributions to any integral, is largest.  This
 neighborhood, however, is dependent on the particular sample
@@ -1193,8 +1194,8 @@ we integrate does not.  As we move towards infinity there is more and
 more room over which we can integrate, especially in high-dimensions.
 Consequently the integrand, which is the \emph{product} of these two 
 contributions, concentrates in a singular neighborhood somewhere in the 
-middle known as the \emph{typical set} (Figure \ref{fig:typical_set}) in
-a phenomenon is known as \emph{concentration of measure}
+middle called the \emph{typical set} (Figure \ref{fig:typical_set}). This
+phenomenon is known as \emph{concentration of measure}.
 
 \begin{figure*}
 \centering
@@ -1224,7 +1225,7 @@ Transformations between equivalent sample spaces may change where
 the probability density and volume concentrate, but these changes always 
 cancel exactly to yield an equivalent typical set.  Concentration of measure 
 and the typical set are properties of a probability distribution itself and not 
-of any particular sample space we use to specify that distribution.
+of any particular sample space used to specify that distribution.
 
 Although this analysis is too vague to help us identify the typical set
 for a given probability distribution, it does provide crucial understanding 
@@ -1311,7 +1312,7 @@ large $D$ all of the probability concentrates in a neighborhood
 around $r \approx \sigma \sqrt{D}$ with width around $\sigma / \sqrt{2}$.  
 In other words, almost all of our target probability can be found in a 
 thin shell at $r = \sigma \sqrt{D}$ and that neighborhood concentrates 
-tighter and tighter around that shell as we add more and more dimensions 
+tighter and tighter around the shell as we add more and more dimensions 
 (Figure \ref{fig:conc_of_meas_anal}).
 
 \begin{figure*}
@@ -1326,18 +1327,18 @@ from the mode.  These two opposing trends balance to give the typical set.}
 \label{fig:conc_of_meas_anal}
 \end{figure*}
 
-Because samples recover all expectations asymptotically, they have
+Because samples recover all expectations asymptotically, they
 must concentrate across the typical set (Figure \ref{fig:samples}).
-Consequently, we can also use samples to simulate concentrate of 
+Consequently, we can also use samples to simulate concentration of 
 measure.  For a given $D$ we can generate a sample from our target 
 probability using a univariate Gaussian random number generator 
 available in any computing library,
 %
 \begin{equation*}
-\theta_{n} \sim \mathcal{N} \! \left(0, \sigma^{2} \right),
+\theta_{d} \sim \mathcal{N} \! \left(0, \sigma^{2} \right), \quad d = 1, \dots, D,
 \end{equation*}
 %
-with the corresponding radial distance $r = \sqrt{ \sum_{d = 1}^{D} x_{d}^{2} }$.
+with the corresponding radial distance $r = \sqrt{ \sum_{d = 1}^{D} \theta_{d}^{2} }$.
 Generating a sequence of samples and then histogramming the radial 
 distance reveals the same $\chi$ distribution that we arrived at analytically
 (Figure \ref{fig:concentration_of_measure_emp}).
@@ -1483,16 +1484,16 @@ and will prove a powerful way to estimate expectations.
 \subfigure[]{ \includegraphics[width=1.85in]{gauss_hist3.eps} }
 \caption{Concentration of measure can be visualized with samples 
 from a given distribution, which concentrate across the typical set.  
-For low-dimensions the concentration is weak the the typical set 
+For low-dimensions the concentration is weak and the typical set 
 is diffuse, but as the dimensionality of the target distribution grows
-so do does the concentration of measure.
+so does the concentration of measure.
 }
 \label{fig:concentration_of_measure_emp}
 \end{figure*}
 
 \section{Probability in Practice: Deterministic Estimators}
 
-If we can't quantify the target typical set exactly, one immediately
+If we can't quantify the target typical set exactly, one immediate
 strategy is to just replace it with a simpler one.  In other words,
 we can approximate a complex target distribution, $\PP$, with a 
 simpler distribution, $\widetilde{\PP}$, whose expectations, or at 
@@ -1556,7 +1557,7 @@ so ubiquitous?
 
 MAP estimators are seductive because the optimization on which they
 rely is relatively computationally inexpensive.  Moreover, in some very 
-simple cases MAP estimators constructed from probability density function
+simple cases MAP estimators constructed from probability density functions
 in \emph{some} sample spaces can be reasonably accurate for 
 \emph{some} functions.  For example, if the target probability distribution 
 is sufficiently simple that the typical set is convex \emph{and} if a 
@@ -1672,11 +1673,11 @@ Expectations are then estimated with Gaussian integrals
 which often admit analytic solutions.
 
 The accuracy of Laplace approximations depends on how well the
-mode and at the Hessian of the probability density function
-quantifies the geometry of the typical set (Figure \ref{fig:laplace}).
+mode and the Hessian of the probability density function
+quantify the geometry of the typical set (Figure \ref{fig:laplace}).
 Unfortunately the conditions that are necessary for these estimates
 to be reasonably accurate hold only for very simple probability
-distributions, and only then only if an appropriate sample space
+distributions, and only then if an appropriate sample space
 can be found.  
 
 \begin{figure*}
@@ -1723,9 +1724,9 @@ need strategies that do not depend on these irrelevant properties.
 
 \subsection{Variational Estimators}
 
-In order to construct a approximation that is not sensitive to the choice 
+In order to construct an approximation that is not sensitive to the choice 
 of a particular sample space we need to frame the problem as an 
-optimization over a space of approximating distributions directly.
+optimization over a space of approximating distributions.
 Optimizations over spaces of probability distributions fall into a class 
 of algorithms known as \emph{variational methods}.
 
@@ -1758,7 +1759,7 @@ objective (Figure \ref{fig:variational_cartoon}).
 D \! \left( \PP \mid\mid \mathbb{Q} \right).
 \end{equation*}
 %
-Although straightforward to define, this variational optimization can
+Although straightforward to define, this variational optimization can be
 quite challenging in practice.  Depending on how the target distribution
 interacts with the choice of variational distribution and divergence
 function, the variational objective might feature multiple critical points
@@ -1859,7 +1860,7 @@ distribution, allowing us to identify the best approximation, $\mathbb{Q}^{*}$.
   node[right, color=white] {$\PP$};
   
 \end{tikzpicture}
-\caption{In practice typically different elements of the variational family
+\caption{Typically different elements of the variational family
 are able to capture different characteristics of the target distribution and 
 the variational objective manifests multiple optima.  Even if a global
 optimum, $\mathbb{Q}^{*}$, exists it will be difficult to find and we may
@@ -1944,7 +1945,7 @@ the typical set.
 
 By construction an infinite number of samples from the target distribution 
 quantifies the typical set, and hence the samples themselves provide
-a naturally way to identify the typical set (Figure \ref{fig:samples}).  The
+a natural way to identify the typical set (Figure \ref{fig:samples}).  The
 utility of samples, however, depends both on how precisely we can 
 quantify the typical set using only a finite number of samples and how
 well we can generate samples in the first place.
@@ -2047,10 +2048,10 @@ w \! \left( \vartheta_{n} \right) =
 \end{equation*}
 %
 Although they are constructed from probability density functions, 
-impotence weights, and hence importance sampling estimators,
+importance weights, and hence importance sampling estimators,
 are invariant to the choice of sample space.  When we map to
 an equivalent sample space, the resulting Jacobian is the same
-in both the numerator and denominator and hence cancels when
+in both the numerator and denominator and cancels when
 evaluating the weights themselves.
 
 Given certain regularity conditions, importance sampling estimators 
@@ -2097,7 +2098,7 @@ the variance and hence any quantification of the estimator error
 useless.
 
 Selecting an auxiliary distribution that yields accurate importance
-sampler estimators, however, is challenging without knowing
+sampling estimators, however, is challenging without knowing
 the structure of the typical set a priori.  Ultimately, importance
 sampling is most useful as a means to correct a distribution that 
 is already known to be a good approximation to the target
@@ -2110,7 +2111,7 @@ is to generate samples from the target distribution but relax
 the requirement that they be exact.  Fortunately, correlated 
 samples are readily given by \emph{Markov chains}.
 
-A Markov chain is a stochastic processes generated not by 
+A Markov chain is a stochastic processes generated not by a
 static probability distribution but by a probability distribution 
 that depends on the last state in the sequence.  In other words, 
 each state in the sequence is sampled from a conditional 
@@ -2170,8 +2171,8 @@ and the Markov chain Monte Carlo estimators will converge
 to the true expectations.
  
 The important caveat here is that the Markov chain is 
-guaranteed to find and full explore the typical set only 
-asymptotically.  In practice, however, it is the only the finite time 
+guaranteed to find and fully explore the typical set only 
+asymptotically.  In practice, however, it is only the finite time 
 performance of Markov chains that matters.  Unfortunately, the 
 finite time behavior of Markov chain Monte Carlo is much more
 subtle than its exact predecessor.
@@ -3050,7 +3051,7 @@ transitions do not have the resolution to maneuver into
 these tight regions and the resulting Markov chains simply
 ignore them, biasing subsequent Markov chain Monte Carlo
 estimators.  It's as if there are thin but deep cracks hiding 
-a significant amount of probability that the Markov chain 
+a significant amount of probability that the Markov chains 
 pass right over and miss entirely.
 
 \begin{figure*}
@@ -3485,7 +3486,7 @@ typical set and the estimator bias begins to increase again
 \end{tikzpicture}
 }
 \caption{In practice, pathological regions of the typical set usually
-cause Markov chains to get ``stuck''.  (a) Initial the Markov chain 
+cause Markov chains to get ``stuck''.  (a) Initially the Markov chain 
 explores well-behaved regions of the typical set, avoiding the 
 pathological neighborhood entirely and biasing Markov chain
 Monte Carlo estimators.  (b) If the Markov chain is run long enough
@@ -3500,7 +3501,7 @@ fashion.}
 
 Ultimately this behavior results in estimators that oscillate 
 around the true expectations.  Asymptotically the oscillations
-average out the true values, but that balance is delicate and
+average out to the true values, but that balance is delicate and
 any finite time estimator will suffer from substantial biases.
 
 Whether or not features of the target distribution become
@@ -3569,8 +3570,8 @@ search for any signs of pathological behavior and, if we
 can't find any, move on to computing any desired estimator.
 
 For what kind of pathological behavior should we be looking?
-Well if we don't run warmup long enough for all of the Markov
-chains to converge then not all of the Markov chains will look 
+If we don't run warmup long enough for all of the Markov
+chains to converge then not all of the chains will look 
 the same.  Similarly, any pathological regions in the typical set 
 will bias the Markov chains in different ways.  Consequently a 
 necessary condition for robust Markov chain Monte Carlo 
@@ -3641,7 +3642,7 @@ measurements.  An infinite number of measurements would
 certainly inform us of the data generating process exactly,
 but measurements are expensive and in practice we have
 to learn about the data generating process from only a few
-measurements, if not just a single measurements. \emph{Inference}
+measurements, if not just a single measurement. \emph{Inference}
 is the process of learning about the data generating process
 using only a finite number measurements.  
 
@@ -3673,7 +3674,7 @@ data generating processes over $D$, $\mathcal{P}_{D}$.
 \label{fig:big_world}
 \end{figure*}
 
-The big world is much to ungainly to be even be well-defined in practice, 
+The big world is much too ungainly to even be well-defined in practice, 
 let alone exhaustively explored.  Instead we have to limit our consideration 
 to only a subset of probability distributions over the measurement space 
 called a \emph{small world}, $\Theta \subset \mathcal{P}_{D}$ 
@@ -3681,7 +3682,7 @@ called a \emph{small world}, $\Theta \subset \mathcal{P}_{D}$
 
 Each point in the small world, $\theta \in \Theta$, identifies a unique 
 probability distribution over data.  Consequently the small world is 
-equivalent to a probability distribution over the measurements space
+equivalent to a probability distribution over the measurement space
 conditioned on the small world,
 %
 \begin{align*}
@@ -3761,11 +3762,11 @@ which elements are most consistent with the latent data generating process.
 The information inherent in the prior distribution can come from previous 
 measurements, theoretical constraints, or even elicitation of experts.  
 
-Learning in the small world is the process of the updating of the prior distribution
-with any information contained in the measurement to give a \emph{posterior
+Learning in the small world is the process of updating the prior distribution
+with any information contained in the measurement to obtain a \emph{posterior
 distribution}, $\PP_{\Theta}^{\mathrm{post}}$, that quantifies our uncertainty
 about the small world after the measurement  (Figure \ref{fig:learning}).  The 
-likelihood implicit defines any information contained in a measurement and 
+likelihood implicitly defines any information contained in a measurement and 
 then the actual mechanism for this update is immediately given by probability 
 theory.  It is most simply written in terms of probability density functions,
 %
@@ -3780,7 +3781,7 @@ which can be recognized as the celebrated Bayes' Theorem.
 Bayes' Theorem, however, is just a mathematical consequence of probability
 theory and its appearance is an inevitability once we use probabilities to
 quantify our uncertainty about the small world.  Ultimately, all of this
-abstraction is just means to formalize the intuition that \emph{what we know 
+abstraction is just a means to formalize the intuition that \emph{what we know 
 after a measurement is what we knew before the measurement plus any 
 information contained in the measurement}.
 
