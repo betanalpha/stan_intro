@@ -1,0 +1,437 @@
+\chapter{Probability in Practice: Deterministic Estimators}
+
+If we can't compute expectations with respect to our target distribution
+analytically, one immediate strategy is to just replace it with a simpler one.  
+In other words, we can approximate a complex target distribution, $\PP$, 
+with a simpler distribution, $\widetilde{\PP}$, whose expectations, or at 
+least some expectations of practical interest, are known analytically,
+%
+\begin{equation*}
+\EE_{\PP} \! \left[ f \right] 
+\approx 
+\EE_{\widetilde{\PP}} \! \left[ f \right].
+\end{equation*}
+
+\emph{Deterministic estimators} use various criteria to identify an 
+optimal approximating distribution so that expectations can be 
+approximated deterministically.
+
+\subsection{Modal Estimators}
+
+Ideally all expectations with respect to our approximating distribution 
+would be analytic so that we could use it to approximate any 
+expectation with respect to our target distribution.  The only
+probability distribution that fits this criteria is the \emph{Dirac distribution},
+$\mathbb{D}_{\tilde{\theta}}$, that assigns all probability to a single point 
+in the sample space, $\tilde{\theta}$,
+%
+\begin{equation*}
+\mathbb{D}_{\tilde{\theta}} \! \left[ E \right] = 
+\left\{
+\begin{array}{rr}
+0, & \tilde{\theta} \notin E  \\
+1, & \tilde{\theta} \in E
+\end{array}
+\right. .
+\end{equation*}
+%
+Because all probability concentrates at $\tilde{\theta}$, expectations 
+are trivial,
+%
+\begin{equation*}
+\EE_{\mathbb{D}} \! \left[ f \right] 
+=
+ f \! \left( \tilde{\theta} \right).
+\end{equation*} 
+
+Where, however, should we assign all probability to best approximate
+the target distribution and its typical set?  One of the simplest, and 
+consequently most popular, deterministic estimation strategies is 
+\emph{modal estimation}, where we approximate the target distribution 
+with a Dirac distribution at the mode of the probability density function,
+%
+\begin{equation*}
+\hat{\theta} = \mathrm{argmax} \, p \! \left( \theta \right).
+\end{equation*}
+%
+This approach, however, immediately contradicts the intuition provided by 
+concentration of measure: it utilizes a single point in the sample space
+that lies outside of the typical set and depends entirely on the choice of
+probability density function representation!  Why, then, is modal estimation
+so ubiquitous?
+
+Modal estimators are seductive because the optimization on which they
+rely is relatively computationally inexpensive.  Moreover, in some very 
+simple cases modal estimators constructed from the probability density function
+in \emph{some} sample spaces can be reasonably accurate for 
+\emph{some} functions.  For example, if the target probability distribution 
+is sufficiently simple that the typical set is convex \emph{and} if a 
+sample space can be found such that the mode of the probability density 
+function lies in the center of that typical set, then the corresponding modal 
+estimator might yield reasonably accurate estimates for the mean, 
+$\EE_{\PP_{\Theta}} \! \left[ \theta \right]$ (Figure \ref{fig:good_map_bad_map}).
+
+\begin{figure*}
+\centering
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+
+  \begin{scope}
+    \clip (-12, -6) rectangle (12, 10);
+    \foreach \i in {0, 0.05,..., 1} {
+      \draw[line width={30 * \i}, opacity={exp(-8 * \i)}, dark] 
+        (-10, 0) .. controls (-10, 15) and (-5, 5) .. (0, 5)
+        .. controls (5, 5) and (10, 8) .. (10, 0)
+        .. controls (10, -8) and (5, -3) .. (0, -3)
+        .. controls (-5, -3) and (-10, -5) .. (-10, 0);
+    }  
+  \end{scope}
+  
+  \fill[color=dark] (0, 1) circle (7pt);  
+  \fill[color=light] (0, 1) circle (5pt)
+  node[left, color=black]  { $\EE_{\PP} \! \left[ \theta \right]$ };
+ 
+  \fill[color=dark] (1, 0.5) circle (7pt);
+  \fill[color=green] (1, 0.5) circle (5pt)
+  node[right, color=black]  { $\hat{\theta}$ };
+  
+\end{tikzpicture}
+}
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+
+  \begin{scope}
+    \clip (-12, -6) rectangle (12, 10);
+    \foreach \i in {0, 0.05,..., 1} {
+      \draw[line width={30 * \i}, opacity={exp(-8 * \i)}, dark] 
+        (-10, 0) .. controls (-10, 15) and (-5, 5) .. (0, 5)
+        .. controls (5, 5) and (10, 8) .. (10, 0)
+        .. controls (10, -8) and (5, -3) .. (0, -3)
+        .. controls (-5, -3) and (-10, -5) .. (-10, 0);
+    }  
+  \end{scope}
+  
+  \fill[color=dark] (0, 1) circle (7pt);  
+  \fill[color=light] (0, 1) circle (5pt)
+  node[left, color=black]  { $\EE_{\PP} \! \left[ \theta \right]$ };
+ 
+  \fill[color=dark] (5, 0.5) circle (7pt);
+  \fill[color=green] (5, 0.5) circle (5pt)
+  node[right, color=black]  { $\hat{\theta}$ };
+  
+\end{tikzpicture}
+}
+\caption{(a) In simple cases a prescient choice of sample space can 
+yield a modal estimator that well approximates some expectations, 
+such as the mean of the real parameters $\theta$.  (b) Poor choices 
+of the representation, however, yield very inaccurate estimates, even 
+in these simple problems.
+}
+\label{fig:good_map_bad_map}
+\end{figure*}
+
+Because they rely on a point estimate, however, modal estimators are 
+terrible at approximating expectations that depend on the breadth of 
+the typical set, such as the variance.  Furthermore, identifying the optimal 
+sample space for a particular target function, even if one exists, is 
+extremely challenging in practice.  Worse, we have no generic means
+of even quantifying the error in these estimators for a generic target
+distribution.  Ultimately this strong sensitivity to the choice of a particular
+expression and the inability to validate the accuracy of the estimators 
+makes modal estimation extremely fragile in practice.
+
+\subsection{Laplace Estimators}
+
+The fragility of modal estimators can be partially resolved by generalizing
+them to \emph{Laplace estimators} which approximate the probability
+density function with a Gaussian density function,
+%
+\begin{equation*}
+p \! \left( \theta \right) \approx 
+\mathcal{N} \! \left( \theta \mid \mu, \Sigma \right),
+\end{equation*}
+%
+where the mean is given by the modal estimate,
+%
+\begin{equation*}
+\mu = \hat{\theta},
+\end{equation*}
+%
+and the covariance is given by the Hessian of the probability density 
+function,
+%
+\begin{equation*}
+\left( \Sigma^{-1} \right)_{ij} = 
+\frac{ \partial^{2} }{ \partial \theta_{i} \partial \theta_{j} }
+p \! \left( \theta \right).
+\end{equation*}
+%
+Expectations are then estimated with Gaussian integrals
+%
+\begin{equation*}
+\mathbb{E}_{\PP} \! \left[ f \right]
+\approx 
+\int_{\Theta} f \! \left( \theta \right) 
+\mathcal{N} \! \left( \theta \mid \mu, \Sigma \right) \dd \theta,
+\end{equation*}
+%
+which often admit analytic solutions.
+
+The accuracy of Laplace approximations depends on how well the
+mode and and the Hessian of the probability density function
+quantify the geometry of the typical set (Figure \ref{fig:laplace}).
+Unfortunately the conditions that are necessary for these estimates
+to be reasonably accurate hold only for very simple probability
+distributions, and then only if an appropriate sample space can be 
+found.  
+
+\begin{figure*}
+\centering
+\begin{tikzpicture}[scale=0.35, thick]
+
+  \begin{scope}
+    \clip (-12, -6) rectangle (12, 10);
+    \foreach \i in {0, 0.05,..., 1} {
+      \draw[line width={30 * \i}, opacity={exp(-8 * \i)}, dark] 
+        (-10, 0) .. controls (-10, 15) and (-5, 5) .. (0, 5)
+        .. controls (5, 5) and (10, 8) .. (10, 0)
+        .. controls (10, -8) and (5, -3) .. (0, -3)
+        .. controls (-5, -3) and (-10, -5) .. (-10, 0);
+    }  
+    
+    \foreach \i in {0, 0.05,..., 1} {
+      \draw[line width={30 * \i}, opacity={exp(-8 * \i)}, green] 
+        (1, 0.5) ellipse (10 and 5);
+    }
+  \end{scope}
+ 
+  \fill[color=dark] (1, 0.5) circle (7pt);
+  \fill[color=green] (1, 0.5) circle (5pt)
+  node[right, color=black]  { $\hat{\theta}$ };
+  
+\end{tikzpicture}
+\caption{For simple probability distributions with well-chosen
+samples spaces, the local geometry around the mode of a 
+probability density function can quantify the geometry of the 
+entire typical set, yielding accurate Laplace estimators. For
+more complex probability distributions, however, this local
+information poorly quantifies the global geometry of the 
+typical set and Laplace estimators suffer from large biases.
+}
+\label{fig:laplace}
+\end{figure*}
+
+As with the simpler modal estimators, the dependence on the particular
+sample space manifests as fragility of the corresponding estimators
+and we have no generic means of quantifying the error in practice.  
+If we want robust estimation of probabilities and expectations then we 
+need strategies that do not depend on these irrelevant properties.
+
+\subsection{Variational Estimators}
+
+In order to construct an approximation that is not sensitive to the choice 
+of a particular sample space we need to frame the problem as an 
+optimization over a space of approximating distributions directly.
+Optimizations over spaces of probability distributions fall into a class 
+of algorithms known as \emph{variational methods}.
+
+Variational methods are characterized by two choices: the variational
+family and a divergence function. The \emph{variational family}, 
+$\mathcal{Q}$, is a set of probability distributions over the target sample 
+space, $\Theta$, such that at least some expectations can be computed
+analytically.  In order to identify the best approximation to the target 
+distribution we then define a \emph{divergence function},
+%
+\begin{align*}
+D &: 
+\mathcal{Q} \times \mathcal{Q}
+\rightarrow \mathbb{R}^{+}
+\\
+& \quad \PP_{1}, \PP_{2} 
+\mapsto D \! \left( \PP_{1} \mid\mid \PP_{2} \right),
+\end{align*}
+%
+which is zero if the two arguments are the same and increases as they 
+deviate from each other more strongly.
+
+The best approximating distribution is then defined by the variational 
+objective (Figure \ref{fig:variational_cartoon}).
+%
+\begin{equation*}
+\mathbb{Q}^{*}
+= 
+\underset{\mathbb{Q} \in \mathcal{Q}}{\mathrm{argmin}} \,
+D \! \left( \PP \mid\mid \mathbb{Q} \right).
+\end{equation*}
+%
+Although straightforward to define, this variational optimization can be
+quite challenging in practice.  Depending on how the target distribution
+interacts with the choice of variational distribution and divergence
+function, the variational objective might feature multiple critical points
+and we may not be able to find the global optimum in practice
+(Figure \ref{fig:variational_challenges}).
+
+\begin{figure*}
+\centering
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.225, thick]
+  
+  \draw[color=white] (-15, 0) -- (15, 0);
+  
+  \fill[mid] (0, 0) ellipse (13 and 7);
+  \node at (11, -6) {$\mathcal{P}_{\Theta}$};
+  
+  \fill[dark] (-4, 2) ellipse (6 and 3);
+  \node[color=white] at (-2, -2.5) {$\mathcal{Q}$};
+  
+  \fill[color=white] (4, 2) circle (8pt)
+  node[right, color=white] {$\PP$};
+  
+\end{tikzpicture}
+}
+\subfigure[]{
+\begin{tikzpicture}[scale=0.225, thick]
+
+  \draw[color=white] (-15, 0) -- (15, 0);
+  
+  \fill[mid] (0, 0) ellipse (13 and 7);
+  \node at (11, -6) {$\mathcal{P}_{\Theta}$};
+  
+  \draw[color=dark, dashed] (-4, 2) ellipse (6 and 3);
+  \node[color=white] at (-2, -2.5) {$\mathcal{Q}$};
+  
+  \begin{scope}
+    \clip (-4, 2) ellipse (6 and 3);
+    \foreach \i in {0, 0.05,..., 1} {
+      \fill[opacity={exp(-5 * \i*\i)}, dark] (0, 2) circle ({4 * \i});      
+    }
+  \end{scope}
+  
+  \fill[color=white] (2, 2) circle (8pt)
+  node[above, color=white] {$\mathbb{Q}^{*}$};
+  
+  \fill[color=white] (4, 2) circle (8pt)
+  node[right, color=white] {$\PP$};
+  
+\end{tikzpicture}
+}
+\caption{(a) A variational family, $\mathcal{Q}$, is a set of probability distributions
+taken from the set of all probability distributions over the same sample space, as 
+the target distribution, $\mathcal{P}_{\Theta}$.  (b) Adding a divergence function 
+distinguishes which elements of $\mathcal{Q}$ are good approximations to the 
+target distribution, allowing us to identify the best approximation, $\mathbb{Q}^{*}$.
+}
+\label{fig:variational_cartoon}
+\end{figure*}
+
+\begin{figure*}
+\centering
+\begin{tikzpicture}[scale=0.225, thick]
+
+  \draw[color=white] (-15, 0) -- (15, 0);
+  
+  \fill[mid] (0, 0) ellipse (13 and 7);
+  \node at (11, -6) {$\mathcal{P}_{\Theta}$};
+  
+  \draw[color=dark, dashed] (-4, 2) ellipse (6 and 3);
+  \node[color=white] at (-2, -2.5) {$\mathcal{Q}$};
+  
+  \begin{scope}
+    \clip (-4, 2) ellipse (6 and 3);
+    
+    \foreach \i in {0, 0.05,..., 1} {
+      \fill[opacity={exp(-5 * \i*\i)}, dark] (0, 2) circle ({4 * \i});      
+    }
+    
+    \foreach \i in {0, 0.05,..., 1} {
+      \fill[opacity={exp(-5 * \i*\i)}, dark] (-4, 3) ellipse ({4 * \i} and {3 * \i});      
+    }
+    
+    \foreach \i in {0, 0.05,..., 1} {
+      \fill[opacity={exp(-5 * \i*\i)}, dark] (-8, 1) ellipse ({4 * \i} and {5 * \i});      
+    }
+    
+    \foreach \i in {0, 0.05,..., 1} {
+      \fill[opacity={exp(-5 * \i*\i)}, dark] (-3, -1) ellipse ({3 * \i} and {2 * \i});      
+    }
+  \end{scope}
+  
+  \fill[color=white] (2, 2) circle (8pt)
+  node[above, color=white] {$\mathbb{Q}^{*}$};
+  
+  \fill[color=white] (4, 2) circle (8pt)
+  node[right, color=white] {$\PP$};
+  
+\end{tikzpicture}
+\caption{Typically different elements of the variational family are able to 
+capture different characteristics of the target distribution and the variational 
+objective manifests multiple optima.  Even if a global optimum, $\mathbb{Q}^{*}$, 
+exists it will be difficult to find and we may be left with only a suboptimal local 
+optimum.
+}
+\label{fig:variational_challenges}
+\end{figure*}
+
+Even if we could find the best approximating distribution, however,
+there are no guarantees that it will yield accurate estimates for
+all relevant expectations of our target distribution.  For example, 
+some divergence functions are biased towards variational solutions
+that underestimate the breadth of the typical set while others
+tend to significantly overestimate it (Figure \ref{fig:variational_approximations}).
+
+Variational methods are relatively new to statistics and at the moment
+there are no generic methods for quantifying the error in variational
+estimators.
+
+\begin{figure*}
+\centering
+\subfigure[]{
+\begin{tikzpicture}[scale=0.35, thick]
+  \begin{scope}
+    \clip (-12, -6) rectangle (12, 10);
+    \foreach \i in {0, 0.05,..., 1} {
+      \draw[line width={30 * \i}, opacity={exp(-8 * \i)}, dark] 
+        (-10, 0) .. controls (-10, 15) and (-5, 5) .. (0, 5)
+        .. controls (5, 5) and (10, 8) .. (10, 0)
+        .. controls (10, -8) and (5, -3) .. (0, -3)
+        .. controls (-5, -3) and (-10, -5) .. (-10, 0);
+    }  
+    
+    \foreach \i in {0, 0.05,..., 1} {
+      \draw[line width={30 * \i}, opacity={exp(-8 * \i)}, green] 
+        (0, 1) ellipse (9.75 and 3.75);
+    }
+  \end{scope}
+\end{tikzpicture}
+}
+\subfigure[]{
+\begin{tikzpicture}[scale=0.35, thick]
+  \begin{scope}
+    \clip (-14, -8) rectangle (14, 14);
+    \foreach \i in {0, 0.05,..., 1} {
+      \draw[line width={30 * \i}, opacity={exp(-8 * \i)}, dark] 
+        (-10, 0) .. controls (-10, 15) and (-5, 5) .. (0, 5)
+        .. controls (5, 5) and (10, 8) .. (10, 0)
+        .. controls (10, -8) and (5, -3) .. (0, -3)
+        .. controls (-5, -3) and (-10, -5) .. (-10, 0);
+    }  
+    
+    \foreach \i in {0, 0.05,..., 1} {
+      \draw[line width={30 * \i}, opacity={exp(-8 * \i)}, green] 
+        (0, 1.75) ellipse (12 and 9);
+    }
+  \end{scope}
+\end{tikzpicture}
+}
+\caption{Intuition about the effects of a particular variational divergence 
+function can be developed by considering how the typical set of an
+approximating distribution (green) interacts with the typical of the target 
+distribution (red).  (a) Some divergence functions favor approximating
+distributions that expand into the interior of the target typical set,
+resulting in an underestimate of the breadth of the typical set.  (b)
+Others, however, favor approximating distractions that collapse around
+the exterior of the target typical set, resulting in overestimated expectations.
+}
+\label{fig:variational_approximations}
+\end{figure*}

@@ -1,0 +1,346 @@
+\chapter{Bayesian Inference}
+
+With a foundation of probability theory we are now ready to
+formally define concepts like measurement, inference, and 
+decision making.  Here we consider a Bayesian approach
+to these ideas, although the same foundation is also critical
+for constructing a frequentist approach.
+
+We begin by defining measurements and what we want
+to learn from those measurements, and then consider how
+we approximate that system in practice with an abstract
+mathematical model.  Once we have defined a model we
+can define how we learn from that model and then how
+we make decisions with that model.
+
+\subsection{Measurements}
+
+The basic assumption underlying inference is that there is some
+observable process that we would like to understand, or at least
+some latent process that has observable consequences.
+
+These observable consequences manifest as logical statements,
+but in practice we can observe only variable measurements
+of those statements.  In order to formalize these concepts we
+assume that this variability is sufficiently well-behaved that we
+can describe it with probability theory.  More formally, we assume
+that the process under consideration defines a probability 
+distribution, $\PP_{D}$ over some measurement space, $D$, 
+with measurements defined as events in the corresponding
+event space.  
+
+Although we have assumed the existence of a \emph{data
+generating process}, $\PP_{D}$, we have intentionally not
+assumed any philosophical interpretation of it.  In particular, we
+are indifferent to the ultimate source of the variability in the
+measurements quantified by $\PP_{D}$: it could be some
+ontological variability inherent to the system or just some
+epistemological variability due to our ignorance of the underlying 
+system.  The only assumption we have made is that the
+measurements are repeatable and variable, and that this
+variability is sufficiently well-behaved to be described by a 
+mathematical model. 
+
+Although we can assume the existence of a data generating 
+process, we don't know anything about it until we start making 
+measurements.  An infinite number of measurements would 
+certainly inform us of the data generating process exactly,
+but measurements are expensive and in practice we have
+to learn about the data generating process from only a few
+measurements, if not just a single measurement. \emph{Inference}
+is the process of learning about the data generating process
+using only a finite number measurements.  
+
+\subsection{Big Worlds and Small Worlds}
+
+If we want to learn about the data generating process we have
+to consider all possible data generating process we could
+encounter or, equivalently, all possible probability distributions
+over the sample space, $D$.  We refer to this massive set, $\mathcal{P}_{D}$
+as the \emph{the big world} (Figure \ref{fig:big_world}).  
+
+\begin{figure*}
+\centering
+\begin{tikzpicture}[scale=0.40, thick]
+
+  \draw[color=white] (-15, 0) -- (15, 0);
+
+  \fill[mid] (0, 0) ellipse (13 and 7);
+  \node at (12, -6) {$\mathcal{P}_{D}$};
+  
+  \fill[color=white] (-7, 3) circle (4pt)
+  node[right, color=white] {$\PP_{D}$};
+  
+\end{tikzpicture}
+\caption{Once we have defined a measurement space, $D$, the latent data
+generating process, $\PP_{D}$ can be found in the space of all possible
+data generating processes over $D$, $\mathcal{P}_{D}$.
+}
+\label{fig:big_world}
+\end{figure*}
+
+The big world is much too ungainly to be even well-defined in practice, 
+let alone exhaustively explored.  Instead we have to limit our consideration 
+to only a subset of probability distributions over the measurement space 
+called a \emph{small world}, $\Theta \subset \mathcal{P}_{D}$ 
+(Figure \ref{fig:small_worlds}a).
+
+Each point in the small world, $\theta \in \Theta$, identifies a unique 
+probability distribution over data.  Consequently the small world is 
+equivalent to a probability distribution over the measurement space
+conditioned on the small world,
+%
+\begin{align*}
+\mathbb{L}
+&: \EV{D} \times \Theta \rightarrow \left[0, 1 \right] \\
+&\quad \left( E_{D}, \theta \right) \;\; \mapsto 
+\mathbb{L} \! \left[ E_{D} \mid \theta \right].
+\end{align*}
+%
+This conditional probability distribution is also known as the 
+\emph{likelihood}.
+
+Regardless of how it is chosen, the assumption of any specific 
+small world can have drastic limitations on inference.  Because any
+small world is typically only a shallow approximation of reality,
+for example, it is unlikely to contain the latent data generating
+process (Figure \ref{fig:small_worlds}b).  Consequently even ideal
+inferences are subject to error, and the utility of any inference
+always depends on the viability of our assumptions.
+
+\begin{figure*}
+\centering
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.225, thick]
+  
+  \draw[color=white] (-15, 0) -- (15, 0);
+  
+  \fill[mid] (0, 0) ellipse (13 and 7);
+  \node at (12, -6) {$\mathcal{P}_{D}$};
+  
+  \fill[dark] (-4, 2) ellipse (6 and 3);
+  \node[color=white] at (1.5, -0.5) {$\Theta$};
+  
+  \fill[color=white] (-7, 3) circle (8pt)
+  node[right, color=white] {$\PP_{D}$};
+  
+\end{tikzpicture}
+}
+\subfigure[]{
+\begin{tikzpicture}[scale=0.225, thick]
+
+  \draw[color=white] (-15, 0) -- (15, 0);
+
+  \fill[mid] (0, 0) ellipse (13 and 7);
+  \node at (12, -6) {$\mathcal{P}_{D}$};
+  
+  \fill[dark] (3, -1) ellipse (6 and 3);
+  \node[color=white] at (8.5, -3.5) {$\Theta$};
+  
+  \fill[color=white] (-7, 3) circle (8pt)
+  node[right, color=white] {$\PP_{D}$};
+  
+\end{tikzpicture}
+}
+\caption{Practical inference requires the selection of a distinguished subset 
+of data generating processes called a small world, $\Theta$, that (a) may or 
+(b) may not contain the latent data generating process, $\PP_{D}$.  The 
+Boxian philosophy of ``all models are wrong but some are useful'' asserts 
+that the former is impossible in practical problems, but even in the latter
+the probability distributions in the small world may provide useful approximations 
+of $\PP_{D}$.
+}
+\label{fig:small_worlds}
+\end{figure*}
+
+\subsection{Uncertainty And Learning In The Small World}
+
+We have already used probability theory to quantify the variability of measurements,
+but now we can also use probability theory to quantify our uncertainty about which
+elements of the small world are good approximations to the latent data
+generating process.  
+
+The \emph{prior distribution}, $\PP_{\Theta}^{\mathrm{prior}}$, is a probability 
+distribution over the small world that quantifies our initial uncertainty about 
+which elements are most consistent with the latent data generating process.  
+The information inherent in the prior distribution can come from previous 
+measurements, theoretical constraints, or even elicitation of experts.  
+
+Learning in the small world is the process of updating the prior distribution
+with any information contained in the measurement to give a \emph{posterior
+distribution}, $\PP_{\Theta}^{\mathrm{post}}$, that quantifies our uncertainty
+about the small world after the measurement  (Figure \ref{fig:learning}).  The 
+likelihood implicitly quantifies any information contained in a measurement and 
+then the actual mechanism for this update is immediately given by probability 
+theory.  It is most simply written in terms of probability density functions,
+%
+\begin{equation*}
+p^{\mathrm{post}} \! \left( \theta \mid d \right)
+\propto
+L \! \left( d \mid \theta \right) p^{\mathrm{prior}} \! \left( \theta \right),
+\end{equation*}
+%
+which can be recognized as the celebrated Bayes' Theorem.
+
+Bayes' Theorem, however, is just a mathematical consequence of probability
+theory and its appearance is an inevitability once we use probabilities to
+quantify our uncertainty about the small world.  Ultimately, all of this
+abstraction is just a means to formalize the intuition that \emph{what we know 
+after a measurement is what we knew before the measurement plus any 
+information contained in the measurement}.
+
+\begin{figure*}
+\centering
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.225, thick]
+
+  \draw[color=white] (-15, 0) -- (15, 0);
+
+  \fill[mid] (0, 0) ellipse (13 and 7);
+  \node at (12, -6) {$\mathcal{P}_{D}$};
+  
+  \draw[color=dark, dashed] (3, -1) ellipse (6 and 3);
+  \node[color=white] at (8.5, -3.5) {$\Theta$};
+  
+  \fill[color=white] (-7, 3) circle (8pt)
+  node[right, color=white] {$\PP_{D}$};
+  
+  \begin{scope}
+    \clip (3, -1) ellipse (6 and 3);
+    \foreach \i in {0, 0.05,..., 1} {
+      \fill[opacity={exp(-5 * \i*\i)}, dark] (3, -1) ellipse ({8 * \i} and {4 * \i});      
+    }
+  \end{scope}
+  
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.225, thick]
+
+  \draw[color=white] (-15, 0) -- (15, 0);
+
+  \fill[mid] (0, 0) ellipse (13 and 7);
+  \node at (12, -6) {$\mathcal{P}_{D}$};
+  
+  \draw[color=dark, dashed] (3, -1) ellipse (6 and 3);
+  \node[color=white] at (8.5, -3.5) {$\Theta$};
+  
+  \fill[color=white] (-7, 3) circle (8pt)
+  node[right, color=white] {$\PP_{D}$};
+  
+  \begin{scope}
+    \clip (3, -1) ellipse (6 and 3);
+    \foreach \i in {0, 0.05,..., 1} {
+      \fill[opacity={exp(-5 * \i*\i)}, dark] (-1.2, 1.2) circle ({2 * \i});      
+    }
+  \end{scope}
+  
+\end{tikzpicture}
+}
+\caption{Inference in the small world is the process of updating
+(a) a prior distribution quantifying our initial uncertainty about the small
+world into (b) a posterior distribution quantifying our uncertainty about
+the small world after incorporating any information in a measurement.
+If all of our assumptions are viable then the posterior should concentrate
+towards the latent data generating process, $\PP_{D}$.
+}
+\label{fig:learning}
+\end{figure*}
+
+\subsection{TODO: Decision Making in the Small World}
+
+Now that we've quantified uncertainty we can make robust decisions.
+
+Formalize with a risk/utility function, compute expected risk/utility, then
+chose the decision that minimizes/maximizes the expected risk/utility.
+
+\subsection{TODO: Bayesian Inference in Practice}
+
+Model a prior and a likelihood.  Posterior is immediately given and
+all statements about our system, including decisions, are given by
+expectations.  As discussed above we have many options for
+approximating those expectations in practice.
+
+The biggest challenge in implementing Bayesian inference, then,
+is the actual modeling of the prior and likelihood.  Much can be
+said about both, but let's take a second to discuss one of the most
+powerful means of methods of building small worlds: \emph{generative modeling}.  
+Here we build up the small world
+sequentially by modeling each state of the data generating process.
+For example, we might build a small world for polling data by
+modeling the sampling of an individual from a population and
+then a series of non-responses based on the individual's demographics.
+Or we might have a strong physical model, which we can wrap
+in an equality complex measurement model to account for the
+various systematic effects introduced in the measurement process.
+Any such model will be an approximation to the true generative
+process, but this perspective allows us to build better and better
+approximations by adding more and more detail as necessary.
+\textbf{Natural way to unite user intuition with explicit modeling.}
+\textbf{More detail in examples, emphasizing modeling of
+measurement process.}
+
+\textbf{Constructive example mirroring the motivating example
+in the introduction.}
+
+\textbf{Generative models as a way to define small worlds with
+disintegrations.  Does not necessarily imply causal structure
+but the more casual structure the better!}
+
+\subsection{TODO: Checking Model Assumptions with Predictive Performance}
+
+Checking model assumptions with posterior predictive checks.
+
+\begin{figure*}
+\centering
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.225, thick]
+  \draw[color=white] (-15, 0) -- (15, 0);
+
+  \fill[mid] (0, 0) ellipse (13 and 7);
+  \node at (12, -6) {$P$};
+  
+  \draw[color=dark, dashed] (3, -1) ellipse (6 and 3);
+  \node[color=white] at (8.5, -3.5) {$X$};
+  
+  \fill[color=white] (-7, 3) circle (8pt)
+  node[right, color=white] {$\pi$};
+  
+  \begin{scope}
+    \clip (3, -1) ellipse (6 and 3);
+    \foreach \i in {0, 0.05,..., 1} {
+      \fill[opacity={exp(-5 * \i*\i)}, dark] (-1.2, 1.2) circle ({2 * \i});      
+    }
+  \end{scope} 
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.225, thick]
+  \draw[color=white] (-15, 0) -- (15, 0);
+
+  \fill[mid] (0, 0) ellipse (13 and 7);
+  \node at (12, -6) {$P$};
+  
+  \draw[color=dark, dashed] (1, 0) ellipse (10 and 6);
+  \node[color=white] at (8.5, -3.5) {$X$};
+  
+   \begin{scope}
+    \clip (1, 0) ellipse (10 and 6);
+    \foreach \i in {0, 0.05,..., 1} {
+      \fill[opacity={exp(-5 * \i*\i)}, dark] (-6, 2) circle ({2 * \i});      
+    }
+  \end{scope}
+  
+  \fill[color=white] (-7, 3) circle (8pt)
+  node[right, color=white] {$\pi$};
+\end{tikzpicture}
+}
+\caption{Cartoon of model updating.
+}
+\label{fig:model_updating}
+\end{figure*}

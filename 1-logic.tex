@@ -1,0 +1,458 @@
+\chapter{Logic}
+
+Before we can formalize \emph{learning} about a system we first need formal 
+means of \emph{describing} that system.  \emph{Logical statements} provide a
+mathematically-precise language for quantifying information about a system with 
+certainty.  In this section we will review abstract logical statements, their manipulations, 
+and how we can express them in practice.  We conclude with a brief discussion 
+of implicative statements.
+
+\subsection{Logical Statements}
+
+Let $\mathcal{S}$ be an abstract system that we would like to describe.
+Any description of $\mathcal{S}$ can be defined as the assertion of a logical 
+statement about that system.  For example, consider describing one of the 
+eight planets in our Solar System: Mercury ($\mercury$), Venus ($\venus$), 
+Earth ($\earth$), Mars ($\mars$), Jupiter ($\jupiter$), Saturn ($\saturn$), 
+Uranus ($\uranus$), and Neptune ($\neptune$).  Information about the planet 
+is encapsulated by asserting the truth of logical statements such as ``the planet 
+has an atmosphere'' or ``the planet has rings''.  We denote the set of well-posed
+logical statements about $\mathcal{S}$ as $\lambda \! \left( \mathcal{S} \right)$.
+
+Logical statements can also be manipulated into other logical statements.
+A \emph{conjunction} asserts that two statements are both true, ``the planet 
+has an atmosphere \emph{and} rings'' while a \emph{disjunction} states that 
+either statement is true, ``the planet has an atmosphere \emph{or} rings''.  
+We can also negate a logical statement by asserting its contrary, ``the planet 
+does \emph{not} have rings''.
+
+\subsection{Events}
+
+Logical statements provide a generic framework for describing arbitrary and
+abstract systems, but that abstraction also makes these statements ungainly 
+to specify and manipulate in practice.  For our abstract descriptions to be useful 
+we need an explicit language in which we can communicate them, which we
+will refer to as an \emph{expression} (Table \ref{tab:expression_examples}).
+
+\begin{table}
+  \centering
+  \renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{ccc}
+    \rowcolor[gray]{0.9} 
+    \textbf{Abstract System} & \textbf{Expression} & \textbf{Measurable Maps} \\
+    %
+    Historical Decrees & Ancient Languages & Translations \\
+    & (Egyptian, Demotic, Green, $\ldots$) & (Rosetta Stone) \\
+    % 
+    Computer Program & Programming Languages & Compilers \\
+    & (C++, S, Python, $\ldots$) & \\
+    %
+    Unordered Categories & Integers & Permutations \\
+    %
+    Direction & Vector Space & Changes of Basis \\
+    %
+    Numerical Quantification & Units & Changes of Units \\
+    %
+    Position & Coordinates & Reparameterizations \\
+  \end{tabular}
+\caption{Expressions provide a concrete representation of the abstract
+descriptions of a given system.  Degenerate ways to express the 
+descriptions of a system, along with the translations between them,
+are ubiquitous in common experience.}
+\label{tab:expression_examples}
+\end{table}
+
+An expression is a map from our abstract system into a concrete space,
+such as the integers or the real numbers,
+%
+\begin{equation*}
+\mathfrak{e} : \mathcal{S} \rightarrow \Theta,
+\end{equation*}
+%
+where the concrete space, $\Theta$, is known as the \emph{sample space}.
+An expression also defines a corresponding map from logical statements
+into well-behaved subsets of the sample space, of \emph{events},
+$E \subset \Theta$,
+%
+\begin{equation*}
+\mathfrak{e}^{*} : 
+\lambda \! \left( \mathcal{S} \right) \rightarrow \EV{\Theta},
+\end{equation*}
+%
+where the \emph{event space}, $\EV{\Theta}$, collects all well-behaved
+subsets of the sample space and hence all valid expressions of well-posed 
+logical statements. Event spaces always include the null event, $E = \emptyset$, 
+which represents certain falseness, and the trivial event, $E = \Theta$, which
+represents certain truth.  The manipulation of the logical statements are 
+implemented with in an expression with set operations.  Conjunction of 
+statements becomes the intersection of subsets, disjunction the union of 
+subsets, and negation the complement of a subset (Figure \ref{fig:venn_diagrams}).
+
+\begin{figure*}
+\centering
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=black] (0, 0) to (20, 0) to (20, 15) to (0, 15) to (0, 0);
+  \draw[color=gray80, dashed] (12, 9) circle (150pt); 
+  \fill[color=dark] (8, 6) circle (150pt) node[color=white] {$E_{1}$}; 
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=black] (0, 0) to (20, 0) to (20, 15) to (0, 15) to (0, 0);
+  \draw[color=gray80, dashed] (8, 6) circle (150pt); 
+  \fill[color=dark] (12, 9) circle (150pt) node[color=white] {$E_{2}$}; 
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=black] (0, 0) to (20, 0) to (20, 15) to (0, 15) to (0, 0);
+  \draw[color=gray80, dashed] (8, 6) circle (150pt); 
+  \draw[color=gray80, dashed] (12, 9) circle (150pt); 
+  \begin{scope}
+    \clip (8, 6) circle (150pt);
+    \fill[color=dark] (12, 9) circle (150pt); 
+  \end{scope}
+  \node[color=white] at (10, 7.5) {$E_{1} \cap E_{2}$};
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=black] (0, 0) to (20, 0) to (20, 15) to (0, 15) to (0, 0);
+  \fill[color=dark] (8, 6) circle (150pt); 
+  \fill[color=dark] (12, 9) circle (150pt); 
+  \node[color=white] at (10, 7.5) {$E_{1} \cup E_{2}$};
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \fill[color=dark] (0, 0) to (20, 0) to (20, 15) to (0, 15) to (0, 0);
+  \draw[color=black] (0, 0) to (20, 0) to (20, 15) to (0, 15) to (0, 0);
+  \fill[color=white] (8, 6) circle (150pt); 
+  \node[color=white] at (16, 11) {$E_{1}^{c}$};
+\end{tikzpicture}
+}
+%
+\caption{In an expression logical statements are represented by
+subsets and the manipulation of these statements is implemented
+with set operations.  (a, b) If two statements are represented by
+the sets $E_{1}$ and $E_{2}$, then (c) their conjunction is the
+set intersection,and (d) their disjunction is the set union.  (e) Simlarly,
+the negation of $E_{1}$ is the set complement.}
+\label{fig:venn_diagrams}
+\end{figure*}
+
+For example, our descriptions of the planets can be expressed
+with the integers, $\Theta = \left\{1, 2, \ldots, 8 \right\}$, with each
+logical statement equivalent to a subset of integers
+(Figure \ref{fig:discrete_set_logic}).  The procedure is equivalent
+for descriptions that can be represented by real numbers, such
+as the distance between two objects (Figure \ref{fig:real_set_logic}).
+
+\begin{figure*}
+\centering
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=white] (-25, 0) to (10, 0);
+
+  \node[] at (-15, 0) {The planet has a magnetic field};
+  \node[] at (7, 2) {$E_{1}$};
+
+  \fill[color=gray80] (0, 0) circle (25pt) node[color=white] {$\mercury$}; 
+  \fill[color=dark] (2, 0) circle (25pt) node[color=white] {$\venus$}; 
+  \fill[color=dark] (4, 0) circle (25pt) node[color=white] {$\earth$}; 
+  \fill[color=gray80] (6, 0) circle (25pt) node[color=white] {$\mars$}; 
+  \fill[color=dark] (8, 0) circle (25pt) node[color=white] {$\jupiter$}; 
+  \fill[color=dark] (10, 0) circle (25pt) node[color=white] {$\saturn$}; 
+  \fill[color=dark] (12, 0) circle (25pt) node[color=white] {$\uranus$}; 
+  \fill[color=dark] (14, 0) circle (25pt) node[color=white] {$\neptune$};  
+  
+  \node[] at (-15, -5) {The planet has moons};
+  \node[] at (7, -3) {$E_{2}$};
+
+  \fill[color=gray80] (0, -5) circle (25pt) node[color=white] {$\mercury$}; 
+  \fill[color=gray80] (2, -5) circle (25pt) node[color=white] {$\venus$}; 
+  \fill[color=dark] (4, -5) circle (25pt) node[color=white] {$\earth$}; 
+  \fill[color=dark] (6, -5) circle (25pt) node[color=white] {$\mars$}; 
+  \fill[color=dark] (8, -5) circle (25pt) node[color=white] {$\jupiter$}; 
+  \fill[color=dark] (10, -5) circle (25pt) node[color=white] {$\saturn$}; 
+  \fill[color=dark] (12, -5) circle (25pt) node[color=white] {$\uranus$}; 
+  \fill[color=dark] (14, -5) circle (25pt) node[color=white] {$\neptune$};  
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=white] (-25, 0) to (10, 0);
+  
+  \node[align=center] at (-15, 0) {The planet has a magnetic field\\and moons};
+  \node[] at (7, 2) {$E_{1} \cap E_{2}$};
+
+  \fill[color=gray80] (0, 0) circle (25pt) node[color=white] {$\mercury$}; 
+  \fill[color=gray80] (2, 0) circle (25pt) node[color=white] {$\venus$}; 
+  \fill[color=dark] (4, 0) circle (25pt) node[color=white] {$\earth$}; 
+  \fill[color=gray80] (6, 0) circle (25pt) node[color=white] {$\mars$}; 
+  \fill[color=dark] (8, 0) circle (25pt) node[color=white] {$\jupiter$}; 
+  \fill[color=dark] (10, 0) circle (25pt) node[color=white] {$\saturn$}; 
+  \fill[color=dark] (12, 0) circle (25pt) node[color=white] {$\uranus$}; 
+  \fill[color=dark] (14, 0) circle (25pt) node[color=white] {$\neptune$};  
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=white] (-25, 0) to (10, 0);
+   
+  \node[align=center] at (-15, 0) {The planet has a magnetic field\\or moons};
+  \node[] at (7, 2) {$E_{1} \cup E_{2}$};
+
+  \fill[color=gray80] (0, 0) circle (25pt) node[color=white] {$\mercury$}; 
+  \fill[color=dark] (2, 0) circle (25pt) node[color=white] {$\venus$}; 
+  \fill[color=dark] (4, 0) circle (25pt) node[color=white] {$\earth$}; 
+  \fill[color=dark] (6, 0) circle (25pt) node[color=white] {$\mars$}; 
+  \fill[color=dark] (8, 0) circle (25pt) node[color=white] {$\jupiter$}; 
+  \fill[color=dark] (10, 0) circle (25pt) node[color=white] {$\saturn$}; 
+  \fill[color=dark] (12, 0) circle (25pt) node[color=white] {$\uranus$}; 
+  \fill[color=dark] (14, 0) circle (25pt) node[color=white] {$\neptune$};  
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=white] (-25, 0) to (10, 0);
+   
+  \node[align=center] at (-15, 0) {The planet does not\\have a magnetic field};
+  \node[] at (7, 2) {$E_{1}^{c}$};
+
+  \fill[color=dark] (0, 0) circle (25pt) node[color=white] {$\mercury$}; 
+  \fill[color=gray80] (2, 0) circle (25pt) node[color=white] {$\venus$}; 
+  \fill[color=gray80] (4, 0) circle (25pt) node[color=white] {$\earth$}; 
+  \fill[color=dark] (6, 0) circle (25pt) node[color=white] {$\mars$}; 
+  \fill[color=gray80] (8, 0) circle (25pt) node[color=white] {$\jupiter$}; 
+  \fill[color=gray80] (10, 0) circle (25pt) node[color=white] {$\saturn$}; 
+  \fill[color=gray80] (12, 0) circle (25pt) node[color=white] {$\uranus$}; 
+  \fill[color=gray80] (14, 0) circle (25pt) node[color=white] {$\neptune$};  
+\end{tikzpicture}
+}
+\caption{(a) Descriptions of a discrete system, such as the collection of
+planets in our solar system, can be expressed with by the integers, with
+any of the planets can be represented by a subset of the integers. 
+(b) Conjuction of logical statements is implemented with set intersections, 
+(c) disjunction with set unions, and (d) negation with set negation.}
+\label{fig:discrete_set_logic}
+\end{figure*}
+
+\begin{figure*}
+\centering
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=white] (-27, 0) to (17, 0);
+
+  \node[align=center] at (-15, 0) {The distance is\\less than five inches};
+  \node[] at (7.5, 2) {$E_{1}$};
+
+  \draw[|->] (0, 0) -- (14,0) node[right] {$x$};
+  \draw[line width=1mm, color=dark] (0, 0) node[] {$\,($} -- (5, 0) node[] {$\!)$};
+  
+  \node[align=center] at (-15, -5) {The distance is between\\three and seven inches};
+  \node[] at (7.5, -3) {$E_{2}$};
+  
+  \draw[|->] (0, -5) -- (14,-5) node[right] {$x$};
+  \draw[line width=1mm, color=dark] (3, -5) node[] {$\,($} -- (7,-5) node[] {$\!)$};
+
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=white] (-27, 0) to (17, 0);
+  
+  \node[align=center] at (-15, 0) {The distance is less than five inches\\and
+                                                   between three and seven inches};
+  \node[] at (7.5, 2) {$E_{1} \cap E_{2}$};
+
+  \draw[|->] (0, 0) -- (14,0) node[right] {$x$};
+  \draw[line width=1mm, color=dark] (3, 0) node[] {$\,($} -- (5, 0) node[] {$\!)$};
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=white] (-27, 0) to (17, 0);
+   
+  \node[align=center] at (-15, 0) {The distance is less than five inches\\or
+                                                   between three and seven inches};
+  \node[] at (7.5, 2) {$E_{1} \cup E_{2}$};
+
+  \draw[|->] (0, 0) -- (14, 0) node[right] {$x$};
+  \draw[line width=1mm, color=dark] (0, 0) node[] {$\,($} -- (7, 0) node[] {$\!)$};
+\end{tikzpicture}
+}
+%
+\subfigure[]{
+\begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=white] (-27, 0) to (17, 0);
+   
+  \node[align=center] at (-15, 0) {The distance is not\\less than five inches};
+  \node[] at (7.5, 2) {$E_{1}^{c}$};
+
+  \draw[|->] (0, 0) -- (14, 0) node[right] {$x$};
+  \draw[line width=1mm, color=dark] (5, 0) node[] {$\,($} -- (13, 0);
+\end{tikzpicture}
+}
+\caption{Systems whose descriptions can be described by the real numbers 
+are expressed exactly as with discrete systems. (a) Descriptions are expressed
+as subsets of the real numbers, (b) conjunction with intersections of those
+subsets, (c) disjunction with unions of those subsets, and (e) negation with
+complements. }
+\label{fig:real_set_logic}
+\end{figure*}
+
+One extremely important subtlety with this construction is that expressions are 
+not unique -- we can express the same logical statements using events in different 
+sample spaces.  To see this consider an invertible map from one sample space 
+into another, $s : \Theta \rightarrow \Omega$; if every event in $\Theta$ maps 
+to an event in  $\Omega$ and vice versa,
+%
+\begin{align*}
+s \! \left( E_{\Theta} \right) &\in \EV{\Omega}
+\\
+s^{-1} \! \left( E_{\Omega} \right) &\in \EV{\Theta}
+\end{align*}
+%
+then the map is called \emph{measurable}.  The composition of an expression
+with a measurable map,
+%
+\begin{equation*}
+s \circ \mathfrak{e} : \mathcal{S} \rightarrow \Theta \rightarrow \Omega,
+\end{equation*}
+%
+is another valid expression.  Hence when a measurable map exists between 
+two sample spaces they can be used to to specify the same logical statements,
+and we say that they are \emph{equivalent} as they provide equivalent descriptions 
+of the given system.  The set of samples spaces equivalent to $\Theta$ is 
+denoted $\lfloor \Theta \rfloor$.  \textbf{Mention that equivalent sample
+spaces are typically restricted to common topologies, so we can map
+discrete to discrete and real to real, but not discrete to real and vice
+versa?}
+
+For example, if the sample space is discrete then we can always define an 
+equivalent sample space by simply permuting the labels.  It doesn't matter 
+if we order the planets by distance from the sun, by diameter, or by any other 
+metric: the sample spaces quantify the same information (Figure
+\ref{fig:permuting_discrete_spaces}).   Similarly, we can always apply a 
+transformation that warps the real numbers to map between real samples spaces 
+without compromising our ability to represent statements with events.  One of 
+the most common ways this manifests in practice is when our descriptions require 
+units -- the information we quantify doesn't depend on whether we express distance 
+in {\aa}ngstr\"{o}ms or inches or meters or furlongs, each unit defines a separate 
+but equivalent sample space.
+
+\begin{figure*}
+\centering
+\begin{tikzpicture}[scale=0.3, thick]
+  \foreach \i in {1, 2, ..., 8} {
+    \node[] at ({2 * \i - 2}, 2) {$\i$};
+  }  
+
+  \fill[color=dark] (0, 0) circle (25pt) node[color=white] {$\mercury$}; 
+  \fill[color=dark] (2, 0) circle (25pt) node[color=white] {$\venus$}; 
+  \fill[color=dark] (4, 0) circle (25pt) node[color=white] {$\earth$}; 
+  \fill[color=dark] (6, 0) circle (25pt) node[color=white] {$\mars$}; 
+  \fill[color=dark] (8, 0) circle (25pt) node[color=white] {$\jupiter$}; 
+  \fill[color=dark] (10, 0) circle (25pt) node[color=white] {$\saturn$}; 
+  \fill[color=dark] (12, 0) circle (25pt) node[color=white] {$\uranus$}; 
+  \fill[color=dark] (14, 0) circle (25pt) node[color=white] {$\neptune$};  
+  
+  \draw[->] (0, -1) -- (0, -5);
+  \draw[->] (2, -1) -- (4, -5);
+  \draw[->] (4, -1) -- (6, -5);
+  \draw[->] (6, -1) -- (2, -5);
+  \draw[->] (8, -1) -- (14, -5);
+  \draw[->] (10, -1) -- (12, -5);
+  \draw[->] (12, -1) -- (10, -5);
+  \draw[->] (14, -1) -- (8, -5);
+  
+  \fill[color=dark] (0, -6) circle (25pt) node[color=white] {$\mercury$}; 
+  \fill[color=dark] (2, -6) circle (25pt) node[color=white] {$\mars$}; 
+  \fill[color=dark] (4, -6) circle (25pt) node[color=white] {$\venus$}; 
+  \fill[color=dark] (6, -6) circle (25pt) node[color=white] {$\earth$}; 
+  \fill[color=dark] (8, -6) circle (25pt) node[color=white] {$\neptune$};  
+  \fill[color=dark] (10, -6) circle (25pt) node[color=white] {$\uranus$};
+  \fill[color=dark] (12, -6) circle (25pt) node[color=white] {$\saturn$};  
+  \fill[color=dark] (14, -6) circle (25pt) node[color=white] {$\jupiter$}; 
+
+  \foreach \i in {1, 2, ..., 8} {
+    \node[] at ({2 * \i - 2}, -8) {$\i$};
+  }  
+          
+\end{tikzpicture}
+\caption{Discrete sample spaces are not unique way to express a system 
+as we can always permute the arbitrary labels to yield an equivalent sample 
+space.  For example, we could order the planets by distance from the sun 
+or diameter without affecting our ability to describe the planets themselves.}
+\label{fig:permuting_discrete_spaces}
+\end{figure*}
+
+Ultimately, there are many ways to express the descriptions of a given 
+system and measurable maps translate from one equivalent expression
+to another.  Although certain expressions may be more useful than others
+in practice, we have to ensure that our final analysis does not depend on 
+the irrelevant details of any particular expression.
+
+\subsection{Implications}
+
+Describing simple systems that can expressed with low-dimensional
+spaces is a relatively straightforward process, but reasoning about more
+complex systems that can be expressed with only high-dimensional
+spaces is typically much more subtle.  One elegant way to facilitate the 
+description of these complex systems is to decompose each statement
+into a composition of many simpler but related \emph{implications}.
+
+An implication is a logical statement conditioned on the another logical
+statement.  For example we might not be able to assert that ''a planet
+has a magnetic field'' universally, but we can assert that ''if a planet has
+a rotating core then it has a magnetic field''.  Logical statements about
+both the planets and their cores can always be decomposed into a
+statement about one of these systems and an implication from that
+system into the other.  Consequently we can build up logical statements
+about complex systems by starting with a simple statement and then
+adding more and more implications.
+
+If $\Theta$ is a sample space expressing the target system and 
+$\Phi$ is a sample space expressing the conditioning systems, then
+an implication is map from points in $\Phi$ to events in $\Theta$,
+%
+\begin{align*}
+\iota_{\Theta \mid \Phi} :& \, \Phi \rightarrow \EV{\Theta}
+\\
+& \, \phi \mapsto \iota_{\Theta \mid \Phi} \! \left( \phi \right).
+\end{align*}
+%
+For any event in the conditioning space, $E_{\Phi} \in \EV{\Phi}$,
+the implication defines an event in the joint sample space, $\Theta \times \Phi$, 
+as the union of all of the sets implied by each point in $E_{\Phi}$,
+%
+\begin{equation*}
+\bigcup_{\phi \in E_{\Phi} } \iota_{\Theta \mid \Phi} \! \left( \phi \right)
+\equiv
+E_{\Theta \times \Phi}
+\in
+\EV{\Theta \times \Phi}.
+\end{equation*}
+
+Consequently a logical statement representable in the joint sample
+space $\prod_{n = 1}^{N} \Theta_{n}$ can be built up sequentially, starting with 
+an event in one component and adding implications one after another,
+%
+\begin{align*}
+& E_{\Theta_{1}} \\
+& \iota_{\Theta_{2} \mid \Theta_{1}} \\
+& \iota_{\Theta_{3} \mid \Theta_{2}, \Theta_{1}} \\
+& \cdots \\
+& \iota_{\Theta_{N} \mid \Theta_{N - 1}, \ldots, \Theta_{2}, \Theta_{1}}.
+\end{align*}

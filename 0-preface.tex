@@ -1,0 +1,190 @@
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+A ball flies across the room, slowly falling under the force of gravity.
+Being diligent scientists, we record the positions of the ball as best
+as we can.  Were our measurements perfect we could exactly recover 
+not only the trajectory taken by the ball but also any latent parameters
+that determined the trajectory, such as the acceleration due to gravity, 
+$g$ (Figure \ref{fig:motivating_example}a).  Of course in practice our
+measurements are not perfect.  They are inherently variable there are 
+consequently there are many trajectories, and values for $g$, consistent 
+with the noisy measurements (Figure \ref{fig:motivating_example}b).
+Any robust analysis must not only infer the latent model of the data
+generating process but also quantify the uncertainty in that inference.
+
+\begin{figure*}
+\centering
+\subfigure[]{
+\begin{tikzpicture}[scale=0.25, thick]
+  \draw[dashed, rotate=180, color=gray70] (0, -10) parabola (-20, 0);
+
+  \fill[color=dark] (2, -0.025 * 2 * 2 + 10) circle (7pt);  
+  \fill[color=light] (2, -0.025 * 2 * 2 + 10) circle (5pt);  
+  
+  \fill[color=dark] (5, -0.025 * 5 * 5 + 10) circle (7pt);  
+  \fill[color=light] (5, -0.025 * 5 * 5 + 10) circle (5pt);  
+  
+  \fill[color=dark] (7, -0.025 * 7 * 7 + 10) circle (7pt);  
+  \fill[color=light] (7, -0.025 * 7 * 7 + 10) circle (5pt);  
+  
+  \fill[color=dark] (10, -0.025 * 10 * 10 + 10) circle (7pt);  
+  \fill[color=light] (10, -0.025 * 10 * 10 + 10) circle (5pt);  
+  
+  \fill[color=dark] (13, -0.025 * 13 * 13 + 10) circle (7pt);  
+  \fill[color=light] (13, -0.025 * 13 * 13 + 10) circle (5pt);  
+  
+  \fill[color=dark] (14, -0.025 * 14 * 14 + 10) circle (7pt);  
+  \fill[color=light] (14, -0.025 * 14 * 14 + 10) circle (5pt);  
+  
+  \fill[color=dark] (17, -0.025 * 17 * 17 + 10) circle (7pt);  
+  \fill[color=light] (17, -0.025 * 17 * 17 + 10) circle (5pt);  
+  
+  \fill[color=dark] (18, -0.025 * 18 * 18 + 10) circle (7pt);  
+  \fill[color=light] (18, -0.025 * 18 * 18 + 10) circle (5pt);  
+
+  \fill[color=dark] (19, -0.025 * 19 * 19 + 10) circle (7pt);  
+  \fill[color=light] (19, -0.025 * 19 * 19 + 10) circle (5pt);  
+  
+  \draw[->] (22, 13) node[above] {$g$} -- (22, 10);
+      
+  \draw[->] (0, 0) -- (25,0) node[right] {$x$};
+  \draw[->] (0, 0) -- (0,15) node[above] {$y$};
+\end{tikzpicture}
+}
+\subfigure[]{
+\begin{tikzpicture}[scale=0.25, thick]
+  \draw[dashed, rotate=180, color=gray70] (0, -9) parabola (-19, 0);
+  \draw[dashed, rotate=180, color=gray70] (0, -11) parabola (-20, 0);
+  \draw[dashed, rotate=180, color=gray70] (0, -12) parabola (-20.25, 0);
+  \draw[dashed, rotate=180, color=gray70] (0, -10) parabola (-21, 0);
+
+  \fill[color=dark] (2, -0.025 * 2 * 2 + 10 -1.123067470) circle (7pt);  
+  \fill[color=light] (2, -0.025 * 2 * 2 + 10 -1.123067470) circle (5pt);  
+  
+  \fill[color=dark] (5, -0.025 * 5 * 5 + 10 -0.330845947) circle (7pt);  
+  \fill[color=light] (5, -0.025 * 5 * 5 + 10 -0.330845947) circle (5pt);  
+  
+  \fill[color=dark] (7, -0.025 * 7 * 7 + 10 -0.642779020) circle (7pt);  
+  \fill[color=light] (7, -0.025 * 7 * 7 + 10 -0.642779020) circle (5pt);  
+  
+  \fill[color=dark] (10, -0.025 * 10 * 10 + 10 + 2.174536596) circle (7pt);  
+  \fill[color=light] (10, -0.025 * 10 * 10 + 10 + 2.174536596) circle (5pt);  
+  
+  \fill[color=dark] (13, -0.025 * 13 * 13 + 10 -1.043929042) circle (7pt);  
+  \fill[color=light] (13, -0.025 * 13 * 13 + 10 -1.043929042) circle (5pt);  
+  
+  \fill[color=dark] (14, -0.025 * 14 * 14 + 10 -0.526778959) circle (7pt);  
+  \fill[color=light] (14, -0.025 * 14 * 14 + 10 -0.526778959) circle (5pt);  
+  
+  \fill[color=dark] (17, -0.025 * 17 * 17 + 10 + 1.290826126) circle (7pt);  
+  \fill[color=light] (17, -0.025 * 17 * 17 + 10 + 1.290826126) circle (5pt);  
+  
+  \fill[color=dark] (18, -0.025 * 18 * 18 + 10 + 0.008352532) circle (7pt);  
+  \fill[color=light] (18, -0.025 * 18 * 18 + 10 + 0.008352532) circle (5pt);  
+
+  \fill[color=dark] (19, -0.025 * 19 * 19 + 10 -0.508723224) circle (7pt);  
+  \fill[color=light] (19, -0.025 * 19 * 19 + 10 -0.508723224) circle (5pt);  
+  
+  \draw[->] (22, 13) node[above] {$g?$} -- (22, 10);
+      
+  \draw[->] (0, 0) -- (25,0) node[right] {$x$};
+  \draw[->] (0, 0) -- (0,15) node[above] {$y$};
+\end{tikzpicture}
+}
+\caption{(a) Perfect measurements of a ball falling under the influence
+of gravity would allow us to exactly recover the trajectory of the ball.
+(b) Unfortunately, in practice measurements are inherently variable, which 
+limits our ability to infer the exact trajectory and hence any model of how the 
+was generated.  Consequently uncertainty is intrinsic to practical learning.}
+\label{fig:motivating_example}
+\end{figure*}
+
+This simple example demonstrates a principle ubiquitous to science,
+industry, medicine, and any other field that attempts to learn from
+measurements: uncertainty is inherent to learning and decision making.
+In particular, if we want to develop any formal methodology for inference
+and decision making then we first need a formal procedure for quantifying
+and manipulating uncertainty itself.  \emph{Bayesian inference} uses 
+\emph{probability theory} to quantify all forms of uncertainty, including not 
+only the intrinstic variability of measurements but also ignorance in the 
+learning process itself.  This unified perspective provides an elegant and
+powerful approach for first making inferences and then making robust
+decisions.
+
+Because probability theory is so subtle and counterintuitive, introductory 
+treatments of Bayesian inference often oversimplify and neglect many 
+of its finer technical aspects.  Unfortunately, these technicalities are not
+irrelevant and often have a strong influence on practical applications of 
+the theory.  Without at least a conceptual understanding we are subject 
+to dangerous fallacies and fragile analyses.  In this review we attempt a 
+deeper introduction to probability theory and Bayesian inference than usual 
+to provide Stan users with the background necessary to properly wield 
+Bayesian inference and take full advantage of their measurements.
+
+After reviewing some mathematical administration we'll introduce first logic
+as a procedure for quantifying information and then probability theory as a 
+procedure for quantifying uncertainty about that information.  We'll consider 
+both abstract definitions as well as the explicit representations of these concepts 
+needed in practice.  Next we'll discuss how to implement probabilistic computations 
+and discuss many popular computational methods.  Finally we'll show how all 
+of these ideas come together in Bayesian inference.
+
+\section{Mathematical Background and Notation}
+
+Regrettably, a thorough review of probability theory requires a nontrivial
+mathematical background.  We have attempted to make this review as
+self-contained as possible regarding probability theory, but we do have to 
+assume that the reader is comfortable with the basics of set theory and
+differential and integral calculus over the real numbers.  We highly encourage 
+anyone whose math might be rusty to brush up before proceeding.
+
+Throughout we will use common set theory notation.  If $A$ is a set
+then any element of the set is written as $a \in A$ while a subset is written
+as $S \subset A$.  Sets are also sometimes denoted by their elements, for
+example $A = \left\{ a_{1}, \ldots, a_{N} \right\}$.  The \emph{set builder
+notation} is similarly used to denote subsets as 
+$S = \left\{ a \in A \mid \cdot \right\}$, where $\cdot$ is the condition identifying
+which elements of $A$ are in the subset $S \subset A$.  For example, we
+can define the positive real numbers as 
+%
+\begin{equation*}
+\RR^{+} = \left\{ x \in \RR \mid x \ge 0 \right\}.
+\end{equation*}
+%
+The \emph{union} of two sets, $A \cup B$ is the combination of all 
+elements in either set while the \emph{intersection} of two sets, 
+$A \cap B$ contains only those elements that appear in both sets.
+If $S \subset A$ is a subset then its \emph{complement}, $S^{c}$ is 
+the collection of all elements of $A$ not in $S$.
+
+\emph{Spaces} are sets endowed with a structure called a 
+\emph{topology} that allows us to separate ``well-behaved subsets''
+from ``pathological subsets''.  We will assume that all of our sets
+have such a structure and consequently for all intents and purposes 
+set and space will be used interchangeably.  The only important
+consequence of topologies that will be relevant for us is that ultimately
+it is this topological structure that allows us to characterize spaces as 
+either discrete or real.
+
+Throughout we will use the common notation for maps from one set into 
+another, $f : A \rightarrow B$ which defines $f$ as a map taking elements 
+of the set $A$ to elements of the set $B$. In other words, $f(a) \in B$ for 
+any $a \in A$.  Sometimes we will be more explicit regarding the action
+on a given point and write
+%
+\begin{align*}
+f &: A \rightarrow B \\
+  &\quad a \mapsto f \! \left( a \right).
+\end{align*}
+
+At times we will be less precise.  For example, when discussing computation 
+we will liberally use $\approx$ to define when two objects are approximately 
+equal, or when we \emph{assume} that they are approximately equal, without 
+making any effort to formally define what ``approximately equal'' means.
+Similarly, we will make no attempt at the full mathematical rigor necessary for 
+a complete understanding of the intricacies of probability theory, and instead 
+focus on developing a high-level, conceptual intuition.  In particular, in many 
+places we will appeal to vague notions like ``well-behaved'', as their technical 
+definitions do not offer much pedagogical benefit.
+

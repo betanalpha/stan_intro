@@ -1,0 +1,248 @@
+\chapter{Probability in Theory}
+
+Logic provides a framework for how we can describe systems with certainty,
+and the tools of probability theory allow us to assign uncertainty to logical
+statements and implications.  In this section we introduce probability
+distributions over first logical statements and then implications.
+
+Unfortunately, the abstraction of probability theory means that we cannot rely 
+on helpful visualizations to support the definitions and manipulations in this
+section.  To use a probability distribution in any practical application, including 
+visualization, we need some means of implementing them explicitly, which will 
+have to wait until the next section.
+
+\subsection{Probability Distributions}
+
+When we are uncertain about our target system then we cannot
+guarantee that any particular logical statement in true.  In order to
+quantify uncertainty about our descriptions we assign to each event 
+a \emph{probability} that quantifies how plausible it is be true.  
+Probabilities themselves are bounded between 0, indicating that an 
+event is absolutely false, and 1, indicating that an event is absolutely
+true.
+
+In a given expression, probabilities are designated by a 
+\emph{probability distribution} which assigns probability to events,
+%
+\begin{equation*}
+\PP : \mathcal{E} \! \left( \Theta \right) \rightarrow \left[0, 1 \right],
+\end{equation*}
+%
+such that the probability of the null event is zero, 
+$\PP \! \left[ \emptyset \right] = 0$, and the probability of the trivial
+event is one, $\PP \! \left[ \Theta \right] = 1$.  These latter two conditions 
+are an immediate consequence of our initial assumption that our descriptions
+can be expressed by the sample space.  When using a probability distribution 
+to quantify our uncertainty about a system expressed with the sample
+space $\Theta$, we often write $\theta \sim \PP$ which is read as, 
+``$\theta$ is distributed according to the probability distribution $\PP$''
+but should really read ``Logical statements about $\Theta$ are assigned 
+probabilities according to the probability distribution $\PP$''.
+
+Probability assignments are naturally compatible with the manipulations
+of logical statements.  For example, the probability of conjunctions and
+disjunction are related as
+%
+\begin{equation*}
+\PP \! \left[ E_{1} \cup E_{2} \right]
+= 
+\PP \! \left[ E_{1} \right] + \PP \! \left[ E_{2} \right] 
+- \PP \! \left[ E_{1} \cap E_{2} \right],
+\end{equation*}
+%
+and negations satisfy,
+%
+\begin{equation*}
+\PP \! \left[ E \right] 
+= 
+\PP \! \left[ \Theta \right] - \PP \! \left[ E^{c} \right]
+=
+1 - \PP \! \left[ E^{c} \right].
+\end{equation*}
+
+Probability distributions also allow us to compute \emph{expectation values} 
+of well-behaved functions on the sample space,
+%
+\begin{equation*}
+\EE_{\PP} : \mathcal{F} \! \left( \Theta \right) \rightarrow \mathbb{R},
+\end{equation*}
+%
+where $\mathcal{F} \! \left( \Theta \right)$ is the collection of well-behaved 
+functions $f : \Theta \rightarrow \mathbb{R}$.  Common expectations 
+include means, variances, and higher-order moments.  In fact, we
+can also consider probability assignments themselves as expectations,
+%
+\begin{equation*}
+\PP \! \left[ E \right] = \EE_{\PP} \! \left[ \mathbb{I}_{E} \right],
+\end{equation*}
+%
+where the \emph{indicator function} of the event $E$, $\mathbb{I}_{E}$,
+is defined as
+%
+\begin{equation*}
+\mathbb{I}_{E} \! \left( \theta \right)
+= 
+\left\{
+\begin{array}{rr}
+0, & \theta \notin E \\
+1, & \theta \in E
+\end{array}
+\right. .
+\end{equation*}
+
+The most important consequence of these definitions is that \emph{all of 
+probability theory reduces to computing expectations}.  Any other operation 
+that you may have encountered in probability theory can only ever be an
+intermediate step in computing a final expectation.  In particular, many of 
+the more non-intuitive aspects of probability theory can avoided by carefully
+framing everything as an expectation -- don't try to intuit solutions, calculate 
+them!
+
+\subsection{Conditional Probability Distributions}
+
+\emph{Conditional probability distributions} allow us to quantify uncertainty
+about implications.  While implications assign an event to each value of the 
+conditioning space, $\Phi$, a conditional probability distribution assigns a 
+probability distribution to each value in the conditioning space,
+%
+\begin{align*}
+\PP_{\Theta \mid \Phi} 
+&: \EV{\Theta} \times \Phi \rightarrow \left[0, 1 \right] \\
+&\quad \left( E_{\Theta}, \phi \right) \;\; \mapsto 
+\PP_{\Theta \mid \Phi} \! \left[ E_{\Theta} \mid \phi \right].
+\end{align*}
+%
+In other words, for any value of $\phi \in \Phi$ the conditional probability
+distribution defines a probability distribution on $\Theta$, and for any
+event in $\Theta$ the conditional probability distribution defines a 
+function from $\Phi$ to probabilities.  
+
+As with implications, conditional probability distributions can be used
+to construct probability distributions on more complex spaces.  In particular,
+by combining a conditional probability distribution with a probability distribution 
+on the conditioning space, $\Phi$, we can construct a probability distribution 
+on the joint sample space, $\Theta \times \Phi$.  This \emph{joint distribution} 
+is defined implicitly by its probability assignments or expectation values.  
+For example, the probability of any joint event, $E_{\Theta} \times E_{\Phi}$, 
+is given by first using the conditional probability distribution to assign a probability 
+to $E_{\Theta}$, $\PP_{\Theta|\Phi} \! \left[ E_{\Theta} \mid \phi \right]$, and then 
+taking the expectation of this assignment over the distribution on $\Phi$,
+%
+\begin{equation*}
+\PP_{\Theta \times \Phi} \! \left[ E_{\Theta} \times E_{\Phi} \right]
+=
+\mathbb{E}_{\PP_{\Phi}} \! \left[  
+\PP_{\Theta|\Phi} \! \left[ E_{\Theta} \mid \phi \right] 
+\cdot \mathbb{I}_{E_{\Phi}} \! \left( \phi \right)
+\right],
+\end{equation*}
+%
+where the indicator function, $\mathbb{I}_{E_{\Phi}}$, ensures that we 
+take the expectation only over the event in $\Phi$.  Similarly, joint 
+expectations are defined iteratively as
+%
+\begin{equation*}
+\EE_{\PP_{\Theta \times \Phi}} \! \left[ g \! \left( \theta, \phi \right) \right]
+=
+\mathbb{E}_{\PP_{\Phi}} \! \left[  
+\EE_{\PP_{\Theta|\Phi}} \! \Big[ 
+g \! \left( \theta, \phi \right) \mid \phi 
+\Big]
+\right].
+\end{equation*}
+
+If we consider only the trivial event on the conditioning space $E_{\Phi} 
+= \Phi$, then this construction also defines a  \emph{marginal distribution} 
+on $\Theta$ by
+%
+\begin{align*}
+\PP_{\Theta} \! \left[ E_{\Theta} \right]
+&\equiv
+\PP_{\Theta \times \Phi} \! \left[ E_{\Theta} \times \Phi \right] \\
+&=
+\mathbb{E}_{\PP_{\Phi}} \! \left[  
+\PP_{\Theta|\Phi} \! \left[ E_{\Theta} \mid \phi \right]
+\right],
+\end{align*}
+or
+%
+\begin{align*}
+\EE_{\PP_{\Theta}} \! \left[ f \! \left( \theta \right) \right]
+&\equiv
+\EE_{\PP_{\Theta \times \Phi}} \! \left[ f \! \left( \theta \right) \right] \\
+&=
+\mathbb{E}_{\PP_{\Phi}} \! \left[  
+\EE_{\PP_{\Theta|\Phi}} \! \Big[ 
+f \! \left( \theta \right) \mid \phi 
+\Big]
+\right].
+\end{align*}
+%
+This marginalization process allows us to collapse a joint probability 
+distribution onto any of the component spaces while incorporating 
+any correlations between the components.
+
+Consequently, conditional probability distributions are powerful ways of
+building probability distributions on high-dimensional spaces.  We simply 
+start with a probability distribution on one low-dimensional component and 
+then build up a joint distribution by adding conditional probability distributions 
+for each new component,
+%
+\begin{align*}
+& \PP_{\Theta_{1}} \\
+& \PP_{\Theta_{2} \mid \Theta_{1}} \\
+& \PP_{\Theta_{3} \mid \Theta_{2}, \Theta_{1}} \\
+& \cdots \\
+& \PP_{\Theta_{N} \mid \Theta_{N - 1}, \ldots, \Theta_{2}, \Theta_{1}}.
+\end{align*}
+
+These conditional probability distributions are often motivated by the natural 
+implication structure of our target system.  In particular, if we think about 
+deterministic processes as degenerate conditional probability distributions 
+that assign all probability to a single event for each conditioning value,
+%
+\begin{equation*}
+\PP_{\Theta \mid \Phi} \! \left[ E_{\Theta} \mid \phi \right]
+= 
+\left\{
+\begin{array}{rr}
+0, & E_{\Theta} \ne \hat{E} \! \left( \phi \right) \\
+1, & E_{\Theta} = \hat{E} \! \left( \phi \right)
+\end{array}
+\right.,
+\end{equation*}
+%
+then these conditional probability distributions can seamlessly incorporate
+stochastic, deterministic, and causal relationships.  This iterative process of 
+building a joint probability distribution from conditional probability distributions 
+is the key building block of \emph{generative modeling}.
+
+\subsection{The Invariance of Probability Distributions}
+
+Like events, probability distributions can be defined with respect to many different 
+sample spaces.  If $s : \Theta \rightarrow \Omega$ is a measurable map and 
+$\PP_{\Theta}$ is a probability distribution defined over events in $\Theta$, then 
+we can define an equivalent probability distribution over events in $\Omega$ by 
+assigning probabilities as
+%
+\begin{equation*}
+\PP_{\Omega} \! \left[ E_{\Omega} \right]
+\equiv
+\PP_{\Theta} \! \left[ s^{-1} \! \left( E_{\Omega} \right) \right].
+\end{equation*}
+%
+Furthermore, this whole process can be inverted: if $\PP_{\Omega}$ is a probability 
+distribution defined over events in $\Omega$ then we can define an equivalent 
+probability distribution over events in $\Theta$ by assigning probabilities as
+%
+\begin{equation*}
+\PP_{\Theta} \! \left[ E_{\Theta} \right]
+\equiv
+\PP_{\Omega} \! \left[ s \! \left( E_{\Theta} \right) \right].
+\end{equation*}
+
+Probability distributions are invariant when we move between equivalent sample 
+spaces, and hence are fundamental to the underlying system and not any particular
+expression of that system.  Different but equivalent sample spaces are just different 
+ways to describe the same system, with events quantifying the same, invariant 
+information and probability distributions quantifying the same, invariant uncertainty.
