@@ -7,7 +7,7 @@ certainty.  In this section we will review abstract logical statements, their ma
 and how we can express them in practice.  We conclude with a brief discussion 
 of implicative statements.
 
-\subsection{Logical Statements}
+\section{Logical Statements}
 
 Let $\mathcal{S}$ be an abstract system that we would like to describe.
 Any description of $\mathcal{S}$ can be defined as the assertion of a logical 
@@ -26,7 +26,7 @@ either statement is true, ``the planet has an atmosphere \emph{or} rings''.
 We can also negate a logical statement by asserting its contrary, ``the planet 
 does \emph{not} have rings''.
 
-\subsection{Events}
+\section{Events}
 
 Logical statements provide a generic framework for describing arbitrary and
 abstract systems, but that abstraction also makes these statements ungainly 
@@ -92,14 +92,14 @@ subsets, and negation the complement of a subset (Figure \ref{fig:venn_diagrams}
 \centering
 \subfigure[]{
 \begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=white] (-0.5, 0) to (20.5, 0);
   \draw[color=black] (0, 0) to (20, 0) to (20, 15) to (0, 15) to (0, 0);
   \draw[color=gray80, dashed] (12, 9) circle (150pt); 
   \fill[color=dark] (8, 6) circle (150pt) node[color=white] {$E_{1}$}; 
 \end{tikzpicture}
-}
 %
-\subfigure[]{
 \begin{tikzpicture}[scale=0.3, thick]
+  \draw[color=white] (-0.5, 0) to (20.5, 0);
   \draw[color=black] (0, 0) to (20, 0) to (20, 15) to (0, 15) to (0, 0);
   \draw[color=gray80, dashed] (8, 6) circle (150pt); 
   \fill[color=dark] (12, 9) circle (150pt) node[color=white] {$E_{2}$}; 
@@ -139,9 +139,9 @@ subsets, and negation the complement of a subset (Figure \ref{fig:venn_diagrams}
 %
 \caption{In an expression logical statements are represented by
 subsets and the manipulation of these statements is implemented
-with set operations.  (a, b) If two statements are represented by
-the sets $E_{1}$ and $E_{2}$, then (c) their conjunction is the
-set intersection,and (d) their disjunction is the set union.  (e) Simlarly,
+with set operations.  (a) If two statements are represented by
+the sets $E_{1}$ and $E_{2}$, then (b) their conjunction is the
+set intersection,and (c) their disjunction is the set union.  (d) Simlarly,
 the negation of $E_{1}$ is the set complement.}
 \label{fig:venn_diagrams}
 \end{figure*}
@@ -404,7 +404,7 @@ to another.  Although certain expressions may be more useful than others
 in practice, we have to ensure that our final analysis does not depend on 
 the irrelevant details of any particular expression.
 
-\subsection{Implications}
+\section{Implications}
 
 Describing simple systems that can expressed with low-dimensional
 spaces is a relatively straightforward process, but reasoning about more

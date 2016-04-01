@@ -7,7 +7,7 @@ that structure can be leveraged to provide the explicit implementations we
 need to apply probability theory in practice.  This is particularly evident 
 when the sample space is discrete or a subset of the real numbers.
 
-\subsection{Implementations of Probability Distributions over
+\section{Implementations of Probability Distributions over
 Discrete Sample Spaces}
 
 When the sample space is discrete we can completely specify a
@@ -17,7 +17,7 @@ point events and interval events, allow us to implement probability
 distributions with probability mass functions and cumulative 
 distribution functions, respectively.  
 
-\subsubsection{Probability Mass Functions}
+\subsection{Probability Mass Functions}
 
 \emph{Probability mass functions} assign probably to point events,
 those events that are lone elements of the original sample space.  
@@ -60,7 +60,7 @@ p_{\Omega} \! \left( \omega \right)
 p_{\Theta} \! \left( s^{-1} \! \left( \omega \right) \right).
 \end{equation*}
 
-\subsubsection{Conditional Probability Mass Functions}
+\subsection{Conditional Probability Mass Functions}
 
 Probability mass functions can be extended to implement conditional probability
 distributions by simply adding a conditioning variable,
@@ -108,7 +108,7 @@ p_{\Theta} \! \left( \theta \right)
 p_{\Theta \mid \Phi} \! \left( \theta | \phi \right) p_{\Phi} \! \left( \phi \right).
 \end{align*}
 
-\subsubsection{Cumulative Distribution Functions}
+\subsection{Cumulative Distribution Functions}
 
 When the sample space is not only discrete but also ordered then we
 can also completely specify a probability distribution by assigning
@@ -145,7 +145,7 @@ P_{\Omega} \! \left( I_{\omega} \right)
 P_{\Theta} \! \left( s^{-1} \! \left( I_{\omega} \right) \right).
 \end{equation*}
 
-\subsubsection{Relating Probability Mass Functions and Cumulative 
+\subsection{Relating Probability Mass Functions and Cumulative 
 Distribution Functions}
 
 Because probability mass functions and cumulative distribution functions both
@@ -174,7 +174,7 @@ where $\theta_{-}$ is the largest element of $\Theta$ less that $\theta$,
 \theta_{-} = \max \left\{ \theta' \in \Theta \mid \theta' < \theta \right\}.
 \end{equation*}
 
-\subsection{Implementations of Probability Distributions over the Real
+\section{Implementations of Probability Distributions over the Real
 Numbers}
 
 When the sample space is the $D$-dimensional real numbers, or
@@ -196,7 +196,7 @@ to each point event a \emph{probability density}  which we can
 Assigning probabilities to intervals, however, is still sufficient so we 
 can also define cumulative distribution functions on these spaces.
 
-\subsubsection{Probability Density Functions}
+\subsection{Probability Density Functions}
 
 A \emph{probability density function} assigns a positive value to each
 point in the sample space
@@ -429,7 +429,7 @@ J^{2} \dd \theta_{1} \dd \theta_{2},
 respectively.  These two realizations are shown graphically in 
 (Figure \ref{fig:pdf_transform}).
 
-\subsubsection{Conditional Probability Density Functions}
+\subsection{Conditional Probability Density Functions}
 
 Just as in the discrete case, probability density functions can be immediately
 extended to implement conditional probability distributions by simply adding a 
@@ -514,7 +514,7 @@ P_{\Theta} \! \left( s^{-1} \! \left( I_{\omega} \right) \right)
 %
 for a measurable map $s : \Theta \rightarrow \Omega$.
 
-\subsubsection{Relating Probability Mass Functions and Cumulative 
+\subsection{Relating Probability Mass Functions and Cumulative 
 Distribution Functions}
 
 On the real numbers probability density functions and cumulative 
@@ -646,7 +646,7 @@ combining probability density functions and probability mass functions
 makes specifying and manipulating these distributions straightforward in
 practice.
 
-\subsection{Stochastic Implementations of Probability Distributions}
+\section{Stochastic Implementations of Probability Distributions}
 
 We can also implement expectations of any probability distribution, 
 including both discrete and real probability distributions, \emph{stochastically}.  

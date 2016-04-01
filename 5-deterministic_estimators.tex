@@ -16,7 +16,7 @@ least some expectations of practical interest, are known analytically,
 optimal approximating distribution so that expectations can be 
 approximated deterministically.
 
-\subsection{Modal Estimators}
+\section{Modal Estimators}
 
 Ideally all expectations with respect to our approximating distribution 
 would be analytic so that we could use it to approximate any 
@@ -140,7 +140,7 @@ distribution.  Ultimately this strong sensitivity to the choice of a particular
 expression and the inability to validate the accuracy of the estimators 
 makes modal estimation extremely fragile in practice.
 
-\subsection{Laplace Estimators}
+\section{Laplace Estimators}
 
 The fragility of modal estimators can be partially resolved by generalizing
 them to \emph{Laplace estimators} which approximate the probability
@@ -227,7 +227,7 @@ and we have no generic means of quantifying the error in practice.
 If we want robust estimation of probabilities and expectations then we 
 need strategies that do not depend on these irrelevant properties.
 
-\subsection{Variational Estimators}
+\section{Variational Estimators}
 
 In order to construct an approximation that is not sensitive to the choice 
 of a particular sample space we need to frame the problem as an 
@@ -282,7 +282,7 @@ and we may not be able to find the global optimum in practice
   \fill[mid] (0, 0) ellipse (13 and 7);
   \node at (11, -6) {$\mathcal{P}_{\Theta}$};
   
-  \fill[dark] (-4, 2) ellipse (6 and 3);
+  \fill[light] (-4, 2) ellipse (6 and 3);
   \node[color=white] at (-2, -2.5) {$\mathcal{Q}$};
   
   \fill[color=white] (4, 2) circle (8pt)
@@ -298,13 +298,13 @@ and we may not be able to find the global optimum in practice
   \fill[mid] (0, 0) ellipse (13 and 7);
   \node at (11, -6) {$\mathcal{P}_{\Theta}$};
   
-  \draw[color=dark, dashed] (-4, 2) ellipse (6 and 3);
+  \draw[color=light, dashed] (-4, 2) ellipse (6 and 3);
   \node[color=white] at (-2, -2.5) {$\mathcal{Q}$};
   
   \begin{scope}
     \clip (-4, 2) ellipse (6 and 3);
     \foreach \i in {0, 0.05,..., 1} {
-      \fill[opacity={exp(-5 * \i*\i)}, dark] (0, 2) circle ({4 * \i});      
+      \fill[opacity={exp(-5 * \i*\i)}, light] (0, 2) circle ({4 * \i});      
     }
   \end{scope}
   
@@ -334,26 +334,26 @@ target distribution, allowing us to identify the best approximation, $\mathbb{Q}
   \fill[mid] (0, 0) ellipse (13 and 7);
   \node at (11, -6) {$\mathcal{P}_{\Theta}$};
   
-  \draw[color=dark, dashed] (-4, 2) ellipse (6 and 3);
+  \draw[color=light, dashed] (-4, 2) ellipse (6 and 3);
   \node[color=white] at (-2, -2.5) {$\mathcal{Q}$};
   
   \begin{scope}
     \clip (-4, 2) ellipse (6 and 3);
     
     \foreach \i in {0, 0.05,..., 1} {
-      \fill[opacity={exp(-5 * \i*\i)}, dark] (0, 2) circle ({4 * \i});      
+      \fill[opacity={exp(-5 * \i*\i)}, light] (0, 2) circle ({4 * \i});      
     }
     
     \foreach \i in {0, 0.05,..., 1} {
-      \fill[opacity={exp(-5 * \i*\i)}, dark] (-4, 3) ellipse ({4 * \i} and {3 * \i});      
+      \fill[opacity={exp(-5 * \i*\i)}, light] (-4, 3) ellipse ({4 * \i} and {3 * \i});      
     }
     
     \foreach \i in {0, 0.05,..., 1} {
-      \fill[opacity={exp(-5 * \i*\i)}, dark] (-8, 1) ellipse ({4 * \i} and {5 * \i});      
+      \fill[opacity={exp(-5 * \i*\i)}, light] (-8, 1) ellipse ({4 * \i} and {5 * \i});      
     }
     
     \foreach \i in {0, 0.05,..., 1} {
-      \fill[opacity={exp(-5 * \i*\i)}, dark] (-3, -1) ellipse ({3 * \i} and {2 * \i});      
+      \fill[opacity={exp(-5 * \i*\i)}, light] (-3, -1) ellipse ({3 * \i} and {2 * \i});      
     }
   \end{scope}
   

@@ -23,7 +23,7 @@ of the expectation with respect to the target distribution.  Exactly how these
 samples are generated leads to estimators with substantially different 
 behaviors.
 
-\subsection{Monte Carlo Estimators}
+\section{Monte Carlo Estimators}
 
 Monte Carlo estimators use a finite sequence of exact samples from
 the target distribution to estimate expectations.  Given a sequence
@@ -88,7 +88,7 @@ but the simplest probability distributions, and we are once again frustrated
 by our ignorance of the typical set.  In order to proceed we need to 
 approximate exact samples themselves.
 
-\subsection{Importance Sampling Estimators}
+\section{Importance Sampling Estimators}
 
 Although we typically can't generate exact samples from the target 
 distribution, often we can generate exact samples from an 
@@ -175,7 +175,7 @@ sampling is most useful as a means to correct a distribution that
 is already known to be a good approximation to the target
 distribution.
 
-\subsection{Markov Chain Monte Carlo Estimators}
+\section{Markov Chain Monte Carlo Estimators}
 
 Another strategy for approximating the Monte Carlo procedure
 is to generate samples from the target distribution but relax
@@ -253,7 +253,7 @@ behaves under ideal conditions, how it behaves under
 less-than-ideal conditions, and how to effectively run
 the algorithm in practice to be robust to the latter.
 
-\subsubsection{Markov Chain Monte Carlo Under Ideal Conditions}
+\subsection{Markov Chain Monte Carlo Under Ideal Conditions}
 
 Under ideal conditions, Markov chains explore the target
 distribution in three distinct phases.  In the first phase the
@@ -1106,7 +1106,7 @@ typical set.  Consequently typical practice is to throw away some
 number of initial samples before computing Markov chain Monte
 Carlo estimators.
 
-\subsubsection{Markov Chain Monte Carlo Under Less-Than-Ideal Conditions}
+\subsection{Markov Chain Monte Carlo Under Less-Than-Ideal Conditions}
 
 Under ideal conditions Markov chain Monte Carlo behaves
 very similarly to Monte Carlo, only with a loss of efficiency due
@@ -1581,7 +1581,7 @@ interacts with the target distribution.  Some transition kernels
 are more robust than others and some can achieve robust
 performance with careful tuning of auxiliary kernel parameters.
  
-\subsubsection{MCMC in Practice}
+\subsection{Markov Chain Monte Carlo in Practice}
 
 In order to guarantee that we will not suffer from pathological
 behavior we have to demonstrate strong \emph{ergodicity}
@@ -1604,9 +1604,7 @@ Consequently we have to take great care when implementing
 Markov chain Monte Carlo, and to maximize robust performance
 we proceed in three stages.
 
-\vspace{2mm}
-\noindent \emph{Warmup}
-\vspace{2mm}
+\subsubsection{Warmup}
 
 We begin with \emph{warmup}, where we initialize multiple
 chains from multiple, ideally diffuse, points in the sample space
@@ -1626,17 +1624,13 @@ biasing all of the chains and should very much not be ignored!
 Because of this potentially-confusing, false analogy we use the
 term warmup.
 
-\vspace{2mm}
-\noindent \emph{Sampling}
-\vspace{2mm}
+\subsubsection{Sampling}
 
 Once warmup as finished we begin a sampling phase where
 we run the Markov chain and save all of the resulting samples
 to construct Markov chain Monte Carlo estimators.
 
-\vspace{2mm}
-\noindent \emph{Evaluation}
-\vspace{2mm}
+\subsubsection{Evaluation}
 
 Once both warmup and sampling have completed we can
 search for any signs of pathological behavior and, if we

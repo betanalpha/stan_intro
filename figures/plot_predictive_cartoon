@@ -1,0 +1,162 @@
+#!/bin/bash
+
+light="#DCBCBC"
+light_highlight="#C79999"
+mid="#B97C7C"
+mid_highlight="#A25050"
+dark="#8F2727"
+dark_highlight="#7C0000"
+
+gnuplot << END
+
+set border 3
+
+set title ""
+
+set xtics scale 0
+set format x ''
+set xlabel 'd'
+set xrange[-1:4]
+
+set ytics scale 0
+set ylabel ''
+set format y ''
+set yrange[0:2.5]
+
+binwidth = 4.0 / 50.0
+set boxwidth binwidth
+bin(x, width) = width * floor(x / width) + 0.5 * binwidth
+weight = 1e-3 / binwidth
+
+set style fill solid 1.0
+
+set terminal postscript enhanced eps color font 'Times-Roman, 35' size 6, 4
+set output "predictive_misfit1.eps"
+
+set label "P^{pp}[  | d ]" at -0.75, 0.25 tc rgb "$dark" font "Times-Roman, 35"
+
+set arrow from 1.5, 0 to 1.5, 2 lw 4 lc rgb "$light_highlight" nohead front
+set label "d" at 1.5, 2.1 center tc rgb "$light_highlight" font "Times-Roman, 35"
+
+plot \
+"random_gauss.txt" using (bin(\$2, binwidth)):(weight) smooth freq with boxes \
+lt 1 lc rgb "$dark" fs border lc rgb '$dark_highlight' notitle
+
+END
+
+gnuplot << END
+
+set border 3
+
+set title ""
+
+set xtics scale 0
+set format x ''
+set xlabel 'd'
+set xrange[-1:4]
+
+set ytics scale 0
+set ylabel ''
+set format y ''
+set yrange[0:2.5]
+
+binwidth = 4.0 / 50.0
+set boxwidth binwidth
+bin(x, width) = width * floor(x / width) + 0.5 * binwidth
+weight = 1e-3 / binwidth
+
+set style fill solid 1.0
+
+set terminal postscript enhanced eps color font 'Times-Roman, 35' size 6, 4
+set output "predictive_misfit2.eps"
+
+set label "P^{pp}[  | d ]" at -0.75, 0.25 tc rgb "$dark" font "Times-Roman, 35"
+
+set arrow from 3, 0 to 3, 2 lw 4 lc rgb "$light_highlight" nohead front
+set label "d" at 3, 2.1 center tc rgb "$light_highlight" font "Times-Roman, 35"
+
+plot \
+"random_gauss.txt" using (bin(\$2, binwidth)):(weight) smooth freq with boxes \
+lt 1 lc rgb "$dark" fs border lc rgb '$dark_highlight' notitle
+
+END
+
+gnuplot << END
+
+set border 3
+
+set title ""
+
+set xtics scale 0
+set format x ''
+set xlabel 'd'
+set xrange[-1:4]
+
+set ytics scale 0
+set ylabel ''
+set format y ''
+set yrange[0:2.5]
+
+binwidth = 4.0 / 50.0
+set boxwidth binwidth
+bin(x, width) = width * floor(x / width) + 0.5 * binwidth
+weight = 1e-3 / binwidth
+
+set style fill solid 1.0
+
+set terminal postscript enhanced eps color font 'Times-Roman, 35' size 6, 4
+set output "predictive_overfit1.eps"
+
+set label "P^{pp}[  | d_{1} ]" at -0.75, 0.25 tc rgb "$dark" font "Times-Roman, 35"
+
+set arrow from 0.8, 0 to 0.8, 2 lw 4 lc rgb "$light_highlight" nohead front
+set label "d_{1}" at 0.8, 2.1 center tc rgb "$light_highlight" font "Times-Roman, 35"
+
+set arrow from 1.5, 0 to 1.5, 2 lw 4 lc rgb "$light_highlight" nohead front
+set label "d_{2}" at 1.5, 2.1 center tc rgb "$light_highlight" font "Times-Roman, 35"
+
+plot \
+"random_gauss.txt" using (bin(\$2, binwidth)):(weight) smooth freq with boxes \
+lt 1 lc rgb "$dark" fs border lc rgb '$dark_highlight' notitle
+
+END
+
+gnuplot << END
+
+set border 3
+
+set title ""
+
+set xtics scale 0
+set format x ''
+set xlabel 'd'
+set xrange[-1:4]
+
+set ytics scale 0
+set ylabel ''
+set format y ''
+set yrange[0:2.5]
+
+binwidth = 4.0 / 50.0
+set boxwidth binwidth
+bin(x, width) = width * floor(x / width) + 0.5 * binwidth
+weight = 1e-3 / binwidth
+
+set style fill solid 1.0
+
+set terminal postscript enhanced eps color font 'Times-Roman, 35' size 6, 4
+set output "predictive_overfit2.eps"
+
+set label "P^{pp}[  | d_{1} ]" at -0.75, 0.25 tc rgb "$dark" font "Times-Roman, 35"
+
+set arrow from 0.8, 0 to 0.8, 2 lw 4 lc rgb "$light_highlight" nohead front
+set label "d_{1}" at 0.8, 2.1 center tc rgb "$light_highlight" font "Times-Roman, 35"
+
+set arrow from 3, 0 to 3, 2 lw 4 lc rgb "$light_highlight" nohead front
+set label "d_{2}" at 3, 2.1 center tc rgb "$light_highlight" font "Times-Roman, 35"
+
+plot \
+"random_gauss.txt" using (bin(\$2, binwidth)):(weight) smooth freq with boxes \
+lt 1 lc rgb "$dark" fs border lc rgb '$dark_highlight' notitle
+
+END
