@@ -335,7 +335,7 @@ p_{\Omega} \! \left( \omega \right) \dd \omega
 &=
 p_{\Theta} \! \left( \theta \right) \dd \theta
 \\
-p_{\Omega} \! \left( \theta \right)
+p_{\Omega} \! \left( \omega \right)
 &= 
 p_{\Theta} \! \left( \theta \right) \frac{ \dd \theta }{ \dd \omega }
 \\
@@ -344,9 +344,39 @@ p_{\Omega} \! \left( \omega \right)
 p_{\Theta} \! \left( \theta \right) \left| \mathbf{J} \right|^{-1}.
 \end{align*}
 
-For a concrete example, consider a two-dimensional sample space 
-with real components $\left( \theta_{1}, \theta_{2} \right)$ and a 
-probability distribution represented with a Gaussian probability density,
+\textbf{Some more text here}.
+Jacobians arise naturally when the sample space is \emph{constrained}
+and we want to map to an unconstrained space to remove the constraint
+and potentially simplify calculations.  For example, let P be a probability
+distribution on $\RR^{+}$ with density p.  We can unconstrained the
+positivity constraint by applying a logarithmic map
+%
+\begin{equation*}
+map
+\end{equation*}
+%
+which results in the Jacobian
+%
+\begin{equation*}
+jacobian.
+\end{equation*}
+%
+Similarly, we can unconstrain a sample space representing probabilities
+themselves, $\Theta = \left[0, 1 \right]$ by applying a logistic transform,
+%
+\begin{equation*}
+map
+\end{equation*}
+%
+which results in the Jacobian
+%
+\begin{equation*}
+jacobian.
+\end{equation*}
+
+To see how important the Jacobian can be, consider a two-dimensional 
+sample space with real components $\left( \theta_{1}, \theta_{2} \right)$ 
+and a probability distribution represented with a Gaussian probability density,
 %
 \begin{equation*}
 p_{\Theta} \! \left( \theta_{1}, \theta_{2} \right)
@@ -426,8 +456,8 @@ and
 J^{2} \dd \theta_{1} \dd \theta_{2},
 \end{equation*}
 %
-respectively.  These two realizations are shown graphically in 
-(Figure \ref{fig:pdf_transform}).
+respectively.  The extreme differences between these two representations
+are evident graphically in Figure \ref{fig:pdf_transform}.
 
 \subsection{Conditional Probability Density Functions}
 
@@ -492,7 +522,7 @@ P
 \mapsto 
 I \! \left( \theta \right) \;\; 
 \mapsto 
-\PP \! \left[ I \! \left( \theta \right) \right].
+\PP \! \left[ I \! \left( \theta \right) \right],
 \end{align*}
 %
 where each interval, $I \! \left( \theta \right) \in \mathcal{I} \! 
