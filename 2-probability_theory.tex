@@ -98,6 +98,12 @@ the more non-intuitive aspects of probability theory can avoided by carefully
 framing everything as an expectation -- don't try to intuit solutions, calculate 
 them!
 
+\section{Densities}
+
+Radon-Nikodym derivatives as functions that modify expectations.
+
+Abusive notation of ``multiplying'' a distribution by a density.
+
 \section{Conditional Probability Distributions}
 
 \emph{Conditional probability distributions} allow us to quantify uncertainty
@@ -151,6 +157,8 @@ g \! \left( \theta, \phi \right) \mid \phi
 \right].
 \end{equation*}
 
+\subsection{Marginalization}
+
 If we consider only the trivial event on the conditioning space $E_{\Phi} 
 = \Phi$, then this construction also defines a  \emph{marginal distribution} 
 on $\Theta$ by
@@ -181,6 +189,8 @@ f \! \left( \theta \right) \mid \phi
 This marginalization process allows us to collapse a joint probability 
 distribution onto any of the component spaces while incorporating 
 any correlations between the components.
+
+\subsection{Generative Modeling}
 
 Consequently, conditional probability distributions are powerful ways of
 building probability distributions on high-dimensional spaces.  We simply 
@@ -216,6 +226,18 @@ then these conditional probability distributions can seamlessly incorporate
 stochastic, deterministic, and causal relationships.  This iterative process of 
 building a joint probability distribution from conditional probability distributions 
 is the key building block of \emph{generative modeling}.
+
+\subsection{Bayes' Theorem}
+
+Two different decompositions of a joint distribution constrain how the
+corresponding conditional probability distributions are related.  Formally
+defined in terms of densities.
+
+In practice this allows us to invert implications.  Given one conditional
+distribution and the two marginals, we can construct the opposite
+conditional distribution via Bayes' Theorem.
+
+Math.
 
 \section{The Invariance of Probability Distributions}
 
