@@ -1,21 +1,148 @@
-
 \thispagestyle{empty}
 
-{ \Huge
-\noindent \textbf{A Technical Introduction to \\[3mm]
-                           Probability and Bayesian Inference \\[2mm]
-                           for Stan Users} 
-}
+{ \Huge \noindent Logic, Probability, and Bayesian Inference:}
+
+\vspace{1mm}
+
+{ \LARGE \noindent A Conceptual Introduction to the Foundations }
+
+\vspace{1mm}
+
+{ \LARGE \noindent of Inference for Scientists and Engineers }
 
 \vspace{5mm}
 
-{ \noindent \Large Stan Development Team }
+\begin{center}
+
+\begin{tikzpicture}[scale=0.7, thick]
+  \draw[-,color=white] (-12, 0) to (12, 0);
+  
+  \begin{scope}
+  \clip (-12, -6) rectangle (12, 10);
+  \foreach \i in {0, 0.05,..., 1} {
+    \draw[line width={30 * \i}, opacity={exp(-8 * \i)}, dark] 
+      (-10, 0) .. controls (-10, 15) and (-5, 5) .. (0, 5)
+      .. controls (5, 5) and (10, 8) .. (10, 0)
+      .. controls (10, -8) and (5, -3) .. (0, -3)
+      .. controls (-5, -3) and (-10, -5) .. (-10, 0);
+  }
+  
+  \fill[color=dark] (-6, -3) circle (7pt);  
+  \fill[color=light] (-6, -3) circle (5pt);
+  
+  \fill[color=dark] (-4.75, -3.25) circle (7pt);  
+  \fill[color=light] (-4.75, -3.25) circle (5pt);
+  
+  \fill[color=dark] (-3, -3.5) circle (7pt);  
+  \fill[color=light] (-3, -3.5) circle (5pt);
+  
+  \fill[color=dark] (-2, -3.5) circle (7pt);  
+  \fill[color=light] (-2, -3.5) circle (5pt);
+  
+  \fill[color=dark] (-0.3, -3) circle (7pt);  
+  \fill[color=light] (-0.3, -3) circle (5pt);  
+  
+  \fill[color=dark] (0.4, -3.4) circle (7pt);  
+  \fill[color=light] (0.4, -3.4) circle (5pt);
+  
+  \fill[color=dark] (2.9, -3.2) circle (7pt);  
+  \fill[color=light] (2.9, -3.2) circle (5pt);
+  
+  \fill[color=dark] (4, -4.1) circle (7pt);  
+  \fill[color=light] (4, -4.1) circle (5pt);
+  
+  \fill[color=dark] (6.5, -4.8) circle (7pt);  
+  \fill[color=light] (6.5, -4.8) circle (5pt);
+  
+  \fill[color=dark] (6.8, -4.7) circle (7pt);  
+  \fill[color=light] (6.8, -4.7) circle (5pt);
+  
+  \fill[color=dark] (8.6, -4.75) circle (7pt);  
+  \fill[color=light] (8.6, -4.75) circle (5pt);
+  
+  \fill[color=dark] (9.65, -2.75) circle (7pt);  
+  \fill[color=light] (9.65, -2.75) circle (5pt);
+  
+  \fill[color=dark] (9.85, -0.8) circle (7pt);  
+  \fill[color=light] (9.85, -0.8) circle (5pt);
+  
+  \fill[color=dark] (10, 0.7) circle (7pt);  
+  \fill[color=light] (10, 0.7) circle (5pt);
+  
+  \fill[color=dark] (9.8, 2.25) circle (7pt);  
+  \fill[color=light] (9.8, 2.25) circle (5pt);
+  
+  \fill[color=dark] (9.6, 3.75) circle (7pt);  
+  \fill[color=light] (9.6, 3.75) circle (5pt);
+  
+  \fill[color=dark] (8.5, 4.75) circle (7pt);  
+  \fill[color=light] (8.5, 4.75) circle (5pt);
+
+  \fill[color=dark] (7.3, 5.3) circle (7pt);  
+  \fill[color=light] (7.3, 5.3) circle (5pt);
+  
+  \fill[color=dark] (5.25, 5.45) circle (7pt);  
+  \fill[color=light] (5.25, 5.45) circle (5pt);
+  
+  \fill[color=dark] (5, 5.65) circle (7pt);  
+  \fill[color=light] (5, 5.65) circle (5pt);
+  
+  \fill[color=dark] (2.25, 4.8) circle (7pt);  
+  \fill[color=light] (2.25, 4.8) circle (5pt);
+  
+  \fill[color=dark] (1.5, 5.1) circle (7pt);  
+  \fill[color=light] (1.5, 5.1) circle (5pt);
+  
+  \fill[color=dark] (-0.6, 5) circle (7pt);  
+  \fill[color=light] (-0.6, 5) circle (5pt);
+  
+  \fill[color=dark] (-1.85, 5) circle (7pt);  
+  \fill[color=light] (-1.85, 5) circle (5pt);
+  
+  \fill[color=dark] (-4.25, 6.5) circle (7pt);  
+  \fill[color=light] (-4.25, 6.5) circle (5pt);
+
+  \fill[color=dark] (-5.75, 7.4) circle (7pt);  
+  \fill[color=light] (-5.75, 7.4) circle (5pt);
+  
+  \fill[color=dark] (-6.5, 7.5) circle (7pt);  
+  \fill[color=light] (-6.5, 7.5) circle (5pt);
+  
+  \fill[color=dark] (-8.25, 8) circle (7pt);  
+  \fill[color=light] (-8.25, 8) circle (5pt);
+  
+  \fill[color=dark] (-9.2, 7) circle (7pt);  
+  \fill[color=light] (-9.2, 7) circle (5pt);
+  
+  \fill[color=dark] (-9.7, 5.3) circle (7pt);  
+  \fill[color=light] (-9.7, 5.3) circle (5pt);
+  
+  \fill[color=dark] (-10.1, 4) circle (7pt);  
+  \fill[color=light] (-10.1, 4) circle (5pt);
+  
+  \fill[color=dark] (-10, 2.2) circle (7pt);  
+  \fill[color=light] (-10, 2.2) circle (5pt);  
+  
+  \fill[color=dark] (-10.2, 1.4) circle (7pt);  
+  \fill[color=light] (-10.2, 1.4) circle (5pt);  
+
+  \fill[color=dark] (-9.9, -0.1) circle (7pt);  
+  \fill[color=light] (-9.9, -0.1) circle (5pt);  
+
+  \fill[color=dark] (-9.5, -1.8) circle (7pt);  
+  \fill[color=light] (-9.5, -1.8) circle (5pt);  
+
+  \fill[color=dark] (-8.3, -3) circle (7pt);  
+  \fill[color=light] (-8.3, -3) circle (5pt);  
+  
+  \end{scope}
+\end{tikzpicture}
 
 \vfill
 
-\begin{center}
-
 { \Large
+
+The Stan Development Team
 
 Version \introversion
 

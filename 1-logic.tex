@@ -1,92 +1,188 @@
 \chapter{Logic}
 
-Before we can formalize \emph{learning} about a system we first need formal 
-means of \emph{describing} that system.  \emph{Logical statements} provide a
-mathematically-precise language for quantifying information about a system with 
-certainty.  In this section we will review abstract logical statements, their manipulations, 
-and how we can express them in practice.  We conclude with a brief discussion 
-of implicative statements.
+Before we can formalize \emph{learning} about the world around us we 
+first need a formal means of \emph{describing} the world.  \emph{Logical 
+propositions} provide a mathematically-precise language for quantifying
+information about a system with certainty.  In this section we will review 
+abstract logical propositions, their manipulations, and how we can 
+represent them in practice.  We conclude with a brief discussion of 
+implicative statements.
 
-\section{Logical Statements}
+\section{Logical Propositions}
 
-Let $\mathcal{S}$ be an abstract system that we would like to describe.
-Any description of $\mathcal{S}$ can be defined as the assertion of a logical 
-statement about that system.  For example, consider describing one of the 
-eight planets in our Solar System: Mercury ($\mercury$), Venus ($\venus$), 
-Earth ($\earth$), Mars ($\mars$), Jupiter ($\jupiter$), Saturn ($\saturn$), 
-Uranus ($\uranus$), and Neptune ($\neptune$).  Information about the planet 
-is encapsulated by asserting the truth of logical statements such as ``the planet 
-has an atmosphere'' or ``the planet has rings''.  We denote the set of well-posed
-logical statements about $\mathcal{S}$ as $\lambda \! \left( \mathcal{S} \right)$.
+If $\mathcal{S}$ is an abstract system of interest then any description of 
+$\mathcal{S}$ can be defined as a \emph{logical proposition} which asserts
+that a statement about that system is either true or false.  For example, 
+consider describing one of the eight planets in our Solar System: Mercury 
+($\mercury$), Venus ($\venus$), Earth ($\earth$), Mars ($\mars$), Jupiter 
+($\jupiter$), Saturn ($\saturn$), Uranus ($\uranus$), and Neptune ($\neptune$).  
+Information about the planet is encapsulated in logical propositions asserting
+both statements that are true, for example
+%
+\begin{equation*}
+P_{1} = \text{``the planet has an atmosphere''},
+\end{equation*}
+%
+and statements that are false, for example
+\begin{equation*} 
+P_{2}=\text{``the planet does not have rings''}.
+\end{equation*} 
 
-Logical statements can also be manipulated into other logical statements.
-A \emph{conjunction} asserts that two statements are both true, ``the planet 
-has an atmosphere \emph{and} rings'' while a \emph{disjunction} states that 
-either statement is true, ``the planet has an atmosphere \emph{or} rings''.  
-We can also negate a logical statement by asserting its contrary, ``the planet 
-does \emph{not} have rings''.
+Logical propositions can be manipulated into other logical propositions
+with any of three \emph{boolean operations} (Table 
+\ref{tab:boolean_truth_tables}).  \emph{Negatation}, $\neg$, is a unary 
+operator resulting in a proposition asserting the converse of the input 
+proposition: 
+%
+\begin{equation*}
+\neg P_{1}=\text{``the planet does \emph{not} have an atmosphere''}.
+\end{equation*}
+%
+Binary operations take propositions about two statements and define 
+a new proposition about the joint statement.  The result of a 
+\emph{conjunction}, $\wedge$, is true only when both input propositions 
+are true:
+%
+\begin{equation*}
+P_{1} \wedge P_{2} =
+ \text{``the planet does not has both an atmosphere and rings''}.  
+\end{equation*}
+%
+A \emph{disjunction}, $\vee$, however, is true whenever either input 
+proposition is true : 
+%
+\begin{equation*}
+P_{1} \vee P_{2} =
+\text{``the planet does have an atmosphere \emph{or} rings''}.
+\end{equation*}
 
-\section{Events}
+\begin{table}
+  \centering
+  \renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{cc}
+    \rowcolor[gray]{0.9} 
+    \multicolumn{2}{c}{\textbf{Negation}} \\
+    %
+    \rowcolor[gray]{0.9} 
+    $P$ & $\neg P$ \\
+    %
+    False & True \\
+    True & False \\
+  \end{tabular}
+  %
+  \vspace{3mm} \\
+  %
+  \begin{tabular}{ccc}
+    \rowcolor[gray]{0.9} 
+    \multicolumn{3}{c}{\textbf{Conjunction}} \\
+    %
+    \rowcolor[gray]{0.9} 
+    $P_{1}$ & $P_{2}$ & $P_{1} \wedge P_{2}$ \\
+    %
+    False & False & False \\
+    True & False & False \\
+    False & True & False \\
+    True & True & True \\
+  \end{tabular}
+  %
+  \hspace{5mm}
+  %
+  \begin{tabular}{ccc}
+    \rowcolor[gray]{0.9} 
+    \multicolumn{3}{c}{\textbf{Disjunction}} \\
+    %
+    \rowcolor[gray]{0.9} 
+    $P_{1}$ & $P_{2}$ & $P_{1} \vee P_{2}$ \\
+    %
+    False & False & False \\
+    True & False & True \\
+    False & True & True \\
+    True & True & True \\
+  \end{tabular}
+\caption{The three basic Boolean operations transform given
+logical propositions into new logical propositions, and their 
+action is conveniently summarized in truth tables.}
+\label{tab:boolean_truth_tables}
+\end{table}
 
-Logical statements provide a generic framework for describing arbitrary and
-abstract systems, but that abstraction also makes these statements ungainly 
-to specify and manipulate in practice.  For our abstract descriptions to be useful 
-we need an explicit language in which we can communicate them, which we
-will refer to as an \emph{expression} (Table \ref{tab:expression_examples}).
+Naively, we might think that a system would be completely described only 
+once we have defined a proposition for every statement, classifying each 
+as either true or false. In his infamous Incompleteness Theorems, however, 
+G\"{o}del showed that if we try to define a proposition for every possible 
+statement about $\mathcal{S}$ then there will exist some pathological 
+propositions that are not consistent with the Boolean operations.  For 
+example, there are always pathological propositions asserting truth whose 
+negations do not assert falseness!  These pathological propositions cannot 
+be explicitly constructed in practice, only proven to exist, but in order to 
+ensure a self-consistent description of the system we need some means of 
+removing them.
+
+To avoid these pathological propositions we leverage the fact that propositions
+about non-pathological statements yield non-pathological propositions when 
+we apply any Boolean operation.  In other words, well-behaved propositions 
+are \emph{closed} under these operations, and any collection of well-behaved, 
+consistent propositions forms a logical algebra, 
+$\mathcal{L} \! \left( \mathcal{S} \right)$.  
+
+We will refer to the pairing of an abstract system with some choice of a logical
+algebra as a \emph{logical model}, 
+$\left( \mathcal{S}, \mathcal{L} \! \left( \mathcal{S} \right) \right)$.
+
+\section{Representations of Logical Models}
+
+Logical models provide a very abstract, and hence very genetic, framework for 
+describing arbitrary systems, but that abstraction also makes these descriptions
+ungainly to specify and manipulate in practice.  For our abstract descriptions to 
+be useful we need an explicit language in which we can communicate them, 
+which we will refer to as a \emph{representation} 
+(Table \ref{tab:representation_examples}).
 
 \begin{table}
   \centering
   \renewcommand{\arraystretch}{1.5}
   \begin{tabular}{ccc}
     \rowcolor[gray]{0.9} 
-    \textbf{Abstract System} & \textbf{Expression} & \textbf{Measurable Maps} \\
+    \textbf{Abstract System} & \textbf{Representation} & \textbf{Measurable Maps} \\
     %
     Historical Decrees & Ancient Languages & Translations \\
     & (Egyptian, Demotic, Green, $\ldots$) & (Rosetta Stone) \\
     % 
-    Computer Program & Programming Languages & Compilers \\
-    & (C++, S, Python, $\ldots$) & \\
+    Computer Program & Programming Languages & Source-to-Source \\
+    & (C++, S, Python, $\ldots$) & Compilers \\
     %
     Unordered Categories & Integers & Permutations \\
     %
     Direction & Vector Space & Changes of Basis \\
     %
-    Numerical Quantification & Units & Changes of Units \\
-    %
     Position & Coordinates & Reparameterizations \\
+    %
+    Quantification & Units & Changes of Units \\
   \end{tabular}
-\caption{Expressions provide a concrete representation of the abstract
-descriptions of a given system.  Degenerate ways to express the 
-descriptions of a system, along with the translations between them,
-are ubiquitous in common experience.}
-\label{tab:expression_examples}
+\caption{Representations provide a concrete language in which we can
+communicate the descriptions of an abstract system.  Because there 
+are many degenerate ways to express these descriptions, these 
+representations are not unique and in practice we have to be careful 
+that the irrelevant details of any particular representation do not affect
+the descriptions themselves.}
+\label{tab:representation_examples}
 \end{table}
 
-An expression is a map from our abstract system into a concrete space,
-such as the integers or the real numbers,
-%
-\begin{equation*}
-\mathfrak{e} : \mathcal{S} \rightarrow \Theta,
-\end{equation*}
-%
-where the concrete space, $\Theta$, is known as the \emph{sample space}.
-An expression also defines a corresponding map from logical statements
-into well-behaved subsets of the sample space, of \emph{events},
-$E \subset \Theta$,
-%
-\begin{equation*}
-\mathfrak{e}^{*} : 
-\lambda \! \left( \mathcal{S} \right) \rightarrow \EV{\Theta},
-\end{equation*}
-%
-where the \emph{event space}, $\EV{\Theta}$, collects all well-behaved
-subsets of the sample space and hence all valid expressions of well-posed 
-logical statements. Event spaces always include the null event, $E = \emptyset$, 
-which represents certain falseness, and the trivial event, $E = \Theta$, which
-represents certain truth.  The manipulation of the logical statements are 
-implemented with in an expression with set operations.  Conjunction of 
-statements becomes the intersection of subsets, disjunction the union of 
-subsets, and negation the complement of a subset (Figure \ref{fig:venn_diagrams}).
+In order to construct a representation we assume that the properties
+of our abstract system take values in some \emph{sample space}, 
+$\Theta$, such as integers or real numbers.  Statements about these
+properties are represented as subsets of the sample space, and
+logical propositions are represented as set inclusion.  If a statement
+is represented by $E \subset \Theta$, for example, then a logical
+proposition asserting that the statement is true is represented by 
+asserting that $\theta \in E$, and one asserting that the statement
+is false is represented by asserting that $\theta \notin E$.
+
+With propositions represented by set inclusion and set exclusion,
+the Boolean operations are naturally implemented with set operations.  
+Conjunction becomes inclusion in the subset intersection, disjunction 
+inclusion in the subset union, and negation inclusion in the subset 
+complement negation (Figure \ref{fig:venn_diagrams}, 
+Table \ref{tab:set_truth_tables}).  
 
 \begin{figure*}
 \centering
@@ -137,21 +233,109 @@ subsets, and negation the complement of a subset (Figure \ref{fig:venn_diagrams}
 \end{tikzpicture}
 }
 %
-\caption{In an expression logical statements are represented by
-subsets and the manipulation of these statements is implemented
-with set operations.  (a) If two statements are represented by
-the sets $E_{1}$ and $E_{2}$, then (b) their conjunction is the
-set intersection,and (c) their disjunction is the set union.  (d) Simlarly,
-the negation of $E_{1}$ is the set complement.}
+\caption{In a representation statements are defined as subsets in some
+sample space and logical propositions are implemented with set inclusion
+or set exclusion.  Boolean operations are then implemented with inclusion
+in a set complement (negation), set intersection (conjunction), and set
+union (disjunction).  (a) If two propositions are represented by
+inclusion in the sets $E_{1}$ and $E_{2}$, then (b) their conjunction is 
+represented as inclusion in the set intersection, $E_{1} \cup E_{2}$, and (c) 
+their disjunction is represented as inclusion in the set union, 
+$E_{1} \cap E_{2}$.  (d) Similarly, the negation of $E_{1}$ is represented
+as inclusion in the set complement, $E_{1}^{c}$.}
 \label{fig:venn_diagrams}
 \end{figure*}
 
-For example, our descriptions of the planets can be expressed
-with the integers, $\Theta = \left\{1, 2, \ldots, 8 \right\}$, with each
-logical statement equivalent to a subset of integers
-(Figure \ref{fig:discrete_set_logic}).  The procedure is equivalent
-for descriptions that can be represented by real numbers, such
-as the distance between two objects (Figure \ref{fig:real_set_logic}).
+\begin{table}
+  \centering
+  \renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{cc}
+    \rowcolor[gray]{0.9} 
+    \multicolumn{2}{c}{\textbf{Negation}} \\
+    %
+    \rowcolor[gray]{0.9} 
+    $\theta \in E$ & $\theta \in E^{c}$ \\
+    %
+    False & True \\
+    True & False \\
+  \end{tabular}
+  %
+  \vspace{3mm} \\
+  %
+  \begin{tabular}{ccc}
+    \rowcolor[gray]{0.9} 
+    \multicolumn{3}{c}{\textbf{Conjunction}} \\
+    %
+    \rowcolor[gray]{0.9} 
+    $\theta \in E_{1}$ & $\theta \in E_{1}$ & $\theta \in E_{1} \cap E_{2}$ \\
+    %
+    False & False & False \\
+    True & False & False \\
+    False & True & False \\
+    True & True & True \\
+  \end{tabular}
+  %
+  \hspace{5mm}
+  %
+  \begin{tabular}{ccc}
+    \rowcolor[gray]{0.9} 
+    \multicolumn{3}{c}{\textbf{Disjunction}} \\
+    %
+    \rowcolor[gray]{0.9} 
+    $\theta \in E_{1}$ & $\theta \in E_{1}$ & $\theta \in E_{1} \cup E_{2}$ \\
+    %
+    False & False & False \\
+    True & False & True \\
+    False & True & True \\
+    True & True & True \\
+  \end{tabular}
+\caption{In a representation statements are defined as subsets in some
+sample space and logical propositions are implemented with set inclusion
+or set exclusion.  Boolean operations are then implemented with inclusion
+in a set complement (negation), set intersection (conjunction), and set
+union (disjunction).}
+\label{tab:set_truth_tables}
+\end{table}
+
+The same inconsistencies that limited us to consider only well-behaved 
+logical propositions, however, also limit our representations to only
+well-behaved subsets of the sample space.  We denote a collection of 
+subsets of the sample space that is closed under set compliments,
+set intersections, and set unions as an \emph{event space}, $\EV{\Theta}$,
+with the well-behaved subsets in that space denoted \emph{events}. 
+Event spaces always include the null event, $E = \emptyset$, which 
+can never be true as it is always empty.  Similarly, event spaces also 
+always include the trivial event, $E = \Theta$, which can never be false
+as every element of the sample space is included in this event.  
+The pairing of a sample space and an event space is denoted a
+\emph{measurable space}, for reasons that will become more clear
+in the next chapter.
+
+More formally, then, we should define a representation as a map from 
+a logical model into a measurable space.  In practice this is defined 
+as a map from the abstract system into the sample space,
+%
+\begin{equation*}
+\mathfrak{r} : \mathcal{S} \rightarrow \Theta,
+\end{equation*}
+%
+that then induces a map from the logical algebra into the event space,
+%
+\begin{equation*}
+\mathfrak{r}_{*} : 
+\mathcal{L} \! \left( \mathcal{S} \right) \rightarrow \EV{\Theta}.
+\end{equation*}
+%
+A representation is called \emph{faithful} if every logical statement maps 
+into an event and vice-versa, and Stone's Theorem guarantees that a
+faithful representation for any logical model always exists.
+
+For example, descriptions of the planets in our solar system can be 
+represented with the integers, $\Theta = \left\{1, 2, \ldots, 8 \right\}$, 
+with each logical proposition represented by inclusion in a subset of 
+those integers (Figure \ref{fig:discrete_set_logic}).  Similarly, the 
+distance between two objects can be represented by real numbers,
+(Figure \ref{fig:real_set_logic}).
 
 \begin{figure*}
 \centering
@@ -160,7 +344,7 @@ as the distance between two objects (Figure \ref{fig:real_set_logic}).
   \draw[color=white] (-25, 0) to (10, 0);
 
   \node[] at (-15, 0) {The planet has a magnetic field};
-  \node[] at (7, 2) {$E_{1}$};
+  \node[] at (7, 2) {$\theta \in E_{1}$};
 
   \fill[color=gray80] (0, 0) circle (25pt) node[color=white] {$\mercury$}; 
   \fill[color=dark] (2, 0) circle (25pt) node[color=white] {$\venus$}; 
@@ -172,7 +356,7 @@ as the distance between two objects (Figure \ref{fig:real_set_logic}).
   \fill[color=dark] (14, 0) circle (25pt) node[color=white] {$\neptune$};  
   
   \node[] at (-15, -5) {The planet has moons};
-  \node[] at (7, -3) {$E_{2}$};
+  \node[] at (7, -3) {$\theta \in E_{2}$};
 
   \fill[color=gray80] (0, -5) circle (25pt) node[color=white] {$\mercury$}; 
   \fill[color=gray80] (2, -5) circle (25pt) node[color=white] {$\venus$}; 
@@ -190,7 +374,7 @@ as the distance between two objects (Figure \ref{fig:real_set_logic}).
   \draw[color=white] (-25, 0) to (10, 0);
   
   \node[align=center] at (-15, 0) {The planet has a magnetic field\\and moons};
-  \node[] at (7, 2) {$E_{1} \cap E_{2}$};
+  \node[] at (7, 2) {$\theta \in E_{1} \cap E_{2}$};
 
   \fill[color=gray80] (0, 0) circle (25pt) node[color=white] {$\mercury$}; 
   \fill[color=gray80] (2, 0) circle (25pt) node[color=white] {$\venus$}; 
@@ -208,7 +392,7 @@ as the distance between two objects (Figure \ref{fig:real_set_logic}).
   \draw[color=white] (-25, 0) to (10, 0);
    
   \node[align=center] at (-15, 0) {The planet has a magnetic field\\or moons};
-  \node[] at (7, 2) {$E_{1} \cup E_{2}$};
+  \node[] at (7, 2) {$\theta \in E_{1} \cup E_{2}$};
 
   \fill[color=gray80] (0, 0) circle (25pt) node[color=white] {$\mercury$}; 
   \fill[color=dark] (2, 0) circle (25pt) node[color=white] {$\venus$}; 
@@ -226,7 +410,7 @@ as the distance between two objects (Figure \ref{fig:real_set_logic}).
   \draw[color=white] (-25, 0) to (10, 0);
    
   \node[align=center] at (-15, 0) {The planet does not\\have a magnetic field};
-  \node[] at (7, 2) {$E_{1}^{c}$};
+  \node[] at (7, 2) {$\theta \in E_{1}^{c}$};
 
   \fill[color=dark] (0, 0) circle (25pt) node[color=white] {$\mercury$}; 
   \fill[color=gray80] (2, 0) circle (25pt) node[color=white] {$\venus$}; 
@@ -238,11 +422,12 @@ as the distance between two objects (Figure \ref{fig:real_set_logic}).
   \fill[color=gray80] (14, 0) circle (25pt) node[color=white] {$\neptune$};  
 \end{tikzpicture}
 }
-\caption{(a) Descriptions of a discrete system, such as the collection of
-planets in our solar system, can be expressed with by the integers, with
-any of the planets can be represented by a subset of the integers. 
-(b) Conjuction of logical statements is implemented with set intersections, 
-(c) disjunction with set unions, and (d) negation with set negation.}
+\caption{(a) Systems that take discrete values, such as the planets in 
+our solar system, can be represented with integers, with any logical 
+proposition about the planets represented by inclusion in a subset of 
+integers. (b) Conjuction of logical propositions is implemented with 
+inclusion in set intersections, (c) disjunction with inclusion in set unions, 
+and (d) negation with inclusion in set complements.}
 \label{fig:discrete_set_logic}
 \end{figure*}
 
@@ -253,13 +438,13 @@ any of the planets can be represented by a subset of the integers.
   \draw[color=white] (-27, 0) to (17, 0);
 
   \node[align=center] at (-15, 0) {The distance is\\less than five inches};
-  \node[] at (7.5, 2) {$E_{1}$};
+  \node[] at (7.5, 2) {$\theta \in E_{1}$};
 
   \draw[|->] (0, 0) -- (14,0) node[right] {$x$};
   \draw[line width=1mm, color=dark] (0, 0) node[] {$\,($} -- (5, 0) node[] {$\!)$};
   
   \node[align=center] at (-15, -5) {The distance is between\\three and seven inches};
-  \node[] at (7.5, -3) {$E_{2}$};
+  \node[] at (7.5, -3) {$\theta \in E_{2}$};
   
   \draw[|->] (0, -5) -- (14,-5) node[right] {$x$};
   \draw[line width=1mm, color=dark] (3, -5) node[] {$\,($} -- (7,-5) node[] {$\!)$};
@@ -273,7 +458,7 @@ any of the planets can be represented by a subset of the integers.
   
   \node[align=center] at (-15, 0) {The distance is less than five inches\\and
                                                    between three and seven inches};
-  \node[] at (7.5, 2) {$E_{1} \cap E_{2}$};
+  \node[] at (7.5, 2) {$\theta \in E_{1} \cap E_{2}$};
 
   \draw[|->] (0, 0) -- (14,0) node[right] {$x$};
   \draw[line width=1mm, color=dark] (3, 0) node[] {$\,($} -- (5, 0) node[] {$\!)$};
@@ -286,7 +471,7 @@ any of the planets can be represented by a subset of the integers.
    
   \node[align=center] at (-15, 0) {The distance is less than five inches\\or
                                                    between three and seven inches};
-  \node[] at (7.5, 2) {$E_{1} \cup E_{2}$};
+  \node[] at (7.5, 2) {$\theta \in E_{1} \cup E_{2}$};
 
   \draw[|->] (0, 0) -- (14, 0) node[right] {$x$};
   \draw[line width=1mm, color=dark] (0, 0) node[] {$\,($} -- (7, 0) node[] {$\!)$};
@@ -298,59 +483,106 @@ any of the planets can be represented by a subset of the integers.
   \draw[color=white] (-27, 0) to (17, 0);
    
   \node[align=center] at (-15, 0) {The distance is not\\less than five inches};
-  \node[] at (7.5, 2) {$E_{1}^{c}$};
+  \node[] at (7.5, 2) {$\theta \in E_{1}^{c}$};
 
   \draw[|->] (0, 0) -- (14, 0) node[right] {$x$};
   \draw[line width=1mm, color=dark] (5, 0) node[] {$\,($} -- (13, 0);
 \end{tikzpicture}
 }
-\caption{Systems whose descriptions can be described by the real numbers 
-are expressed exactly as with discrete systems. (a) Descriptions are expressed
-as subsets of the real numbers, (b) conjunction with intersections of those
-subsets, (c) disjunction with unions of those subsets, and (e) negation with
-complements. }
+\caption{(a) Systems that take continuous values, such as distances, 
+can be represented with real numbers, with any logical proposition
+represented by inclusion in well-behaved subsets of real numbers. 
+(b) Conjuction of logical propositions is implemented with inclusion 
+in set intersections, (c) disjunction with inclusion in set unions, and 
+(d) negation with inclusion in set complements.}
 \label{fig:real_set_logic}
 \end{figure*}
 
-One extremely important subtlety with this construction is that expressions are 
-not unique -- we can express the same logical statements using events in different 
-sample spaces.  To see this consider an invertible map from one sample space 
-into another, $s : \Theta \rightarrow \Omega$; if every event in $\Theta$ maps 
-to an event in  $\Omega$ and vice versa,
+\section{Equivalent Representations}
+
+Because they map abstract systems into explicit contexts, representations
+are critical to the practical implementation of logical models and their
+manipulations.  Unfortunately representations also bring with them a 
+dangerous subtlety -- there is no \emph{unique} representation of a 
+given abstract system.
+
+A map from one sample space into another, $s : \Theta \rightarrow \Omega$,
+is \emph{measurable} if every event in $\Omega$ is generated by an event 
+in $\Theta$,
 %
-\begin{align*}
-s \! \left( E_{\Theta} \right) &\in \EV{\Omega}
-\\
-s^{-1} \! \left( E_{\Omega} \right) &\in \EV{\Theta}
-\end{align*}
+\begin{equation*}
+s^{-1} \! \left( E_{\Omega} \right) \in \EV{\Theta}.
+\end{equation*}
 %
-then the map is called \emph{measurable}.  The composition of an expression
-with a measurable map,
+Measurable maps allow us to completely generate the measurable space 
+$\left( \Omega, \EV{\Omega} \right)$ by mapping forward elements of the 
+initial measurable space $\left(\Theta, \EV{\Theta} \right)$; we cannot, 
+however, necessarily achieve the converse as there is no guarantee that 
+every event in $\EV{\Theta}$ maps to an event in $\EV{\Omega}$.
+This process is also known as \emph{pushing forward} the measurable 
+space $\left( \Theta, \EV{\Theta} \right)$ into the measurable space 
+$\left( \Omega, \EV{\Omega} \right)$, and in this context  
+$\left( \Omega, \EV{\Omega} \right)$ is denoted the \emph{pushforward} 
+of $\left( \Theta, \EV{\Theta} \right)$ by $s$.
+
+Composing a faithful representation with a measurable map,
 %
 \begin{equation*}
 s \circ \mathfrak{e} : \mathcal{S} \rightarrow \Theta \rightarrow \Omega,
 \end{equation*}
 %
-is another valid expression.  Hence when a measurable map exists between 
-two sample spaces they can be used to to specify the same logical statements,
-and we say that they are \emph{equivalent} as they provide equivalent descriptions 
-of the given system.  The set of samples spaces equivalent to $\Theta$ is 
-denoted $\lfloor \Theta \rfloor$.  \textbf{Mention that equivalent sample
-spaces are typically restricted to common topologies, so we can map
-discrete to discrete and real to real, but not discrete to real and vice
-versa?  Similar for cardinality of space?}
+yields another valid representation but not necessarily a faithful one.
+Because there is no guarantee that every event in $\EV{\Theta}$ maps
+to an event in $\EV{\Omega}$, this pushforward may be able to represent
+only a handful of propositions in the logical model.  For example,
+a measurable map might round real numbers down to discrete numbers,
+losing the ability to represent all but a countable number of logical 
+propositions.
 
-For example, if the sample space is discrete then we can always define an 
-equivalent sample space by simply permuting the labels.  It doesn't matter 
-if we order the planets by distance from the sun, by diameter, or by any other 
-metric: the sample spaces quantify the same information (Figure
-\ref{fig:permuting_discrete_spaces}).   Similarly, we can always apply a 
-transformation that warps the real numbers to map between real samples spaces 
-without compromising our ability to represent statements with events.  One of 
-the most common ways this manifests in practice is when our descriptions require 
-units -- the information we quantify doesn't depend on whether we express distance 
-in {\aa}ngstr\"{o}ms or inches or meters or furlongs, each unit defines a separate 
-but equivalent sample space.
+In order to maintain a faithful representation we need to ensure that
+the events spaces are preserved by both the map and its inverse.  Here
+we will say that a map $s : \Theta \rightarrow \Omega$ is 
+\emph{doubly-measurable} if every event in $\EV{\Theta}$ maps to an 
+event in $\EV{\Omega}$ and vice versa,
+%
+\begin{align*}
+s \! \left( E_{\Theta} \right) &\in \EV{\Omega}
+\\
+s^{-1} \! \left( E_{\Omega} \right) &\in \EV{\Theta}.
+\end{align*}
+%
+A doubly-measurable map allows us to recover either measurable space 
+as a pushforward of the other, and the composition of a faithful 
+representation with a doubly-measurable map,
+%
+\begin{equation*}
+s \circ \mathfrak{e} : \mathcal{S} \rightarrow \Theta \rightarrow \Omega,
+\end{equation*}
+%
+is then another faithful representation.  We warn the reader that there
+is no conventional terminology for these maps and we have introduced
+doubly-measurable here as our own terminology.
+
+When a doubly-measurable map exists between two measurable spaces
+then the two spaces can be used to specify the same logical model,
+and we say that they are \emph{equivalent representations} as they provide
+equivalent descriptions of a given system 
+(Table \ref{tab:representation_examples}).  The set of measurable spaces
+equivalent to $\left( \Theta, \EV{\Theta} \right)$ will be denoted
+$\lfloor \Theta, \EV{\Theta} \rfloor$.
+
+For example, if the sample space is discrete then we can always define 
+an equivalent measurable space by simply permuting the labels.  It doesn't 
+matter if we order the planets by distance from the sun, by diameter, or 
+by any other metric: the measurable spaces quantify the same information 
+(Figure \ref{fig:permuting_discrete_spaces}).   Similarly, we can always 
+apply a transformation that warps real numbers to map between real 
+sample spaces without compromising our ability to represent propositions 
+with inclusion in events.  One of the most common ways this manifests in 
+practice is when our descriptions require units.  The information we quantify 
+doesn't depend on whether we express distance in {\aa}ngstr\"{o}ms or 
+inches or meters or furlongs: each unit defines a separate but equivalent 
+sample space.
 
 \begin{figure*}
 \centering
@@ -398,34 +630,29 @@ or diameter without affecting our ability to describe the planets themselves.}
 \label{fig:permuting_discrete_spaces}
 \end{figure*}
 
-Ultimately, there are many ways to express the descriptions of a given 
-system and measurable maps translate from one equivalent expression
-to another.  Although certain expressions may be more useful than others
-in practice, we have to ensure that our final analysis does not depend on 
-the irrelevant details of any particular expression.
+Ultimately, there are many ways to describe of a given logical model and 
+measurable maps translate from one equivalent representation to another.  
+Although certain representations may be more useful than others in practice, 
+we have to be careful to ensure that our final analysis does not depend on 
+the irrelevant details of any particular representation.
 
 \section{Implications}
 
-Describing simple systems that can expressed with low-dimensional
-spaces is a relatively straightforward process, but reasoning about more
-complex systems that can be expressed with only high-dimensional
-spaces is typically much more subtle.  One elegant way to facilitate the 
-description of these complex systems is to decompose each statement
-into a composition of many simpler but related \emph{implications}.
+There are various Boolean operations that we can derive from the basic 
+operations of negation, conjunction, and disjunction, and one of the most
+powerful are \emph{implications}, which assert the truth of a statement
+conditioned on the truth of another statement.  For example, we might not 
+be able to assert that ``a planet has a magnetic field'' universally, but we 
+might be able to assert the implication ``if a planet has a rotating core then 
+it has a magnetic field''.
 
-An implication is a logical statement conditioned on the another logical
-statement.  For example we might not be able to assert that ''a planet
-has a magnetic field'' universally, but we can assert that ''if a planet has
-a rotating core then it has a magnetic field''.  Logical statements about
-both the planets and their cores can always be decomposed into a
-statement about one of these systems and an implication from that
-system into the other.  Consequently we can build up logical statements
-about complex systems by starting with a simple statement and then
-adding more and more implications.
-
-If $\Theta$ is a sample space expressing the target system and 
-$\Phi$ is a sample space expressing the conditioning systems, then
-an implication is map from points in $\Phi$ to events in $\Theta$,
+Implications are particularly naturally when we want to describe a target
+system conditioned on the state of some other system.  Letting 
+$\left(\Theta, \EV{\Theta} \right)$ be a measurable space capable of 
+representing the target system and $\left(\Phi, \EV{\Phi} \right)$ be a 
+measurable space capable of representing the conditioning system, an 
+implication is represented as a map from points in $\Phi$ to events in 
+$\EV{\Theta}$,
 %
 \begin{align*}
 \iota_{\Theta \mid \Phi} :& \, \Phi \rightarrow \EV{\Theta}
@@ -434,25 +661,41 @@ an implication is map from points in $\Phi$ to events in $\Theta$,
 \end{align*}
 %
 For any event in the conditioning space, $E_{\Phi} \in \EV{\Phi}$,
-the implication defines an event in the joint sample space, $\Theta \times \Phi$, 
-as the union of all of the sets implied by each point in $E_{\Phi}$,
+the implication also defines an event in the joint sample space, 
+$\Theta \times \Phi$, as the union of all of the events implied by each 
+point in $E_{\Phi}$,
 %
-\begin{equation*}
-\bigcup_{\phi \in E_{\Phi} } \iota_{\Theta \mid \Phi} \! \left( \phi \right)
-\equiv
-E_{\Theta \times \Phi}
-\in
-\EV{\Theta \times \Phi}.
-\end{equation*}
+\begin{align*}
+\iota^{*}_{\Theta \mid \Phi} 
+&: \EV{\Phi} \rightarrow \EV{\Theta \times \Phi}
+\\
+& \quad \; E_{\Phi} \; \mapsto
+\bigcup_{\phi \in E_{\Phi} } \iota_{\Theta \mid \Phi} \! \left( \phi \right).
+\end{align*}
 
-Consequently a logical statement representable in the joint sample
-space $\prod_{n = 1}^{N} \Theta_{n}$ can be built up sequentially, starting with 
-an event in one component and adding implications one after another,
+Because relationships are often much easier to reason about than the 
+entirety of a complex system, these induced events can drastically facilitate
+the description of complex systems by decomposing logical propositions 
+into simpler implications.  For example, instead of having to enumerate all 
+possible combinations of planetary core behavior and magnetic field, we 
+can utilize the single implication that only a rotating core generates a 
+magnetic field to build any logical proposition about the joint core-magnetic 
+field system from a logical proposition about the core alone.  
+
+More formally, any logical proposition representation in a joint sample space 
+$\prod_{n = 1}^{N} \Theta_{n}$ can be built up sequentially, starting with an 
+event in one component and adding implications one after another,
 %
 \begin{align*}
 & E_{\Theta_{1}} \\
-& \iota_{\Theta_{2} \mid \Theta_{1}} \\
-& \iota_{\Theta_{3} \mid \Theta_{2}, \Theta_{1}} \\
+& \iota^{*}_{\Theta_{2} \mid \Theta_{1}} \! \left( E_{\Theta_{1}} \right) \\
+& \iota^{*}_{\Theta_{3} \mid \Theta_{2}, \Theta_{1}} 
+\circ
+\iota^{*}_{\Theta_{2} \mid \Theta_{1}} \! \left( E_{\Theta_{1}} \right) \\
 & \cdots \\
-& \iota_{\Theta_{N} \mid \Theta_{N - 1}, \ldots, \Theta_{2}, \Theta_{1}}.
+& \iota^{*}_{\Theta_{N} \mid \Theta_{N - 1}, \ldots, \Theta_{2}, \Theta_{1}}
+\circ
+\iota^{*}_{\Theta_{3} \mid \Theta_{2}, \Theta_{1}}  
+\circ
+\iota^{*}_{\Theta_{2} \mid \Theta_{1}} \! \left( E_{\Theta_{1}} \right).
 \end{align*}

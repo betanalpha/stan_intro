@@ -1,17 +1,32 @@
 \chapter*{Preface}
 \addcontentsline{toc}{chapter}{Preface}
 
-A ball flies across the room, slowly falling under the force of gravity.
-Being diligent scientists, we record the positions of the ball as best
-as we can.  Were our measurements perfect we could exactly recover 
-not only the trajectory taken by the ball but also any latent parameters
-that determined the trajectory, such as the acceleration due to gravity, 
-$g$ (Figure \ref{fig:motivating_example}a).  Of course in practice our
-measurements are not perfect.  They are inherently variable there are 
-consequently there are many trajectories, and values for $g$, consistent 
-with the noisy measurements (Figure \ref{fig:motivating_example}b).
-Any robust analysis must not only infer the latent model of the data
-generating process but also quantify the uncertainty in that inference.
+Naturally curious as a species, we all have a strong intuition
+for how we can better understand the world around us.  We
+first make observations and then try to gleam insight from 
+those observations.  Formalizing this intuition into a robust
+methodology for inference, however, is a delicate process.
+
+Consider, for example, a ball flying through the air, slowly 
+falling under the force of gravity.  After diligently recording the 
+positions of the ball over its trajectory we want to identify a 
+physical model that quantitatively describes its motion.  Perfect
+position measurements would strongly constraint the possible
+models, allowing us to exactly recover not only the trajectory 
+taken by the ball but also any latent model parameters, such as 
+the acceleration due to gravity, $g$ (Figure \ref{fig:motivating_example}a).  
+
+Of course we cannot make perfect measurements in practice.
+The observations we can make are limited by an inherent variability 
+that obscures the underlying trajectory; multiple trajectories, and
+hence multiple physical models, are all consistent with the noisy
+measurements (Figure \ref{fig:motivating_example}b).  In order
+to learn from these realistic measurements we need not only 
+models of the ball's motion and models of the variability in the
+measurements, but also a means of quantifying the uncertainty
+in which of those models are consistent with the observations.
+\emph{The only conclusive statement we can make is how uncertain 
+we are.}
 
 \begin{figure*}
 \centering
@@ -93,51 +108,110 @@ generating process but also quantify the uncertainty in that inference.
 \end{tikzpicture}
 }
 \caption{(a) Perfect measurements of a ball falling under the influence
-of gravity would allow us to exactly recover the trajectory of the ball.
-(b) Unfortunately, in practice measurements are inherently variable, which 
-limits our ability to infer the exact trajectory and hence any model of how the 
-was generated.  Consequently uncertainty is intrinsic to practical learning.}
+of gravity would strongly constrain any physical model of that motion, 
+including latent parameters such as the the strength of gravity, $g$.
+(b) In practice, however, measurements are inherently variable, which 
+limits our ability to infer the exact trajectory and hence any model of how 
+the trajectory itself.  Here and in all measurements, uncertainty is intrinsic 
+to learning.}
 \label{fig:motivating_example}
 \end{figure*}
 
-This simple example demonstrates a principle ubiquitous to science,
-industry, medicine, and any other field that attempts to learn from
-measurements: uncertainty is inherent to learning and decision making.
+This simple example demonstrates a intrinsic principle that underlies 
+science, industry, medicine, and any other field that attempts to learn from
+observations: uncertainty is inherent to learning and decision making.
 In particular, if we want to develop any formal methodology for inference
 and decision making then we first need a formal procedure for quantifying
 and manipulating uncertainty itself.  \emph{Bayesian inference} uses 
 \emph{probability theory} to quantify all forms of uncertainty, including not 
-only the intrinstic variability of measurements but also ignorance in the 
+only the intrinsic variability of measurements but also ignorance in the 
 learning process itself.  This unified perspective provides an elegant and
 powerful approach for first making inferences and then making robust
 decisions.
 
-Because probability theory is so subtle and counterintuitive, introductory 
-treatments of Bayesian inference often oversimplify and neglect many 
-of its finer technical aspects.  Unfortunately, these technicalities are not
-irrelevant and often have a strong influence on practical applications of 
-the theory.  Without at least a conceptual understanding we are subject 
-to dangerous fallacies and fragile analyses.  In this review we attempt a 
-deeper introduction to probability theory and Bayesian inference than usual 
-to provide Stan users with the background necessary to properly wield 
-Bayesian inference and take full advantage of their measurements.
+\section{Our Objectives}
 
-After reviewing some mathematical administration we'll introduce first logic
-as a procedure for quantifying information and then probability theory as a 
-procedure for quantifying uncertainty about that information.  We'll consider 
-both abstract definitions as well as the explicit representations of these concepts 
-needed in practice.  Next we'll discuss how to implement probabilistic computations 
-and discuss many popular computational methods.  Finally we'll show how all 
-of these ideas come together in Bayesian inference.
+While reading this review we want the reader to learn how probability 
+theory can be used to quantify uncertainty both in theory and in practice,
+ultimately motivating Bayesian inference itself.  Unfortunately, this seemingly 
+straightforward objective ends up being quickly complicated by the subtle 
+and often counterintuitive nature of probability theory itself.  
+
+Many introductory treatments of Bayesian inference ignore these subtleties
+entirely, oversimplifying the subject and neglecting many of its finer technical 
+aspects.  Unfortunately, these technicalities are not irrelevant -- indeed they
+often have a strong influence on practical applications of  the theory.  Without 
+at least a conceptual understanding of these technicalities, the readier is then 
+subject to dangerous fallacies and, ultimately, fragile analyses.  
+
+On the other hand, the more formal treatments of probability theory that do 
+address these subtleties are typically mired in abstract, mathematical pedantry 
+with little or not discussion of how the theory applies to inference.  A few
+treatments will introduce the application of these ideas to frequentist inference,
+but rarely is there any discussion of the more general Bayesian perspective.
+
+In this review we attempt an intermediate treatment where we provide a deeper 
+introduction to probability theory and Bayesian inference than most introductory
+references, but focus entirely on concepts rather than proofs.  We hope that
+this will give Stan users the foundational understanding they need to properly 
+wield Bayesian inference in practice and take full advantage of their measurements.
+
+\section{Our Strategy}
+
+Probability theory, like much of higher mathematics, is challenging because
+of its abstraction; the theory is defined in complete generality with only abstract 
+objects and manipulations.  While much can be proved about the behavior
+of these abstractions, there is no general way to explicitly specify these objects 
+and implement their manipulations.  Without explicit examples it then becomes
+difficult to develop accurate intuition and understanding.
+
+To apply probability theory in practice we need to first define a \emph{representation} 
+that maps these abstractions into an explicit context where we can compute.  
+For example, we can map into a discrete space where manipulations reduce 
+to counting or a real space where manipulations reduce to integration.  The 
+challenge in using these representations is to ensure that the calculations depend 
+only on the properties of the original abstract system and not on any irrelevant details
+of the representation itself.  Understanding exactly what details are relevant or 
+not, however, requires at least some comprehension of the abstract theory.
+
+Many introductions to probability and statistics simply jump into one of these 
+representations immediately, ignoring the abstractions, and the subtitles as to
+which operations are valid, altogether.  This approach inevitably leads to 
+confused frustration.  \emph{What do you mean a probability \emph{density} isn't
+a probability?  What do you mean most observations won't be near the mode
+of the probability density?}.  Unfortunately, this confusion manifests not just in
+frustration but also incorrect statistical analyses that can have serious consequences.
+
+In this introduction we will not ignore the abstractions of probability theory.
+As with more formal treatments we will instead being by discussion the abstract
+theory and only then discuss representations and the explicit computations that
+they allow.   Unlike those treatments, however, our presentation will be largely
+conceptual, meanings lots of definitions of abstract objects and their manipulations
+but little concern for any technical details that do not end up affecting the
+application of the theory in practice.  As we develop representations we'll discuss 
+more and more specific examples to develop as much intuitive context as can while 
+also emphasizing the limitations of these representations.
+
+We'll first introduce logic as a means of quantifying information with certainty,
+and then probability theory as a means of quantifying uncertainty about that 
+information.  In both cases we'll first consider abstract definitions and then the 
+explicit representations of these concepts needed in practice.  Next we'll discuss 
+how to implement probabilistic computations and discuss many popular computational 
+methods.  Finally we'll show how all of these ideas come together in Bayesian 
+inference.
+
+This will not be an easy journey.  It requires a significant investment from the 
+reader, but that investment will be rewarded with a robust understanding of 
+statistics that will enable some amazing science. 
 
 \section{Mathematical Background and Notation}
 
-Regrettably, a thorough review of probability theory requires a nontrivial
+A thorough review of probability theory and its application requires a nontrivial
 mathematical background.  We have attempted to make this review as
-self-contained as possible regarding probability theory, but we do have to 
-assume that the reader is comfortable with the basics of set theory and
-differential and integral calculus over the real numbers.  We highly encourage 
-anyone whose math might be rusty to brush up before proceeding.
+self-contained as possible regarding probability theory itself, but we do have to 
+assume that the reader is comfortable with the basics of set theory and differential 
+and integral calculus over the real numbers.  We highly encourage anyone whose 
+math might be rusty to brush up before proceeding.
 
 Throughout we will use common set theory notation.  If $A$ is a set
 then any element of the set is written as $a \in A$ while a subset is written
@@ -162,10 +236,10 @@ the collection of all elements of $A$ not in $S$.
 \emph{topology} that allows us to separate ``well-behaved subsets''
 from ``pathological subsets''.  We will assume that all of our sets
 have such a structure and consequently for all intents and purposes 
-set and space will be used interchangeably.  The only important
-consequence of topologies that will be relevant for us is that ultimately
-it is this topological structure that allows us to characterize spaces as 
-either discrete or real.
+set and space will be used interchangeably.  Topologies are also
+useful for characterizing spaces.  For example, the familiar properties
+of discrete spaces and continuous spaces, such as the real numbers, 
+are defined are defined by their respective topologies.
 
 Throughout we will use the common notation for maps from one set into 
 another, $f : A \rightarrow B$ which defines $f$ as a map taking elements 
