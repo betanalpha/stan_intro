@@ -1,13 +1,13 @@
-\chapter{Probability in Practice: \\Implementing Probability Distributions
-and their Manipulations}
+\chapter{Probability in Practice: \\Probabilistic Computation}
 
 The immediate problem with the abstract definitions introduced in the
-previous chapter is that they do not provide an explicit means of specifying
-distributions or computing expectations in practical applications.  When the 
-sample space is structured, however, that structure can be leveraged to provide 
-the explicit implementations we need to apply probability theory in practice.  
-This is particularly evident when the sample space ordered, discrete or a 
-subset of real numbers.
+previous chapter is that they do not provide an explicit means of either
+specifying a probability distribution, at least without considering every 
+single event, or computing expectations in practical applications.  When 
+the sample space is structured, however, that structure can be leveraged 
+to provide the explicit implementations we need to apply probability 
+theory in practice.  This is particularly evident when the sample space 
+ordered, discrete, or a subset of real numbers.
 
 \section{Cumulative Distribution Functions}
 
@@ -35,9 +35,9 @@ I \! \left( \theta \right) \;\; \mapsto
 %
 is called the \emph{cumulative distribution function}.  
 
-Cumulative distribution functions naturally pushforword from one 
-sample space into another.  For a measureable map 
-$s : \Theta \rightarrow \Omega$ the cumulative distribution function
+Cumulative distribution functions naturally pushforward from one 
+sample space into another.  Given a measureable map 
+$s : \Theta \rightarrow \Omega$, the cumulative distribution function
 on $\Omega$ is defined by
 %
 \begin{equation*}
@@ -46,37 +46,40 @@ P_{\Omega} \! \left( I_{\omega} \right)
 P_{\Theta} \! \left( s^{-1} \! \left( I_{\omega} \right) \right).
 \end{equation*}
 
-\section{Implementations of Probability Distributions over
-Discrete Sample Spaces}
+\section{Implementations of Probability Distributions \\ 
+over Discrete Sample Spaces}
 
-Every discrete sample spaces features a natural measure
-which we can use to not only practically specify all other measures, 
-and hence probability distributions, but also immediately compute
-expectations.
+Every discrete sample space features a natural measure which we 
+can use to not only specify all other measures, and hence probability 
+distributions, but also convert expectations into summations.
 
 \subsection{The Counting Measure and Mass Functions}
 
 The \emph{counting measure} on a discrete space assigns unit
-measure to the \emph{atomic events},
+measure to the \emph{point events},
 %
 \begin{equation*}
-\mathbb{M}_{C} \! \left[ \theta \right] = 1, \, \forall \theta \in \Theta.
+\chi \! \left( \theta \right) = 1, \, \forall \theta \in \Theta.
 \end{equation*}
 %
-In order to compute the measure of any nonatomic event we simply
-count elements in that event,
+In order to compute the measure of any other event we 
+simply count the elements in that event,
 %
 \begin{equation*}
-\mathbb{M}_{C} \! \left[ E \right]
+\chi \! \left( E \right)
 =
 \sum_{\theta \in E}  1 = \left| E \right|,
 \end{equation*}
 %
-hence the name.  Similarly, Lebesgue integrals reduce to a sum
-over the entire sample space weighted by the function values,
+hence the name.  Similarly, Lebesgue integrals reduce to a 
+summation over the sample space weighted by the function 
+values,
 %
 \begin{equation*}
-\mathcal{I}_{\mathbb{M}_{C}} \! \left[ f \right]
+\mathcal{I}_{\chi} \! \left[ f \right]
+=
+\sum_{\theta \in \Theta} 
+f \! \left( \theta \right) \chi \! \left( \theta \right)
 =
 \sum_{\theta \in \Theta} f \! \left( \theta \right),
 \end{equation*}
@@ -85,8 +88,8 @@ for any $f \in \mathcal{F} \! \left( \Theta \right)$.
 
 Because the counting measure assigns zero measure only to the
 null event, all discrete measures are absolutely continuous with
-respect to it and, consequently, all discrete measures can be defined
-by their Radon-Nikodym derivative with respect to the counting measure.
+respect to it.  Consequently, any discrete measure can be defined
+by its Radon-Nikodym derivative with respect to the counting measure.
 In this case the Radon-Nikodym derivative is denoted a 
 \emph{mass function}
 %
@@ -98,11 +101,11 @@ Measures and Lebesgue integrals then reduce to discrete summations
 weighted by the mass function,
 %
 \begin{align*}
-\mathbb{M} \! \left[ E \right]
+\mu \! \left( E \right)
 &=
 \sum_{\theta \in E} m \! \left( \theta \right)
 \\
-\mathcal{I}_{\mathbb{M}} \! \left[ f \right]
+\mathcal{I}_{\mu} \! \left[ f \right]
 &=
 \sum_{\theta \in \Theta} f \! \left( \theta \right) m \! \left( \theta \right).
 \end{align*}
@@ -111,7 +114,7 @@ Moreover, the Radon-Nikodym derivative between different discrete
 measures reduces to the simple ratio of their mass functions,
 %
 \begin{equation*}
-\frac{ \dd \mathbb{M}_{2} }{ \dd \mathbb{M}_{1} } \! \left( \theta \right)
+\frac{ \dd \mu_{2} }{ \dd \mu_{1} } \! \left( \theta \right)
 =
 \frac{ m_{2} \! \left( \theta \right) }{ m_{1} \! \left( \theta \right) }.
 \end{equation*}
@@ -134,7 +137,7 @@ m_{\Theta} \! \left( s^{-1} \! \left( \omega \right) \right).
 
 Mass functions corresponding to probability distributions reduce
 to \emph{probability mass functions}, which assigns probability to the
-atomic events,
+point events,
 %
 \begin{equation*}
 p : \Theta \rightarrow \left[0, 1\right].
@@ -143,7 +146,7 @@ p : \Theta \rightarrow \left[0, 1\right].
 such that
 %
 \begin{equation*}
-1 = \PP \! \left[ \Theta \right] = \sum_{\theta \in \Theta} p \! \left( \theta \right).
+1 = \pi \! \left[ \Theta \right] = \sum_{\theta \in \Theta} p \! \left( \theta \right).
 \end{equation*}
 
 \subsection{Conditional Probability Mass Functions}
@@ -171,9 +174,10 @@ p_{\Theta \mid \Phi}  \! \left( \theta \mid \phi \right),
 
 A huge advantage of this representation is that it drastically simplifies the
 construction of joint and marginal probability distributions.  Instead of 
-implicitly defining an abstract joint distribution, for example, we can construct 
-an explicit joint probability mass function as the product of a conditional
-mass function and a marginal mass function,
+implicitly defining an abstract joint distribution with probability assignments
+or expectations, for example, we can construct an explicit joint probability 
+mass function as the product of a conditional mass function and a marginal 
+mass function,
 %
 \begin{equation*}
 p_{\Theta \times \Phi} \! \left( \theta, \phi \right) = 
@@ -198,21 +202,21 @@ p_{\Theta \mid \Phi} \! \left( \theta | \phi \right) p_{\Phi} \! \left( \phi \ri
 Bayes' Theorem implies that any decomposition of a joint probability
 mass function is equal,
 %
-\begin{equation*}
+\begin{equation} \label{eqn:discrete_bayes}
 p_{\Phi \mid \Theta} \! \left( \phi | \theta \right) p_{\Theta} \! \left( \theta \right)
 =
 p_{\Theta \times \Phi} \! \left( \theta, \phi \right) 
 = 
 p_{\Theta \mid \Phi} \! \left( \theta | \phi \right) p_{\Phi} \! \left( \phi \right),
-\end{equation*}
+\end{equation}
 %
 and from this one equality we can then recover the various implications of
 Bayes' Theorem.  For example,
 %
 \begin{equation*}
-\PP_{\Theta \mid \Phi} =
-\frac{ \dd \PP_{\Phi \mid \Theta} }{ \dd \PP_{\Phi} }
-\PP_{\Theta}
+\pi_{\Theta \mid \Phi} =
+\frac{ \dd \pi_{\Phi \mid \Theta} }{ \dd \pi_{\Phi} }
+\pi_{\Theta}
 \end{equation*}
 %
 becomes
@@ -225,15 +229,15 @@ p_{\Theta} \! \left( \theta \right),
 \end{equation*}
 %
 which is an immediate consequence of dividing both sides of the joint
-equality by $p_{\Phi} \! \left( \phi \right)$.
+equality \eqref{eqn:discrete_bayes} by $p_{\Phi} \! \left( \phi \right)$.
 
 \subsection{Relating Probability Mass Functions and Cumulative 
 Distribution Functions}
 
-Because probability mass functions and cumulative distribution functions both
-specify the same probability distribution, one can always be used to construct
-the other.  Given a probability mass function, for example, we can construct
-the cumulative distribution function as
+Because probability mass functions and cumulative distribution functions 
+both specify the same probability distribution, one can always be used to 
+construct the other.  Given a probability mass function, for example, we 
+can construct the cumulative distribution function as
 %
 \begin{equation*}
 P \! \left( \theta \right)
@@ -262,15 +266,15 @@ Numbers}
 When the sample space are $D$-dimensional real numbers, or
 a subset thereof, there are always an uncountably infinite number 
 of point events and we can't assign a finite measure to each without
-the measure of any dense event becoming infinite.  Consequently
+the measure of any dense event becoming infinite.  Consequently,
 the counting measure becomes pathological, assigning either infinite 
-measure or zero measure to each dense event.  Fortunately, the real 
+measure or zero measure to every dense event.  Fortunately, the real 
 numbers admit their own natural measure on which we can implement 
 probability distributions in practice.
 
 \subsection{The Lebesgue Measure and Density Functions}
 
-The Lebesgue measure, $\mathbb{M}_{L}$ assigns to each well-defined 
+The Lebesgue measure, $\lambda$ assigns to each well-defined 
 subset of the real numbers a measure proportional to its \emph{volume}.  
 For example, the Lebesgue measure of any rectangular neighborhood, 
 %
@@ -283,7 +287,7 @@ E_{R} =
 is defined to be the enclosed volume,
 %
 \begin{equation*}
-\mathbb{M}_{L} \! \left[ E_{R} \right] = 
+\lambda \! \left( E_{R} \right) = 
 \prod_{d = 1}^{D} \left(b_{d} - a_{d} \right).  
 \end{equation*}
 %
@@ -292,7 +296,7 @@ Lebesgue measure of arbitrary events reduces to the Riemann integral
 over that event
 %
 \begin{equation*}
-\mathbb{M}_{L} \! \left[ E \right] = \int_{E} \dd \theta.
+\lambda \! \left( E \right])= \int_{E} \dd \theta.
 \end{equation*}
 %
 Similarly, Lebesgue integrals with respect to the Lebesgue measure
@@ -300,7 +304,7 @@ Similarly, Lebesgue integrals with respect to the Lebesgue measure
 integrals,
 %
 \begin{equation*}
-\mathcal{I}_{\mathbb{M}_{L}} \! \left[ f \right]
+\mathcal{I}_{\lambda} \! \left( f \right)
 = \int_{\Theta} f \! \left( \theta \right) \dd \theta.
 \end{equation*}
 %
@@ -322,24 +326,28 @@ Riemann integral that can be readily computed with the usual
 calculus techniques,
 %
 \begin{align*}
-\mathbb{M} \! \left[ E \right]
+\mu \! \left( E \right)
 &=
+\mathcal{I}_{\lambda} \! \left[ m \cdot I_{E} \right]
+=
 \int_{E} m \! \left( \theta \right) \dd \theta
 \\
-\mathcal{I}_{\mathbb{M}} \! \left[ f \right]
+\mathcal{I}_{\mu} \! \left[ f \right]
 &=
+\mathcal{I}_{\lambda} \! \left[ f \cdot m \right]
+=
 \int_{\Theta} f \! \left( \theta \right) m \! \left( \theta \right) \dd \theta.
 \end{align*}
 
 The Radon-Nikodym derivative between two different real measures
-behaves exactly as in the discrete case.  If $\mathbb{M}_{2}$ is
-absolutely continuous with respect to $\mathbb{M}_{1}$ then the
-$m_{2} \! \left( \theta \right)$ can vanish only when 
+behaves exactly as in the discrete case.  If $\mu_{2}$ is
+absolutely continuous with respect to $\mu_{1}$ then the density
+$m_{2} \! \left( \theta \right)$ can vanish only when the density
 $m_{1} \! \left( \theta \right)$ vanishes, and the corresponding 
 Radon-Nikodym derivative is given by
 %
 \begin{equation*}
-\frac{ \dd \mathbb{M}_{2} }{ \dd \mathbb{M}_{1} } \! \left( \theta \right)
+\frac{ \dd \mu_{2} }{ \dd \mu_{1} } \! \left( \theta \right)
 =
 \frac{ m_{2} \! \left( \theta \right) }{ m_{1} \! \left( \theta \right) }.
 \end{equation*}
@@ -352,26 +360,28 @@ appropriate limit in order to evaluate the Radon-Nikodym derivative.
 One of the most subtle properties of Lebesgue measures, and
 hence density functions, is that they do not transform as naturally
 as their discrete counterparts.  The difficulty is that nonlinear
-transformations warp the real numbers and, consequently,
-distort the pushforward of the Lebesgue measure.  
+transformations warp the real numbers, distorting volumes and,
+consequently, the Lebesgue measure.  
 
 Consider a nonlinear, measurable map $s : \Theta \rightarrow \Omega$,
-and let $\left( \mathbb{M}^{L}_{\Theta} \right)_{*}$ be the pushforward 
-of the Lebesgue measure on $\Theta$,
+and let $\tilde{\lambda}_{\Omega}$ be the corresponding pushforward 
+of the Lebesgue measure on $\Theta$ onto $\Omega$,
 %
 \begin{equation*}
-\left( \mathbb{M}^{L}_{\Theta} \right)_{*} \! \left[ E_{\Omega} \right]
+\tilde{\lambda}_{\Omega} \! \left( E_{\Omega} \right)
 \equiv
-\mathbb{M}^{L}_{\Theta} \! \left[ s^{-1} \! \left( E_{\Omega} \right) \right].
+s_{*} \lambda_{\Theta} \! \left( E_{\Omega} \right)
+=
+\mu^{L}_{\Theta} \! \left[ s^{-1} \! \left( E_{\Omega} \right) \right].
 \end{equation*}
 %
-The pushforward $\left( \mathbb{M}^{L}_{\Theta} \right)_{*}$ is not the
-Lebegue measure on $\Omega$, rather the two are related by the
-Radon-Nikodym derivative
+The pushforward $\tilde{\lambda}_{\Omega}$ is not the Lebesgue 
+measure on $\Omega$, rather the two are related by the Radon-Nikodym
+derivative
 %
 \begin{equation*}
-\frac{ \dd \mathbb{M}^{L}_{\Omega} }
-{\dd \left( \mathbb{M}^{L}_{\Theta} \right)_{*} }
+\frac{ \dd \lambda_{\Omega} }
+{\dd \tilde{\lambda}_{\Omega} }
 =
 \left| \mathbf{J} \right|,
 \end{equation*}
@@ -388,16 +398,16 @@ J_{ij}
 %
 is called the \emph{Jacobian} of the transformation.  The determinant
 of the Jacobian matrix quantifies how the nonlinear transformation 
-warps volumes and hence the two Lebesgue measures.
+warps volumes and hence the Lebesgue measure.
 
-This nontrivial relationship between the Lebesgue measures has
-an important consequence for density functions.  Density functions do 
-not transform as we might naively expect,
+This nontrivial relationship between Lebesgue measures and their
+pushforwads has an important consequence for density functions.  
+Density functions do not transform as we might naively expect,
 %
 \begin{equation*}
 m_{\Omega} \! \left( \omega \right) 
 \ne 
-m_{\Theta} \! \left( s^{-1} \! \left( \omega \right) \right) |,
+m_{\Theta} \! \left( s^{-1} \! \left( \omega \right) \right),
 \end{equation*}
 %
 rather they too are modified by the determinant of the Jacobian matrix,
@@ -407,17 +417,13 @@ m_{\Omega} \! \left( \omega \right)
 = 
 m_{\Theta} \! \left( s^{-1} \! \left( \omega \right) \right) | \mathbf{J} |^{-1}.
 \end{equation*}
-
+%
 We can also motivate this relationship by considering the invariance
-of Lebesgue integrals.  Equivalent sample spaces can feature distinct
+of Lebesgue integrals.  Equivalent sample spaces feature distinct
 Lebesgue measure and density functions, but they must have the
 \emph{same Lebesgue integrals} (Figure \ref{fig:pdf_transform}).
 The Lebesgue integrals are invariant only if the Lebesgue measures
-and densities transform oppositely to each other,
-%
-\begin{align*}
-derivation?
-\end{align*}
+and densities transform oppositely to each other.
 
 \begin{figure*}
 \centering
@@ -431,8 +437,8 @@ derivation?
     \draw[-, color=gray80] (\i, -11) to (\i, 11);
   }  
   \node[] at (0,0) {\includegraphics[width=5cm]{area.eps}};
-  \node[] at (0, -13) { $\PP \! \left[ E_{\Theta} \right] = \int_{E_{\Theta}} 
-                                   p_{\Theta} (\theta_{1}, \theta_{2}) 
+  \node[] at (0, -13) { $\mu \! \left( E_{\Theta} \right) = \int_{E_{\Theta}} 
+                                   m_{\Theta} (\theta_{1}, \theta_{2}) 
                                    \dd \theta_{1} \dd \theta_{2} $ };
 \end{tikzpicture}
 }
@@ -451,9 +457,9 @@ derivation?
     \draw[-, color=gray80] (\i, -11) to (\i, 11);
   }  
   \node[] at (0,0) {\includegraphics[width=5cm]{transformed_area.eps}};
-  \node[] at (0, -13) { $\PP \! \left[ s \! \left( E_{\Theta} \right) \right] 
+  \node[] at (0, -13) { $\mu \! \left( s \! \left( E_{\Theta} \right) \right)
                                    = \int_{s(E_{\Theta})} 
-                                   p_{\Omega} (\omega_{1}, \omega_{2}) 
+                                   m_{\Omega} (\omega_{1}, \omega_{2}) 
                                    \dd \omega_{1} \dd \omega_{2}$ };
 \end{tikzpicture}
 }
@@ -463,28 +469,11 @@ its own density functions (red), events (green), and differential volumes
 (a) by the compatible mapping $\left(\omega_{1}, \omega_{2} \right) 
 = s \!\left( \theta_{1}, \theta_{2} \right)$. All of these differences, however, 
 exactly compensate to ensure that integrals always yield the same 
-values, here $\PP \! \left[ E_{\Theta} \right]  = 
-\PP \! \left[ s \! \left( E_{\Theta} \right) \right] $.
+measures, $\mu \! \left( E_{\Theta} \right) = 
+\mu \! \left( s \! \left( E_{\Theta} \right) \right) $.
 }
 \label{fig:pdf_transform}
 \end{figure*}
-
-In fact, this invariance can be used as a helpful mnemonic for the 
-arrangement of the Jacobian,
-%
-\begin{align*}
-p_{\Omega} \! \left( \omega \right) \dd \omega
-&=
-p_{\Theta} \! \left( \theta \right) \dd \theta
-\\
-p_{\Omega} \! \left( \omega \right)
-&= 
-p_{\Theta} \! \left( \theta \right) \frac{ \dd \theta }{ \dd \omega }
-\\
-p_{\Omega} \! \left( \omega \right)
-&= 
-p_{\Theta} \! \left( \theta \right) \left| \mathbf{J} \right|^{-1}.
-\end{align*}
 
 Consequently, density functions depend not just on the abstract
 system that we're trying to describe but also on the particular 
@@ -493,43 +482,74 @@ functions that are not sensitive to this dependence is integration,
 and we have to be careful not to take densities too seriously when
 they are not explicitly under an integral sign.
 
-\subsubsection{Some Univariate Examples}
+\subsubsection{Univariate Examples of Density Transformations}
 
-\textbf{Some more text here}.
-Jacobians arise naturally when the sample space is \emph{constrained}
-and we want to map to an unconstrained space to remove the constraint
-and potentially simplify calculations.  For example, let P be a probability
-distribution on $\RR^{+}$ with density p.  We can unconstrained the
-positivity constraint by applying a logarithmic map
+A common motivation for transforming the sample space, and
+hence any probability density functions, is when the nominal sample
+space is contained.  Mapping to an unconstrained sample space
+removes the unconstraint, potentially simplifying calculations.
+
+For example, let $p_{\Theta} \! \left( \theta \right)$ be a probability 
+distribution function defined on $\Theta = \RR^{+}$.  We can 
+unconstrained the positivity constraint by applying a logarithmic 
+transformation,
 %
 \begin{equation*}
-map
+\omega = s \! \left( \theta \right) = \log \theta \in \RR.
 \end{equation*}
 %
 which results in the Jacobian
 %
 \begin{equation*}
-jacobian.
+J 
+= \frac{ \partial s }{ \partial \theta} \! \left( \omega \right) 
+= \frac{1}{\exp \! \left( \omega \right)}
 \end{equation*}
 %
+and the transformed probability density function on $\Omega = \RR$,
+%
+\begin{align*}
+p_{\Omega} \! \left( \omega \right)
+&=
+p_{\Theta} \! \left( s^{-1} \! \left( \omega \right) \right) \left|J\right|^{-1}
+\\
+&=
+p_{\Theta} \! \left( s^{-1} \! \left( \omega \right) \right)
+\exp \! \left( \omega \right).
+\end{align*}
+
 Similarly, we can unconstrain a sample space representing probabilities
 themselves, $\Theta = \left[0, 1 \right]$ by applying a logistic transform,
 %
 \begin{equation*}
-map
+\omega = s \! \left( \theta \right) = \frac{1}{1 + \exp( - \theta ) } \in \RR.
 \end{equation*}
 %
-which results in the Jacobian
+This results in the Jacobian
 %
 \begin{equation*}
-jacobian.
+J 
+= \frac{ \partial s }{ \partial \theta} \! \left( \omega \right) 
+= \frac{1}{\omega \! \left( 1 - \omega \right) }
 \end{equation*}
+%
+and the transformed probability density function on $\Omega = \RR$,
+%
+\begin{align*}
+p_{\Omega} \! \left( \omega \right)
+&=
+p_{\Theta} \! \left( s^{-1} \! \left( \omega \right) \right) \left|J\right|^{-1}
+\\
+&=
+p_{\Theta} \! \left( s^{-1} \! \left( \omega \right) \right)
+\omega \! \left( 1 - \omega \right).
+\end{align*}
 
-\subsubsection{A Multivariate Example}
+\subsubsection{A Multivariate Example of Density Transformations}
 
-To see how important the Jacobian can be, consider a two-dimensional 
-sample space with real components $\left( \theta_{1}, \theta_{2} \right)$ 
-and a probability distribution represented with a Gaussian probability density,
+To see how much a probability density function can be warped, consider 
+a two-dimensional sample space with real components 
+$\left( \theta_{1}, \theta_{2} \right)$ and the probability density function
 %
 \begin{equation*}
 p_{\Theta} \! \left( \theta_{1}, \theta_{2} \right)
@@ -537,7 +557,7 @@ p_{\Theta} \! \left( \theta_{1}, \theta_{2} \right)
 \exp \! \left( - \frac{\theta_{1}^{2} + \theta_{2}^{2}}{2} \right).
 \end{equation*}
 %
-We can then introduce a second sample space with the map
+and the measurable map
 %
 \begin{equation*}
 \left( \omega_{1}, \omega_{2} \right) 
@@ -614,11 +634,17 @@ are evident graphically in Figure \ref{fig:pdf_transform}.
 
 \subsection{Probability Density Functions}
 
-A \emph{probability density function} assigns a positive value to each
-point in the sample space
+Density functions corresponding to probability distributions reduce
+to \emph{probability density function} which assign a positive value 
+to each point in the sample space,
 %
 \begin{equation*}
 p : \Theta \rightarrow \mathbb{R}^{+}.
+\end{equation*}
+such that
+%
+\begin{equation*}
+1 = \pi \! \left( \Theta \right) = \int_{\Theta} p \! \left( \theta \right) \dd \theta.
 \end{equation*}
 %
 These values, known as \emph{probability densities}, have no particular 
@@ -626,7 +652,7 @@ meaning of their own and instead exist only to be integrated to give
 probabilities,
 %
 \begin{equation*}
-\PP \! \left[ E \right]
+\pi \! \left( E \right)
 =
 \int_{E} p \! \left( \theta \right) \dd \theta,
 \end{equation*}
@@ -634,7 +660,7 @@ probabilities,
 and expectations,
 %
 \begin{equation*}
-\mathbb{E} \! \left[ f \right]
+\mathbb{E}_{\pi} \! \left[ f \right]
 =
 \int_{\Theta} f \! \left( \theta \right) p \! \left( \theta \right) \dd \theta.
 \end{equation*}
@@ -649,23 +675,23 @@ we'll use \emph{probability mass} to refer to the former.
 
 \subsection{Conditional Probability Density Functions}
 
-Just as in the discrete case, probability density functions can be immediately
-extended to implement conditional probability distributions by simply adding a 
-conditioning variable,
+Just as in the discrete case, probability density functions can be 
+immediately extended to implement conditional probability distributions 
+by simply adding a conditioning variable,
 %
 \begin{equation*}
 p_{\Theta \mid \Phi} : \Theta \times \Phi \rightarrow \mathbb{R}^{+},
 \end{equation*}
 %
-with conditional probabilities and conditional expectations computed
-as integrals,
+with conditional probabilities and conditional expectations reducing
+to integrals,
 %
 \begin{align*}
-\PP_{\Theta \mid \Phi}  \! \left[ E \mid \phi \right]
+\pi_{\Theta \mid \Phi}  \! \left( E \mid \phi \right)
 &=
 \int_{E} p_{\Theta \mid \Phi}  \! \left( \theta \mid \phi \right) \dd \theta,
 \\
-\mathbb{E}_{\PP_{\Theta \mid \Phi} } \! \left[ f \mid \phi \right]
+\mathbb{E}_{\pi_{\Theta \mid \Phi} } \! \left[ f \mid \phi \right]
 &=
 \int_{\Theta} f \! \left( \theta \right) 
 p_{\Theta \mid \Phi}  \! \left( \theta \mid \phi \right) \dd \theta,
@@ -694,20 +720,50 @@ p_{\Theta \mid \Phi} \! \left( \theta | \phi \right)
 p_{\Phi} \! \left( \phi \right) \dd \phi.
 \end{align*}
 
-\textbf{Bayes' Theorem implies product of densities is equal, giving
-the usual relationships.}
+Bayes' Theorem also implies that any decomposition of a joint probability
+density function is equal,
+%
+\begin{equation} \label{eqn:real_bayes}
+p_{\Phi \mid \Theta} \! \left( \phi | \theta \right) p_{\Theta} \! \left( \theta \right)
+=
+p_{\Theta \times \Phi} \! \left( \theta, \phi \right) 
+= 
+p_{\Theta \mid \Phi} \! \left( \theta | \phi \right) p_{\Phi} \! \left( \phi \right),
+\end{equation}
+%
+and from this one equality we can then recover the various implications of
+Bayes' Theorem.  For example,
+%
+\begin{equation*}
+\pi_{\Theta \mid \Phi} =
+\frac{ \dd \pi_{\Phi \mid \Theta} }{ \dd \pi_{\Phi} }
+\pi_{\Theta}
+\end{equation*}
+%
+becomes
+%
+\begin{equation*}
+p_{\Theta \mid \Phi} \! \left( \theta \mid \phi \right) =
+\frac{ p_{\Phi \mid \Theta} \! \left( \phi \mid \theta \right) }
+{ p_{\Phi} \! \left( \phi \right) }
+p_{\Theta} \! \left( \theta \right),
+\end{equation*}
+%
+which is an immediate consequence of dividing both sides of the joint
+equality \eqref{eqn:real_bayes} by $p_{\Phi} \! \left( \phi \right)$.
 
 \subsection{Relating Probability Density Functions and Cumulative 
 Distribution Functions}
 
-On the real numbers probability density functions and cumulative 
-distribution functions are also equivalent and can be mapped into 
-each other.  Cumulative distribution functions, for example, are given 
-by integrating over probability density functions,
+As with their discrete counterparts, probability density functions 
+and cumulative distribution functions can always be derived from
+each other because they specify the same probability distribution.  
+Cumulative distribution functions, for example, are given by 
+integrating over probability density functions,
 %
 \begin{equation*}
 P \! \left( \theta \right)
-= \PP \! \left[ I \! \left( \theta \right) \right]
+= \pi \! \left[ I \! \left( \theta \right) \right]
 = \int_{\theta_{\min}}^{\theta} p \! \left( \theta' \right) \dd \theta.
 \end{equation*}
 
@@ -719,7 +775,7 @@ p \! \left( \theta \right) =
 \frac{\partial P \! \left( \theta \right) }{ \partial \theta}.
 \end{equation*}
 %
-Note that if we map to an equivalent sample space, 
+Note that if we map to an equivalent measurable space with 
 $s : \Theta \rightarrow \Omega$, then the derivative
 acquires a factor of the inverse Jacobian so that the
 corresponding probability density function transforms
@@ -745,19 +801,19 @@ discrete and continuous representations of conditional distributions.
 
 For example, a distribution over $\Theta = \Phi \times \Psi$ can be
 specified by conditioning the discrete component with the real
-component, $\PP_{\Phi \mid \Psi}$, and providing a marginal distribution
-over the real component, $\PP_{\Psi}$.  Using a conditional
+component, $\pi_{\Phi \mid \Psi}$, and providing a marginal distribution
+over the real component, $\pi_{\Psi}$.  Using a conditional
 probability mass function for the former and a probability density function
 for the latter, the probability of any event is given by
 %
 \begin{align*}
-\PP_{\Theta} \! \left[ E \right]
+\pi_{\Theta} \! \left( E \right)
 &=
-\PP_{\Theta} \! \left[ E_{\Phi} \times E_{\Psi} \right]
+\pi_{\Theta} \! \left( E_{\Phi} \times E_{\Psi} \right)
 \\
 &=
-\EE_{\PP_{\Psi}} \! \left[
-\PP_{\Phi \mid \Psi} \! \left[  E_{\Phi} \mid \psi \right]
+\EE_{\pi_{\Psi}} \! \left[
+\pi_{\Phi \mid \Psi} \! \left(  E_{\Phi} \mid \psi \right)
 \cdot
 \mathbb{I}_{E_{\Psi}} \! \left( \psi \right)
 \right] 
@@ -771,10 +827,10 @@ p_{\Psi} \! \left( \psi \right) \dd \psi,
 with expectations given similarly by
 %
 \begin{align*}
-\EE_{\PP_{\Theta}} \! \left[ f \right]
+\EE_{\pi_{\Theta}} \! \left[ f \right]
 &=
-\EE_{\PP_{\Psi}} \! \left[
-\EE_{\PP_{\Phi \mid \Psi}} \! \left[  f \mid \psi \right]
+\EE_{\pi_{\Psi}} \! \left[
+\EE_{\pi_{\Phi \mid \Psi}} \! \left[  f \mid \psi \right]
 \right] 
 \\
 &= 
@@ -784,20 +840,20 @@ p_{\Psi} \! \left( \psi \right) \dd \psi.
 \end{align*}
 
 Equivalently, we could also condition the real component on the
-discrete component, $\PP_{\Psi \mid \Phi}$ and provide a marginal 
-distribution over the discrete component, $\PP_{\Phi}$.  We could 
+discrete component, $\pi_{\Psi \mid \Phi}$ and provide a marginal 
+distribution over the discrete component, $\pi_{\Phi}$.  We could 
 then represent the distribution with a conditional probability density 
 function for the former and a probability mass function for the latter.  
 Likewise, the probability of any event is given by
 %
 \begin{align*}
-\PP_{\Theta} \! \left[ E \right]
+\pi_{\Theta} \! \left( E \right)
 &=
-\PP_{\Theta} \! \left[ E_{\Phi} \times E_{\Psi} \right]
+\pi_{\Theta} \! \left( E_{\Phi} \times E_{\Psi} \right)
 \\
 &=
-\EE_{\PP_{\Phi}} \! \left[
-\PP_{\Psi \mid \Phi} \! \left[  E_{\Psi} \mid \phi \right]
+\EE_{\pi_{\Phi}} \! \left[
+\pi_{\Psi \mid \Phi} \! \left(  E_{\Psi} \mid \phi \right)
 \cdot
 \mathbb{I}_{E_{\Phi}} \! \left( \phi \right)
 \right] 
@@ -831,10 +887,10 @@ practice.
 
 \section{Stochastic Implementations of Probability Distributions}
 
-We can also implement expectations of any probability distribution, 
-including both discrete and real probability distributions, \emph{stochastically}.  
-A \emph{stochastic process} is any mechanism that generates a 
-sequence of states, or \emph{samples} from a given sample space, 
+We can also specify any probability distributions and compute its
+expectations \emph{stochastically}.  A \emph{stochastic process} is 
+any mechanism that generates a sequence of states, or \emph{samples},
+from a given sample space, 
 $\left\{ \theta_{1}, \ldots, \theta_{N} \right\} \subset \Theta$.  In general,
 the generation of the $n$-th state in the sequence, $\theta_{n}$, can
 depend on all previous states in the sequence, 
@@ -847,15 +903,15 @@ the size of the sequence becomes infinitely large. More formally, if
 \begin{equation*}
 \lim_{N \rightarrow \infty} \frac{1}{N} 
 \sum_{n = 1}^{N} f \! \left( \theta_{n} \right)
-= \EE_{\PP} \! \left[ f \right],
+= \EE_{\pi} \! \left[ f \right],
 \end{equation*}
 %
 for all well-behaved functions, $f : \Theta \rightarrow \RR$, then the 
 stochastic process implements all computations with respect to the 
-probability distribution $\PP$.
+probability distribution $\pi$.
 
 This procedure, and hence the resulting samples, are \emph{exact} 
-if every state in the sequence is generated independent of any previous 
+if every state in the sequence is generated independently of any previous 
 states.  In other words, samples are exact when the stochastic process 
 generates samples one at a time, with no dependence on the preceding 
 or following samples.  If samples are not exact we refer to them as 

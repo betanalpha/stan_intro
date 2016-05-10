@@ -1,17 +1,18 @@
 \chapter{Probability in Theory}
 
-Logic provides a framework for how we can describe systems with certainty,
-and the tools of probability theory allow us to assign uncertainty to logical
-statements and implications.  We begin this chapter with an introduction of
-measures, which allow us to assign values to logical statements, and then
-probability measures, which limit those value to probabilities.  We end with
-a discussion of conditional probability distributions over implications.
+While logic provides a framework for how we can describe systems 
+with certainty, probability theory allow us to assign \emph{uncertainty} 
+to logical propositions.  We begin this chapter with an introduction of
+measures, which allow us to assign arbitrary values to propositions, 
+and then probability measures, which limit those value to probabilities
+that quantify uncertainty.  We end with a discussion of conditional 
+probability distributions over implications.
 
-Unfortunately, the abstraction of probability theory means that we cannot rely 
-on explicit examples, and subsequent visualizations, to support the definitions 
-and manipulations introduced in this chapter.  That context will have to wait
-until the next chapter where we discus how to implement probability theory
-in practice.
+Unfortunately, the abstraction of probability theory means that we 
+cannot rely on explicit examples, and consequently visualizations, 
+to support the definitions and manipulations introduced in this chapter.  
+That context will have to wait until the next chapter where we discuss 
+how to implement probability theory in practice.
 
 \section{Measures}
 
@@ -20,67 +21,69 @@ assign \emph{any} positive value.  A \emph{measure} accomplishes this
 by assigning a positive value to all events in the chosen event space,
 %
 \begin{equation*}
-\mathbb{M} : \mathcal{E} \! \left( \Theta \right) \rightarrow \mathbb{R}^{+}.
+\mu : \mathcal{E} \! \left( \Theta \right) \rightarrow \mathbb{R}^{+}.
 \end{equation*}
 %
 The term measure often serves multiple uses depending on context.
 It can, for example, refer to the object which assigns values to each
-event or the value assigned to the event, as in ``the measure of the 
-event $E$ is $\mathbb{M} \! \left[ E \right]$''.
+event or the actual value assigned to a particular event, as in ``the 
+measure of the event $E$ is $\mu \! \left( E \right)$''.
 
 Because a measure assigns values to only events, we need both a
 sample space and an event space in order to define measure.  In
 other words, we can define measures only on measurable spaces.  
 This is the ultimate motivation for this term, as measurable spaces 
-are most often introduces only as a precursor to measures themselves.
+are most often introduced not as representations of logical models
+but only as a precursor to measures themselves.
 
 Provided that the measure of each event is finite, 
 %
 \begin{equation*}
-\mathbb{M} \! \left[ E \right] < \infty, \, \forall E \in \EV{\Theta},
+\mu \! \left[ E \right] < \infty, \, \forall E \in \EV{\Theta},
 \end{equation*}
 %
-the assignment of measures is naturally compatible with the manipulations 
-of logical statements.  For example, the measure of conjunctions and
+the assignment of measures is naturally compatible with Boolean
+operations.  For example, the measure of conjunctions and
 disjunction are related as
 %
 \begin{equation*}
-\mathbb{M} \! \left[ E_{1} \cup E_{2} \right]
+\mu \! \left( E_{1} \cup E_{2} \right)
 = 
-\mathbb{M} \! \left[ E_{1} \right] + \PP \! \left[ E_{2} \right] 
-- \mathbb{M} \! \left[ E_{1} \cap E_{2} \right],
+\mu \! \left( E_{1} \right) + \mu \! \left( E_{2} \right)
+- \mu \! \left( E_{1} \cap E_{2} \right),
 \end{equation*}
 %
 and negations satisfy,
 %
 \begin{equation*}
-\mathbb{M} \! \left[ E \right] 
+\mu \! \left( E \right)
 = 
-\mathbb{M} \! \left[ \Theta \right] - \PP \! \left[ E^{c} \right]
+\mu \! \left( \Theta \right) - \mu \! \left( E^{c} \right)
 =
-1 - \mathbb{M} \! \left[ E^{c} \right].
+1 - \mu \! \left( E^{c} \right).
 \end{equation*}
 %
 By definition all events have finite measure, and all of these results
 hold, provided that the trivial event has finite measure, 
-$\mathbb{M} \! \left[ \Theta \right] < \infty$.
+$\mu \! \left( \Theta \right) < \infty$.
 
 Measures can also be used to integrate functions over the sample
 space in a procedure known as \emph{Lebesgue integration},
 %
 \begin{equation*}
-\mathcal{I}_{\mathbb{M}} : 
+\mathcal{I}_{\mu} : 
 \mathcal{F} \! \left( \Theta \right) \rightarrow \mathbb{R},
 \end{equation*}
 %
-where $\mathcal{F} \! \left( \Theta \right)$ is the collection of well-behaved 
-functions $f : \Theta \rightarrow \mathbb{R}$.  In fact, we can also consider 
-measure assignments themselves as expectations,
+where $\mathcal{F} \! \left( \Theta \right)$ is the collection of 
+well-behaved functions $f : \Theta \rightarrow \mathbb{R}$.  In 
+fact, we can also consider measure assignments themselves 
+as Lebesgue integrals,
 %
 \begin{equation*}
-\mathbb{M} \! \left[ E \right] 
+\mu \! \left( E \right)
 = 
-\mathcal{I}_{\mathbb{M}} \! \left[ \mathbb{I}_{E} \right],
+\mathcal{I}_{\mu} \! \left[ \mathbb{I}_{E} \right],
 \end{equation*}
 %
 where the \emph{indicator function} of the event $E$, $\mathbb{I}_{E}$,
@@ -98,165 +101,224 @@ is defined as
 \end{equation*}
 %
 In particular, the Lebesgue integral of every well-behaved function
-completely specifies every measure.
+completely specifies a given measure.
 
 In some cases Lebesgue integration can also be used to emulate 
-one measure other.  Consider two measures $\mathbb{M}_{1}$
-and $\mathbb{M}_{2}$ where $\mathbb{M}_{2} \! \left[ E \right] = 0$
-whenever $\mathbb{M}_{1} = 0$.  We say that any measure 
-$\mathbb{M}_{2}$ satisfying this property is \emph{absolutely continuous} 
-with respect to $\mathbb{M}_{1}$.  
+one measure with other.  Consider two measures $\mu_{1}$
+and $\mu_{2}$ where $\mu_{2} \! \left( E \right) = 0$ whenever 
+$\mu_{1} = 0$.  We say that any measure satisfying this property 
+is \emph{absolutely continuous} with respect to $\mu_{1}$.  
 
-When $\mathbb{M}_{2}$ is absolutely continuous with respect to
-$\mathbb{M}_{1}$, the Lebesgue integral of any well-behaved
-function, $f$, can be recovered as a Lebesgue integral with 
-respect to $\mathbb{M}_{1}$,
+When $\mu_{2}$ is absolutely continuous with respect to
+$\mu_{1}$, the Lebesgue integral of any well-behaved
+function, $f$, can be recovered as a modified Lebesgue 
+integral with respect to $\mu_{1}$,
 %
-\begin{equation*}
-\mathcal{I}_{\mathbb{M}_{2}} \! \left[ f \right]
+\begin{equation} \label{eqn:rnd_def}
+\mathcal{I}_{\mu_{2}} \! \left[ f \right]
 =
-\mathcal{I}_{\mathbb{M}_{1}} \! \left[ \nu \cdot f \right],
-\end{equation*}
+\mathcal{I}_{\mu_{1}} \! \left[ \nu \cdot f \right],
+\end{equation}
 %
-where $\nu \in \mathcal{F} \! \left( \Theta \right)$ is a bounded function
-known as the \emph{Radon-Nikodym derivative} of $\mathbb{M}_{2}$ 
-with respect to $\mathbb{M}_{1}$.  
+where $\nu \in \mathcal{F} \! \left( \Theta \right)$ is a bounded 
+function denoted the \emph{Radon-Nikodym derivative} of 
+$\mu_{2}$ with respect to $\mu_{1}$.  
 
 The Radon-Nikodym derivative is often written as
 %
 \begin{equation*}
-\nu = \frac{ \mathrm{d} \mathbb{M}_{2} }{ \mathrm{d} \mathbb{M}_{1} }
+\nu = \frac{ \mathrm{d} \mu_{2} }{ \mathrm{d} \mu_{1} }
 \end{equation*}
 %
 to make the relevant measures more explicit.  Moreover, it typical to
 abuse notation a bit and write
 %
 \begin{equation*}
-\mathbb{M}_{2} = 
-\frac{ \mathrm{d} \mathbb{M}_{2} }{ \mathrm{d} \mathbb{M}_{1} } 
-\mathbb{M}_{1}
+\mu_{2} = 
+\frac{ \mathrm{d} \mu_{2} }{ \mathrm{d} \mu_{1} } 
+\mu_{1}
 \end{equation*}
 %
-as shorthand for the Lebesgue integral relationship above.
+as shorthand for the defining relationship \eqref{eqn:rnd_def}.
+
+\section{Pushforward Measures}
+
+Like events, measures can be defined with respect to many 
+different sample spaces.  If $s : \Theta \rightarrow \Omega$ 
+is a measurable map and $\mu_{\Theta}$ is a probability 
+distribution defined over $\left( \Theta, \EV{\Theta} \right)$, 
+then we can define an equivalent \emph{pushforward} measure 
+over $\left( \Omega, \EV{\Omega} \right)$ by assigning values as
+%
+\begin{equation*}
+s_{*} \mu_{\Theta} \! \left( E_{\Omega} \right)
+\equiv
+\mu_{\Theta} \! \left( s^{-1} \! \left( E_{\Omega} \right) \right).
+\end{equation*}
+%
+As with measurable spaces, the measurable in measurable 
+maps refers to this particular application in pushing measures 
+forward from one space to another.
+
+Furthermore, if the map is doubly-measurable then this whole 
+process can be inverted: a measure $\mu_{\Omega}$ defined 
+over $\left( \Omega, \EV{\Omega} \right)$ can be pushed
+forward onto $\left( \Theta, \EV{\Theta} \right)$ by
+%
+\begin{equation*}
+s^{-1}_{*} \mu_{\Omega} \! \left( E_{\Theta} \right)
+\equiv
+\mu_{\Omega} \! \left( s \! \left( E_{\Theta} \right) \right).
+\end{equation*}
+%
+In other words, the same measure can be defined with respect
+to any of the equivalent measurable spaces and does not 
+depend on the particular details of any one of them.
 
 \section{Probability Distributions}
 
 When we are uncertain about our target system then we cannot
-guarantee that any particular logical statement in true.  In order to
-quantify uncertainty about our descriptions we assign to each event 
+guarantee that any particular logical statement is absolutely
+true or false.  In order to quantify uncertainty about our descriptions 
+we attenuate logical propositions by assigning to each statement
 a \emph{probability} that quantifies how plausible it is be true.  
-Probabilities themselves are bounded between 0, indicating that an 
-event is absolutely false, and 1, indicating that an event is absolutely
-true.
+Probabilities are bounded between $0$, indicating that the 
+statement is absolutely false, and $1$, indicating that the statement 
+is absolutely true.
 
-A \emph{probability distribution} is a measure restricting to assigning
-probabilities to each event,
+A \emph{probability distribution} quantifies the uncertainty about
+the entire system by assigning probabilities to each event in a
+given representation.  More formally, a probability distribution is
+a measure assigning probabilities to each event,
 %
 \begin{equation*}
-\PP : \mathcal{E} \! \left( \Theta \right) \rightarrow \left[0, 1 \right],
+\pi : \mathcal{E} \! \left( \Theta \right) \rightarrow \left[0, 1 \right],
 \end{equation*}
 %
 such that the probability of the null event is zero, 
-$\PP \! \left[ \emptyset \right] = 0$, and the probability of the trivial
-event is one, $\PP \! \left[ \Theta \right] = 1$.  These latter two conditions 
-are an immediate consequence of our initial assumption that our descriptions
-can be represented by the sample space.  When using a probability distribution 
-to quantify our uncertainty about a system expressed with the sample
-space $\Theta$, we often write $\theta \sim \PP$ which is read as, 
-``$\theta$ is distributed according to the probability distribution $\PP$''
-but should really read ``Logical statements about $\Theta$ are assigned 
-probabilities according to the probability distribution $\PP$''.
+$\pi \! \left[ \emptyset \right] = 0$, and the probability of the trivial
+event is one, $\pi \! \left[ \Theta \right] = 1$.  These latter two 
+conditions follow immediately from the null event always representing
+a false proposition and the trivial event always representing a
+true proposition.
 
-The assignment of probabilities to conjunctions, disjunctions, and 
-negations become the familiar rules of probability.  For example, the
-the probability of conjunctions becomes the sum rule,
+When using a probability distribution to quantify uncertainty about 
+a property taking values in the sample space $\Theta$, we often 
+write $\theta \sim \pi$ which is read as, ``$\theta$ is distributed 
+according to the probability distribution $\pi$'' but should really 
+read ``The plausibility of any logical statement about $\theta$ 
+is assigned by the probability distribution $\pi$''.
+
+The interaction of these probability assignments and the Boolean
+operations immediately give the familiar rules of probability.  For 
+example, the probability of a conjunction becomes the sum rule,
 %
 \begin{equation*}
-\PP \! \left[ E_{1} \cup E_{2} \right]
+\pi \! \left( E_{1} \cup E_{2} \right)
 = 
-\PP \! \left[ E_{1} \right] + \PP \! \left[ E_{2} \right] 
-- \PP \! \left[ E_{1} \cap E_{2} \right],
+\pi \! \left( E_{1} \right) + \pi \! \left( E_{2} \right)
+- \pi \! \left( E_{1} \cap E_{2} \right),
 \end{equation*}
 %
 and the probability of negation becomes the rule of total probability,
 %
 \begin{equation*}
-\PP \! \left[ E \right] 
+\pi \! \left( E \right)
 = 
-\PP \! \left[ \Theta \right] - \PP \! \left[ E^{c} \right]
+\pi \! \left( \Theta \right) - \pi \! \left( E^{c} \right)
 =
-1 - \PP \! \left[ E^{c} \right].
+1 - \pi \! \left( E^{c} \right).
 \end{equation*}
 
 Lebesgue integrals with respect to probability measures are better
 known as \emph{expectation values},
 %
 \begin{equation*}
-\EE_{\PP} : \mathcal{F} \! \left( \Theta \right) \rightarrow \mathbb{R},
+\EE_{\pi} : \mathcal{F} \! \left( \Theta \right) \rightarrow \mathbb{R},
 \end{equation*}
 %
-Common expectations include means, variances, and higher-order moments.
+Expectations include means, variances, and higher-order moments
+and are the foundation of any statistical methodology.
 
-The most important consequence of these definitions is that \emph{all of 
-probability theory reduces to computing expectations}.  Any other operation 
-that you may have encountered in probability theory can only ever be an
-intermediate step in computing a final expectation.  In particular, many of 
-the more non-intuitive aspects of probability theory can avoided by carefully
-framing everything as an expectation -- don't try to intuit solutions, calculate 
-them!
+The most important consequence of these definitions is that 
+\emph{all of probability theory reduces to computing expectations}.  
+Any other operation that you may have encountered in probability 
+theory can only ever be an intermediate step in computing a final 
+expectation.  In particular, many of the more non-intuitive aspects 
+of probability theory can avoided by carefully framing everything 
+as an expectation -- don't try to intuit solutions, calculate them!
+
+\section{Pushforward Probability Distributions}
+
+Being measures, probability distributions can also be pushed
+forward from one measurable space into another using measurable
+maps.
+
+Because it is invariant when we push it forward between equivalent 
+measurable spaces, a probability distribution is fundamental to the 
+underlying abstract system and not any particular representation of 
+that system.  In other words, different but equivalent measurable 
+spaces are just different ways to describe the same system, with 
+inclusion in events quantifying the same, invariant information and 
+probability quantifying the same, invariant uncertainty.
 
 \section{Conditional Probability Distributions}
 
-\emph{Conditional probability distributions} allow us to quantify uncertainty
-about implications.  While implications assign an event to each value of the 
-conditioning space, $\Phi$, a conditional probability distribution assigns a 
-probability distribution to each value in the conditioning space,
+\emph{Conditional probability distributions} allow us to quantify 
+uncertainty about implications.  While implications assign an event 
+to each value of the conditioning space, $\Phi$, a conditional 
+probability distribution assigns an entire probability distribution 
+to each value in the conditioning space,
 %
 \begin{align*}
-\PP_{\Theta \mid \Phi} 
+\pi_{\Theta \mid \Phi} 
 &: \EV{\Theta} \times \Phi \rightarrow \left[0, 1 \right] \\
 &\quad \left( E_{\Theta}, \phi \right) \;\; \mapsto 
-\PP_{\Theta \mid \Phi} \! \left[ E_{\Theta} \mid \phi \right].
+\pi_{\Theta \mid \Phi} \! \left( E_{\Theta} \mid \phi \right).
 \end{align*}
 %
-In other words, for any value of $\phi \in \Phi$ the conditional probability
-distribution defines a probability distribution on $\Theta$, and for any
-event in $\Theta$ the conditional probability distribution defines a 
-function from $\Phi$ to probabilities.  
+In other words, for any value of $\phi \in \Phi$ the conditional 
+probability distribution defines a probability distribution on $\Theta$, 
+and for any event in $\Theta$ the conditional probability distribution 
+defines a function from $\Phi$ to probabilities.  
 
 \subsection{Joint Distributions and Marginal Distributions}
 
 As with implications, conditional probability distributions can be used
 to construct probability distributions on larger spaces.  In particular,
-by combining a conditional probability distribution with a probability distribution 
-on the conditioning space, $\Phi$, we can construct a probability distribution 
-on the joint sample space, $\Theta \times \Phi$.  
+by combining a conditional probability distribution with a probability 
+distribution on the conditioning space, $\Phi$, we can construct a 
+probability distribution on the joint sample space, $\Theta \times \Phi$.  
 
-This \emph{joint distribution} is defined implicitly by its probability assignments 
-or expectation values.  For example, the probability of any joint event, 
-$E_{\Theta} \times E_{\Phi}$, is given by first using the conditional probability 
-distribution to assign a probability 
-to $E_{\Theta}$, $\PP_{\Theta|\Phi} \! \left[ E_{\Theta} \mid \phi \right]$, and 
-then taking the expectation of this assignment over the distribution on $\Phi$,
+This \emph{joint distribution} is defined implicitly by its probability 
+assignments or expectation values.  For example, the probability of 
+any joint event, $E_{\Theta} \times E_{\Phi}$, is given by first using 
+the conditional probability distribution to assign a probability to 
+$E_{\Theta}$ for each $\phi \in \Phi$,
 %
 \begin{equation*}
-\PP_{\Theta \times \Phi} \! \left[ E_{\Theta} \times E_{\Phi} \right]
-=
-\mathbb{E}_{\PP_{\Phi}} \! \left[  
-\PP_{\Theta|\Phi} \! \left[ E_{\Theta} \mid \phi \right] 
-\cdot \mathbb{I}_{E_{\Phi}} \! \left( \phi \right)
-\right],
+p \! \left( \phi \right) \equiv 
+\pi_{\Theta | \Phi} \! \left( E_{\Theta} \mid \phi \right),
 \end{equation*}
 %
-where the indicator function, $\mathbb{I}_{E_{\Phi}}$, ensures that we 
-take the expectation only over the event in $\Phi$.  Similarly, joint 
+and then taking the expectation of this function with respect to the 
+distribution on $\Phi$,
+%
+\begin{equation*}
+\pi_{\Theta \times \Phi} \! \left( E_{\Theta} \times E_{\Phi} \right)
+=
+\mathbb{E}_{\pi_{\Phi}} \! \left[  p \cdot \mathbb{I}_{E_{\Phi}} \right],
+\end{equation*}
+%
+where the indicator function, $\mathbb{I}_{E_{\Phi}}$, ensures that 
+we take the expectation only over the event in $\Phi$.  Similarly, joint 
 expectations are defined iteratively as
 %
 \begin{equation*}
-\EE_{\PP_{\Theta \times \Phi}} \! \left[ g \! \left( \theta, \phi \right) \right]
+\EE_{\pi_{\Theta \times \Phi}} \! \left[ g \! \left( \theta, \phi \right) \right]
 =
-\mathbb{E}_{\PP_{\Phi}} \! \left[  
-\EE_{\PP_{\Theta|\Phi}} \! \Big[ 
+\mathbb{E}_{\pi_{\Phi}} \! \left[  
+\EE_{\pi_{\Theta|\Phi}} \! \Big[ 
 g \! \left( \theta, \phi \right) \mid \phi 
 \Big]
 \right].
@@ -264,51 +326,112 @@ g \! \left( \theta, \phi \right) \mid \phi
 
 If we consider only the trivial event on the conditioning space $E_{\Phi} 
 = \Phi$, then this construction also defines a  \emph{marginal distribution} 
-on $\Theta$ by
+on $\Theta$ by the probability assignments
 %
 \begin{align*}
-\PP_{\Theta} \! \left[ E_{\Theta} \right]
+\pi_{\Theta} \! \left( E_{\Theta} \right)
 &\equiv
-\PP_{\Theta \times \Phi} \! \left[ E_{\Theta} \times \Phi \right] \\
+\pi_{\Theta \times \Phi} \! \left( E_{\Theta} \times \Phi \right) \\
 &=
-\mathbb{E}_{\PP_{\Phi}} \! \left[  
-\PP_{\Theta|\Phi} \! \left[ E_{\Theta} \mid \phi \right]
+\mathbb{E}_{\pi_{\Phi}} \! \left[  
+\pi_{\Theta|\Phi} \! \left( E_{\Theta} \mid \phi \right)
 \right],
 \end{align*}
-or
+or the expectations
 %
 \begin{align*}
-\EE_{\PP_{\Theta}} \! \left[ f \! \left( \theta \right) \right]
+\EE_{\pi_{\Theta}} \! \left[ f \! \left( \theta \right) \right]
 &\equiv
-\EE_{\PP_{\Theta \times \Phi}} \! \left[ f \! \left( \theta \right) \right] \\
+\EE_{\pi_{\Theta \times \Phi}} \! \left[ f \! \left( \theta \right) \right] \\
 &=
-\mathbb{E}_{\PP_{\Phi}} \! \left[  
-\EE_{\PP_{\Theta|\Phi}} \! \Big[ 
+\mathbb{E}_{\pi_{\Phi}} \! \left[  
+\EE_{\pi_{\Theta|\Phi}} \! \Big[ 
 f \! \left( \theta \right) \mid \phi 
 \Big]
 \right].
 \end{align*}
 %
+Alternatively, given the \emph{projection}
+%
+\begin{align*}
+\varpi &: \Theta \times \Omega \rightarrow \Theta \\
+& \quad \left( \theta, \omega \right) \mapsto \theta,
+\end{align*}
+%
+we can also define this marginal distribution as the pushforward
+of the joint distribution along the projection,
+%
+\begin{equation*}
+\pi_{\Theta} = \varpi_{*} \pi_{\Theta \times \Omega}.
+\end{equation*}
+
 This marginalization process allows us to collapse a joint probability 
 distribution onto any of the component spaces, explicitly incorporating 
-any interactions between the components.
+any correlations between the components in the process.
+
+\subsection{Bayes' Theorem}
+
+While we can decompose any joint probability distribution into a 
+conditional probability distribution and a marginal distribution, there 
+is not unique decomposition.  For example, a joint probability distribution 
+on $\Theta \times \Phi$ can be decomposed into $\pi_{\Theta \mid \Phi}$ 
+and $\pi_{\Phi}$ or $\pi_{\Phi \mid \Theta}$ and $\pi_{\Theta}$.
+
+The equivalence of these two decompositions immediately implies
+\emph{Bayes' Theorem} which allows us to define any one of these
+distributions from the other three using Radon-Nikodym derivatives. 
+If $\pi_{\Theta \mid \Phi}$ and $\pi_{\Theta}$ are absolutely continuous
+with respect to each other then we have
+%
+\begin{align*}
+\pi_{\Theta \mid \Phi} &= 
+\frac{ \mathrm{d} \pi_{\Phi \mid \Theta} }{ \mathrm{d} \pi_{\Phi} }
+\pi_{ \Theta}
+\\
+\pi_{\Theta} &= 
+\frac{ \mathrm{d} \pi_{\Phi} }{ \mathrm{d} \pi_{\Phi \mid \Theta} }
+\pi_{ \Theta \mid \Phi }
+\end{align*}
+%
+Similarly, if $\pi_{\Phi \mid \Theta}$ and $\pi_{\Phi}$ are absolutely 
+continuous with respect to each other then we have the two additional
+equalities
+%
+\begin{align*}
+\pi_{\Phi \mid \Theta} &= 
+\frac{ \mathrm{d} \pi_{\Theta \mid \Phi} }{ \mathrm{d} \pi_{\Theta} }
+\pi_{\Phi}
+\\
+\pi_{\Theta \mid \Phi} &= 
+\frac{ \mathrm{d} \pi_{\Theta} }{ \mathrm{d} \pi_{\Theta \mid \Phi} }
+\pi_{ }.
+\end{align*}
+
+Although an immediate consequence of the axioms of probability
+theory, Bayes' Theorem has extraordinarily important consequences 
+in the application of probability theory.  These equalities allow us to 
+invert any implicative structure -- if we have a probabilistic model for 
+how uncertainty of propositions in $\Phi$ affects uncertainty of
+propositions in $\Theta$, then Bayes'  Theorem identifies how 
+uncertainty of propositions in $\Theta$ affects the uncertainty of
+propositions in $\Phi$.
 
 \subsection{Generative Modeling}
 
-Just as we can build logical statements sequentially from simpler
-implications, we can build distributions over high-dimensional product
-spaces sequentially from conditional probability distributions.  Mirroring the
-procedure for implications, we start with a probability distribution on one 
-low-dimensional component of the target space and then build up a joint 
-distribution by adding conditional probability distributions for each new 
-component,
+Just as we can build logical propositions sequentially from simpler
+implications, we can also build probability distributions over 
+high-dimensional product spaces sequentially from conditional 
+probability distributions.  Mirroring the procedure for implications, 
+we start with a probability distribution on one low-dimensional 
+component of the target space and then build up a joint distribution 
+by adding conditional probability distributions for each new component,
 %
 \begin{align*}
-& \PP_{\Theta_{1}} \\
-& \PP_{\Theta_{2} \mid \Theta_{1}} \\
-& \PP_{\Theta_{3} \mid \Theta_{2}, \Theta_{1}} \\
+& \pi_{\Theta_{1}} \\
+& \pi_{\Theta_{2} \mid \Theta_{1}} \\
+& \pi_{\Theta_{3} \mid \Theta_{2}, \Theta_{1}} \\
 & \cdots \\
-& \PP_{\Theta_{N} \mid \Theta_{N - 1}, \ldots, \Theta_{2}, \Theta_{1}}.
+& \pi_{\Theta_{N} \mid \Theta_{N - 1}, \ldots, \Theta_{2}, \Theta_{1}}.
 \end{align*}
 
 As with implications, these conditional probability distributions are often 
@@ -318,7 +441,7 @@ distributions that assign all probability to a single event for each conditionin
 value,
 %
 \begin{equation*}
-\PP_{\Theta \mid \Phi} \! \left[ E_{\Theta} \mid \phi \right]
+\pi_{\Theta \mid \Phi} \! \left[ E_{\Theta} \mid \phi \right]
 = 
 \left\{
 \begin{array}{rr}
@@ -332,84 +455,3 @@ then these conditional probability distributions can seamlessly incorporate
 both stochastic and deterministic, causal relationships.  This iterative process 
 of building a joint probability distribution from conditional probability distributions 
 is the key building block of \emph{generative modeling}.
-
-\subsection{Bayes' Theorem}
-
-While we can decompose a joint probability distribution into a conditional
-probability distribution and a marginal distribution, there is not unique
-decomposition.  For example, a joint probability distribution on 
-$\Theta \times \Phi$ can be decomposed into $\PP_{\Theta \mid \Phi}$ and
-$\PP_{\Phi}$ or $\PP_{\Phi \mid \Theta}$ and $\PP_{\Theta}$.
-
-The equivalence of these two decompositions immediately implies
-\emph{Bayes' Theorem} which allows us to define any one of these
-distributions from the other three using Radon-Nikodym derivatives. 
-If $\PP_{\Theta \mid \Phi}$ and $\PP_{\Theta}$ are absolutely continuous
-with respect to each other then we have,
-%
-\begin{align*}
-\PP_{\Theta \mid \Phi} &= 
-\frac{ \mathrm{d} \PP_{\Phi \mid \Theta} }{ \mathrm{d} \PP_{\Phi} }
-\PP_{ \Theta}
-\\
-\PP_{\Theta} &= 
-\frac{ \mathrm{d} \PP_{\Phi} }{ \mathrm{d} \PP_{\Phi \mid \Theta} }
-\PP_{ \Theta \mid \Phi }
-\end{align*}
-%
-Similarly, if $\PP_{\Phi \mid \Theta}$ and $\PP_{\Phi}$ are absolutely 
-continuous with respect to each other then we have the two additional
-equalities
-%
-\begin{align*}
-\PP_{\Phi \mid \Theta} &= 
-\frac{ \mathrm{d} \PP_{\Theta \mid \Phi} }{ \mathrm{d} \PP_{\Theta} }
-\PP_{\Phi}
-\\
-\PP_{\Theta \mid \Phi} &= 
-\frac{ \mathrm{d} \PP_{\Theta} }{ \mathrm{d} \PP_{\Theta \mid \Phi} }
-\PP_{ }.
-\end{align*}
-
-Although an immediate consequence of our definitions, Bayes' Theorem
-has extraordinarily important consequences in the application of
-probability theory.  These equalities allow us to invert any implicative 
-structure -- if we have a probabilistic model for how logical statements
-in $\Phi$ affect logical statements in $\Theta$, then Bayes' Theorem
-identifies how logical statements in $\Theta$ affect logical statements
-in $\Phi$.
-
-\section{The Invariance of Probability Distributions}
-
-Like events, probability distributions can be defined with respect to many different 
-sample spaces.  If $s : \Theta \rightarrow \Omega$ is a measurable map and 
-$\PP_{\Theta}$ is a probability distribution defined over events in $\Theta$, then 
-we can define an equivalent \emph{pushforward} probability distribution over 
-events in $\Omega$ by assigning probabilities as
-%
-\begin{equation*}
-\PP_{\Omega} \! \left[ E_{\Omega} \right]
-\equiv
-\PP_{\Theta} \! \left[ s^{-1} \! \left( E_{\Omega} \right) \right].
-\end{equation*}
-%
-As with measurable spaces, the measurable in measurable maps refers to
-their application to pushing measures forward along the map.
-
-Furthermore, if the map is doubly-measurable then this whole process can be 
-inverted: if $\PP_{\Omega}$ is a probability distribution defined over events in 
-$\Omega$ then we can define an equivalent pushforward probability distribution 
-over events in $\Theta$ by assigning probabilities as
-%
-\begin{equation*}
-\PP_{\Theta} \! \left[ E_{\Theta} \right]
-\equiv
-\PP_{\Omega} \! \left[ s \! \left( E_{\Theta} \right) \right].
-\end{equation*}
-
-These probability distributions are invariant when we move between equivalent 
-sample spaces, and hence are fundamental to the underlying abstract system 
-and not any particular representation of that system.  Different but equivalent 
-sample spaces are just different ways to describe the same system, with events 
-quantifying the same, invariant information and probability distributions quantifying
-the same, invariant uncertainty.
