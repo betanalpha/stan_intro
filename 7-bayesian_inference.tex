@@ -9,8 +9,10 @@ frequentist approach to inference as well.
 
 \section{Modeling Measurements}
 
-We begin by defining measurements before considering how
-to model that measurements mathematically.
+Without measurements we would not have nothing from which
+to learn, hence we must begin our discussion by defining
+measurements and then mathematical models of those 
+measurements.
 
 \subsection{The Data Generating Process}
 
@@ -18,27 +20,27 @@ The basic assumption underlying inference is that there is some
 observable process that we would like to understand, or at least
 some latent process that has observable consequences.
 
-These observable consequences manifest as logical statements,
-but in practice we can observe only variable measurements
-of those statements.  In order to formalize these concepts we
-assume that this variability is sufficiently well-behaved that we
-can model it with probability theory.  More formally, we assume
-that the process under consideration defines a probability 
-distribution, $\PP_{D}$ over some measurement space, $D$, 
-with measurements defined as events in the corresponding
-event space.  
+These observable consequences manifest as logical propositions,
+but in practice we cannot observe those propositions exactly
+and are instead limited to only variable measurements of the
+propositions.  In order to formalize these concepts we assume 
+that this variability is sufficiently well-behaved that we can model 
+it with probability theory.  More formally, we assume that the process 
+under consideration defines a probability distribution, $\pi_{D}$ 
+over some measurement space, $D$, with measurements defined 
+as events in the corresponding event space.  
 
 Although we have assumed the existence of a \emph{data
-generating process}, $\PP_{D}$, we have intentionally not
+generating process}, $\pi_{D}$, we have intentionally not
 assumed any philosophical interpretation of it.  In particular, we
 are indifferent to the ultimate source of the variability in the
-measurements quantified by $\PP_{D}$: it could be some
+measurements quantified by $\pi_{D}$: it could be some
 ontological variability inherent to the system or just some
-epistemological variability due to our ignorance of the underlying 
-system.  The only assumption we have made is that the
-measurements are repeatable and variable, and that this
-variability is sufficiently well-behaved to be quantified by
-probability theory. 
+epistemological variability due to our ignorance of the 
+underlying system.  The only assumption we have made is 
+that the measurements are repeatable and variable, and 
+that this variability is sufficiently well-behaved to be quantified 
+by probability theory. 
 
 We can assume the existence of a data generating process, 
 but we don't know anything about it until we start making 
@@ -52,9 +54,9 @@ using only a finite number measurements.
 
 \subsection{Big Worlds and Small Worlds}
 
-If we want to learn about the data generating process we have
-to consider all possible data generating process we could
-encounter or, equivalently, all possible probability distributions
+If we want to learn about the data generating process then we 
+have to consider all possible data generating process that we 
+could encounter or, equivalently, all possible probability distributions
 over the sample space, $D$.  We refer to this massive set, 
 $\mathcal{P}_{D}$ as the \emph{the big world} (Figure \ref{fig:big_world}).  
 
@@ -68,11 +70,11 @@ $\mathcal{P}_{D}$ as the \emph{the big world} (Figure \ref{fig:big_world}).
   \node at (12, -6) {$\mathcal{P}_{D}$};
   
   \fill[color=white] (-7, 3) circle (4pt)
-  node[right, color=white] {$\PP_{D}$};
+  node[right, color=white] {$\pi_{D}$};
   
 \end{tikzpicture}
 \caption{Once we have defined a measurement space, $D$, the latent data
-generating process, $\PP_{D}$, must be contained in the space of all 
+generating process, $\pi_{D}$, must be contained in the space of all 
 possible data generating processes over $D$, $\mathcal{P}_{D}$.
 }
 \label{fig:big_world}
@@ -81,24 +83,22 @@ possible data generating processes over $D$, $\mathcal{P}_{D}$.
 The big world is much too ungainly to be even well-defined in 
 practice, let alone exhaustively explored.  Instead we have to limit 
 our consideration to only a subset of probability distributions over 
-the measurement space called a \emph{small world}, $\Theta \subset
-\mathcal{P}_{D}$ (Figure \ref{fig:small_worlds}a).  An expression
-of the small world is called a \emph{parameterization} of our model.
+the measurement space called a \emph{small world}, $\mathcal{S} 
+\subset \mathcal{P}_{D}$ (Figure \ref{fig:small_worlds}a).  A
+representation of the small world is called a \emph{parameterization}.
 
-Each point in the small world, $\theta \in \Theta$, identifies a unique 
+Each point in the small world, $s \in \mathcal{S}$, identifies a unique 
 probability distribution over data.  Consequently the small world defines 
 a collection of probability distribution over the measurement space,
 %
 \begin{align*}
-\mathbb{L}
-&: \EV{D} \times \Theta \rightarrow \left[0, 1 \right] \\
-&\quad \left( E_{D}, \theta \right) \;\; \mapsto 
-\mathbb{L} \! \left[ E_{D} \mid \theta \right].
+L
+&: \EV{D} \times S \rightarrow \left[0, 1 \right] \\
+&\quad \left( E_{D}, s \right) \;\; \mapsto 
+\mathbb{L} \! \left( E_{D} ; s \right).
 \end{align*}
 %
-known as the \emph{likelihood}.  We can also interpret the likelihood
-as a conditional probability distribution over implications from our
-small world model to the measurement space.
+known as the \emph{likelihood}.  
 
 Regardless of how it is chosen, the assumption of any specific 
 small world can have drastic limitations on inference.  Because any
@@ -120,10 +120,10 @@ on the viability of our assumptions.
   \node at (12, -6) {$\mathcal{P}_{D}$};
   
   \fill[dark] (-4, 2) ellipse (6 and 3);
-  \node[color=white] at (1.5, -0.5) {$\Theta$};
+  \node[color=white] at (1.5, -0.5) {$\mathcal{S}$};
   
   \fill[color=white] (-7, 3) circle (8pt)
-  node[right, color=white] {$\PP_{D}$};
+  node[right, color=white] {$\pi_{D}$};
   
 \end{tikzpicture}
 }
@@ -136,62 +136,110 @@ on the viability of our assumptions.
   \node at (12, -6) {$\mathcal{P}_{D}$};
   
   \fill[dark] (3, -1) ellipse (6 and 3);
-  \node[color=white] at (8.5, -3.5) {$\Theta$};
+  \node[color=white] at (8.5, -3.5) {$\mathcal{S}$};
   
   \fill[color=white] (-7, 3) circle (8pt)
-  node[right, color=white] {$\PP_{D}$};
+  node[right, color=white] {$\pi_{D}$};
   
 \end{tikzpicture}
 }
 \caption{Practical inference requires the selection of a distinguished subset 
-of data generating processes called a small world, $\Theta$, that (a) may or 
-(b) may not contain the latent data generating process, $\PP_{D}$.  The 
-Boxian philosophy of ``all models are wrong but some are useful'' asserts 
-that the former is impossible in practical problems, but even in the latter
-case the probability distributions in the small world may provide useful
-approximations of $\PP_{D}$.
+of data generating processes called a small world, $\mathcal{S}$, that (a) 
+may or (b) may not contain the latent data generating process, $\pi_{D}$.  
+The Boxian philosophy of ``all models are wrong but some are useful'' 
+asserts that the former is impossible in practical problems, but even in 
+the latter case the probability distributions in the small world may provide 
+useful approximations of $\pi_{D}$.
 }
 \label{fig:small_worlds}
 \end{figure*}
 
 \section{Uncertainty And Learning In The Small World}
 
-We have already used probability theory to quantify the variability of
-measurements, but now we can also use probability theory to quantify 
-our uncertainty about which elements of the small world are good 
-approximations to the latent data generating process, both before
-and after we make a measurement.
+Any from of inference uses measurements to learn about the
+small world, particular to inform which elements of the small
+world yield good approximations to the data generating process,
+$\pi_{D}$.  In Bayesian inference we make second use of 
+probability theory -- in addition to quantifying the variability in 
+the measurements, we also use it to quantify our uncertainty 
+about propositions describing which elements of the small world 
+are good approximations to the latent data generating process.
 
-The \emph{prior distribution}, $\PP_{\Theta}^{\mathrm{prior}}$, is  
-probability distribution over the small world that quantifies our initial
-uncertainty about which elements are most consistent with the latent 
-data generating process.  The information embodied by the prior 
-distribution can be motivated from previous measurements, 
-theoretical constraints, or even elicitation of experts.  
+Assuming a representation of the small world, 
+$\left( \Theta, \EV{\Theta} \right)$, from this perspective the 
+likelihood is not just a collection of probability distributions over 
+the measurement space but a proper conditional probability 
+distribution, $\pi_{D \mid \Theta}^{\mathrm{like}}$.  In other words, 
+the likelihood provides an implicative structure for how uncertainty 
+in the small world affects uncertainty in the measurement space.  
+In order to learn we want to invert this implicative structure and 
+have measurements inform the small world.  Fortunately, this is 
+exactly what Bayes' Theorem provides!
 
-Learning in the small world is the process of updating the prior 
-distribution with any information contained in the measurement 
-to give a \emph{posterior distribution}, $\PP_{\Theta}^{\mathrm{post}}$, 
-that quantifies our updated uncertainty about the small world (Figure
-\ref{fig:learning}).  The likelihood implicitly quantifies any information
-contained in a measurement and then the actual mechanism for this 
-update is immediately given by probability theory.  It is most simply 
-written in terms of probability density functions,
+In order to apply Bayes' Theorem we need to construct a 
+\emph{prior distribution}, $\pi_{\Theta}^{\mathrm{prior}}$, over the 
+small world that quantifies our initial uncertainty about propositions
+describing which elements are most consistent with the latent data 
+generating process.  The information embodied by the prior distribution 
+can be motivated from previous measurements, theoretical constraints, 
+or even elicitation of experts.  
+
+The prior and likelihood together define a joint distribution over the 
+measurement space and the sample space, which we can marginalize 
+onto the measurement space to produce a \emph{marginal likelihood},
 %
 \begin{equation*}
-p^{\mathrm{post}} \! \left( \theta \mid d \right)
-\propto
-L \! \left( d \mid \theta \right) p^{\mathrm{prior}} \! \left( \theta \right),
+\pi_{D}^{\mathrm{ml}} \! \left( E_{D} \right)
+=
+\mathbb{E}_{\pi_{\Theta}^{\mathrm{prior}}} \! \left[  
+\pi_{D \mid \Theta}^{\mathrm{like}} \! \left( E_{D} \mid \theta \right)
+\right],
 \end{equation*}
 %
-which can be recognized as the celebrated Bayes' Theorem.
+or, in terms of probability density functions, 
+%
+\begin{equation*}
+p_{D}^{\mathrm{ml}} \! \left( d \right)  = 
+\int p_{D \mid \Theta}^{\mathrm{like}} \! \left( d \mid \theta \right)
+p_{\Theta}^{\mathrm{prior}} \! \left( \theta \right) \dd^{D} \theta.
+\end{equation*}
+%
+Bayes' Theorem then implements learning in the small world
+by updating the prior distribution to a \emph{posterior distribution},
+%
+\begin{equation*}
+\pi_{\Theta}^{\mathrm{post}}
+=
+\frac{ \dd \pi_{D \mid \Theta}^{\mathrm{like}} }
+{ \dd \pi_{D}^{\mathrm{ml}} }
+\pi_{\Theta}^{\mathrm{prior}},
+\end{equation*}
+%
+or, in terms of probability density functions,
+%
+\begin{align*}
+p_{\Theta}^{\mathrm{post}} \! \left( \theta \mid d \right)
+&=
+\frac
+{ p_{D \mid \Theta}^{\mathrm{like}} \! \left( d \mid \theta \right) }
+{ p_{D}^{\mathrm{ml}} \! \left( d \right) }
+\pi_{\Theta}^{\mathrm{prior}} \! \left( \theta \right)
+\\
+&=
+\frac
+{ p_{D \mid \Theta}^{\mathrm{like}} \! \left( d \mid \theta \right) }
+{ \int p_{D \mid \Theta}^{\mathrm{like}} \! \left( d \mid \theta \right)
+p_{\Theta}^{\mathrm{prior}} \! \left( \theta \right) \dd^{D} \theta }
+\, p_{\Theta}^{\mathrm{prior}} \! \left( \theta \right).
+\end{align*}
 
-Bayes' Theorem, however, is just a mathematical consequence of 
-probability theory and its appearance is an inevitability once we 
-apply probabilities to quantify our uncertainty about the small world.
-Ultimately, all of this abstraction is just a means to formalize the intuition 
-that \emph{what we know after a measurement is what we knew before 
-the measurement plus what we learned from the measurement}.
+Because Bayes' Theorem is just a mathematical consequence of 
+probability theory, its appearance is an inevitability once we apply 
+probabilities to quantify our uncertainty about the small world.  
+Ultimately, all of this abstraction is just a means to formalize the 
+intuition that \emph{what we know after a measurement is what 
+we knew before the measurement plus what we learned from the 
+measurement}.
 
 \begin{figure*}
 \centering
@@ -205,10 +253,10 @@ the measurement plus what we learned from the measurement}.
   \node at (12, -6) {$\mathcal{P}_{D}$};
   
   \draw[color=dark, dashed] (3, -1) ellipse (6 and 3);
-  \node[color=white] at (8.5, -3.5) {$\Theta$};
+  \node[color=white] at (8.5, -3.5) {$\mathcal{S}$};
   
   \fill[color=white] (-7, 3) circle (8pt)
-  node[right, color=white] {$\PP_{D}$};
+  node[right, color=white] {$\pi_{D}$};
   
   \begin{scope}
     \clip (3, -1) ellipse (6 and 3);
@@ -229,10 +277,10 @@ the measurement plus what we learned from the measurement}.
   \node at (12, -6) {$\mathcal{P}_{D}$};
   
   \draw[color=dark, dashed] (3, -1) ellipse (6 and 3);
-  \node[color=white] at (8.5, -3.5) {$\Theta$};
+  \node[color=white] at (8.5, -3.5) {$\mathcal{S}$};
   
   \fill[color=white] (-7, 3) circle (8pt)
-  node[right, color=white] {$\PP_{D}$};
+  node[right, color=white] {$\pi_{D}$};
   
   \begin{scope}
     \clip (3, -1) ellipse (6 and 3);
@@ -248,21 +296,21 @@ the measurement plus what we learned from the measurement}.
 world into (b) a posterior distribution quantifying our uncertainty about
 the small world after incorporating any information in a measurement.
 If all of our assumptions are viable then the posterior should concentrate
-towards the latent data generating process, $\PP_{D}$.
+towards the latent data generating process, $\pi_{D}$.
 }
 \label{fig:learning}
 \end{figure*}
 
 \section{Decision Making in the Small World}
 
-Because it quantifies our uncertainty about the small world,
-the posterior distribution is a critical component to robust
-decision making.
+The posterior distribution not only quantifies what we have learned
+about the small world, it allows us to use that information to make
+robust decisions.
 
 Let's say that we have a set of actions or interventions, 
 $\mathcal{A} = \left\{ A_{i} \right\}$.  A \emph{utility function}
-quantifies the utility of each action assuming that a particular
-element of the small world is true,
+quantifies the utility of each action assuming that data are
+generated from a particular element of the small world,
 %
 \begin{align*}
 U &: \,\mathcal{A} \times \Theta \rightarrow \mathbb{R}
@@ -270,8 +318,9 @@ U &: \,\mathcal{A} \times \Theta \rightarrow \mathbb{R}
 & \quad \left(A, \theta \right) \, \mapsto U(A, \theta).
 \end{align*}
 %
-Given an element of the small world, $\theta^{*} \in \Theta$,
-the best decision is the action that maximizes utility,
+Given a particular element of the small world, 
+$\theta^{*} \in \Theta$, the best decision is the action that 
+yields the maximum utility,
 %
 \begin{equation*}
 \hat{A} = \underset{A \in \mathcal{A}}{\mathrm{argmax}} \,
@@ -284,8 +333,8 @@ the small world that best approximates the latent data generating
 process according to some metric, but that would ignore our 
 uncertainty.  In particular, elements of the small world that 
 yield similarly good approximations of the latent data generating
-process can yield completely different decisions, making
-subsequent decision making fragile.
+process can yield completely different decisions, and decisions
+based on point estimates in the small world can be very fragile.
 
 We can naturally incorporate our uncertainty into the decision
 making process, however, by averaging the utility function over
@@ -296,7 +345,7 @@ utility function},
 \overline{U} &: \,\mathcal{A} \rightarrow \mathbb{R}
 \\
 & \quad A \, \mapsto 
-\mathbb{E}_{\PP^{\mathrm{post}}_{\Theta}} \! \left[ U(A, \cdot) \right].
+\mathbb{E}_{\pi^{\mathrm{post}}_{\Theta}} \! \left[ U(A, \cdot) \right].
 \end{align*}
 %
 We can now make our decision based on the largest expected
@@ -308,13 +357,13 @@ utility,
 \end{equation*}
 %
 Because this incorporates all elements of the small world into
-the decision making process it leads to substantially more
+the decision making process, it leads to substantially more
 robust decisions in the presence of uncertainty.
 
 \section{Checking Model Assumptions with Predictive Performance}
 
 As with any form of inference, the efficacy of Bayesian inference
-depends critically on the underlying assumptions of a particular
+depends critically on the underlying assumption of a particular
 likelihood and prior distribution.  For example, our model might
 not be complex enough to capture the detail of the latent data
 generating process, leading to \emph{misfit} (Figure \ref{fig:bad_fits}a).  
@@ -333,10 +382,10 @@ process in \emph{overfitting} (Figure \ref{fig:bad_fits}b).
   \node at (12, -6) {$\mathcal{P}_{D}$};
   
   \draw[color=dark, dashed] (3, -1) ellipse (6 and 3);
-  \node[color=white] at (8.5, -3.5) {$\Theta$};
+  \node[color=white] at (8.5, -3.5) {$\mathcal{S}$};
   
   \fill[color=white] (-7, 3) circle (8pt)
-  node[right, color=white] {$\PP_{D}$};
+  node[right, color=white] {$\pi_{D}$};
   
   \begin{scope}
     \clip (3, -1) ellipse (6 and 3);
@@ -355,7 +404,7 @@ process in \emph{overfitting} (Figure \ref{fig:bad_fits}b).
   \node at (12, -6) {$\mathcal{P}_{D}$};
   
   \draw[color=dark, dashed] (-4, 2) ellipse (6 and 3);
-  \node[color=white] at (1.5, -0.5) {$\Theta$};
+  \node[color=white] at (1.5, -0.5) {$\mathcal{S}$};
   
    \begin{scope}
     \clip (-4, 2) ellipse (6 and 3);
@@ -365,16 +414,16 @@ process in \emph{overfitting} (Figure \ref{fig:bad_fits}b).
   \end{scope}
   
   \fill[color=white] (-7, 3) circle (8pt)
-  node[right, color=white] {$\PP_{D}$};
+  node[right, color=white] {$\pi_{D}$};
 \end{tikzpicture}
 }
-\caption{Bayesian inference yields optimal learning within only 
+\caption{Bayesian inference yields optimal learning only within 
 the context of our model assumptions.  (a) Misfit occurs when
 the small world does not contain the latent data generating
 process and so can never recover it exactly. (b) Even if the
 small world contains the latent data generating process, it
-can still overfit by concentrating away from the desired
-distribution.
+can still overfit by concentrating away from the latent data
+generating process.
 }
 \label{fig:bad_fits}
 \end{figure*}
@@ -382,41 +431,58 @@ distribution.
 Because Bayesian inference is a self-consistent framework, 
 we cannot validate those assumptions from a purely Bayesian 
 perspective! In order to check the validity of our modeling 
-assumptions we have to go beyond their context, penetrating
+assumptions we have to go beyond that context, penetrating
 the small world and peering into the context of the big world, 
 at least conceptually.  Fortunately, this foray into the big world 
 is naturally guided by \emph{predictive performance}.
 
 \subsection{The Posterior Predictive Distribution}
 
-Any element of the small world identifies a distribution over the 
-measurement space and, because we assume that whatever
-process generates the measurements is stationary, we could use 
-that distribution as a \emph{predictive distribution} over new 
-measurements.
+Because we assume that whatever process generates the 
+measurements is stationary, if an element of the small world
+identifies a distribution that generated our measurements
+then it should also the \emph{predictive distribution} that 
+that generates new measurements.
 
 A single element of the small world, however, ignores our
-uncertainty in the small world.  To fully incorporate our uncertainty
-we want to consider not a single element of the small world
-but rather integrate over its entirety using the posterior distribution.
-This expectation yields the \emph{posterior predictive distribution},
-$\PP_{\widetilde{D} \mid D}^{pp}$, implemented with the probability 
-density function
+uncertainty about which elements of the small world are most
+consistent with the measurements.  To fully incorporate our 
+uncertainty we want to consider not a single element of the small 
+world, but rather integrate over its entirety using the posterior 
+distribution.  
+
+The \emph{posterior predictive distribution} over new measurements,
+$\pi_{\widetilde{D} \mid D}^{pp}$, is constructed in the same way
+as the marginal likelihood.  The posterior distribution and the likelihood 
+together define a condition distribution over the space of new
+measurements and the small world, and marginalizing over the
+small world gives a predictive distribution over the space of new 
+measurements,
 %
 \begin{equation*}
-p^{\mathrm{pp}} \! \left( \tilde{d} \mid d \right)
-= \int L \! \left( \tilde{d} \mid \theta \right)
-p^{\mathrm{post}} \! \left( \theta \mid d \right)
-\dd \theta.
+\pi_{\widetilde{D} \mid D}^{pp} \! \left( E_{\widetilde{D}} \right)
+=
+\mathbb{E}_{\pi_{\Theta \mid D}^{\mathrm{post}}} \! \left[  
+\pi_{\widetilde{D} \mid \Theta}^{\mathrm{like}} \! \left( E_{\widetilde{D}} 
+\mid \theta \right)
+\right],
 \end{equation*}
 %
-In practice we can rarely construct the posterior predictive
-distribution analytically, but we can readily generate \emph{samples} 
-from it if we are already generating samples from the posterior
-distribution.  Formally, if
+or, in terms of probability density functions, 
 %
 \begin{equation*}
-\left\{ \theta_{n} \right\} \sim \! \PP^{\mathrm{post}}_{\Theta}
+p_{\widetilde{D} \mid D}^{pp} ( \tilde{d} \mid d )  = 
+\int p_{\widetilde{D} \mid \Theta}^{\mathrm{like}} ( \tilde{d} \mid \theta ) \,
+p_{\Theta \mid D}^{\mathrm{post}} \! \left( \theta \mid d \right) \dd^{D} \theta.
+\end{equation*}
+
+In practice we can rarely construct the posterior predictive distribution 
+analytically, but we can readily generate \emph{samples} from it if we 
+are already generating samples from the posterior distribution.  Formally, 
+if
+%
+\begin{equation*}
+\left\{ \theta_{n} \right\} \sim \! \pi^{\mathrm{post}}_{\Theta}
 \end{equation*}
 %
 is a sequence of samples from the posterior distribution then
@@ -425,55 +491,55 @@ posterior predictive distribution by sampling from the respective
 likelihoods,
 %
 \begin{equation*}
-\tilde{d}_{n} \sim \! \mathbb{L} \! \left[ \cdot \mid \theta_{n} \right].
+\tilde{d}_{n} \sim \! \pi_{\widetilde{D} \mid \Theta}^{\mathrm{like}}.
 \end{equation*}
 
 Our model assumptions are valid if and only if the posterior
-predictive distribution is sufficiently close to the latent data
-generating process.  We just need a way to quantify how
-close they are.
+predictive distribution is a sufficiently reasonable approximation 
+to the latent data generating process.  We just need a way to 
+quantify how close they are.
 
 \subsection{Predictive Performance}
 
 As we saw in the discussion of variational methods, the
 natural way to compare distributions is with a divergence,
 and the natural divergence for comparing probability
-distributions over the measurement space is the
-\emph{Kullback-Leibler divergence}, 
-$\mathrm{KL} \! \left( 
- \PP_{\widetilde{D}} \mid\mid \PP_{\widetilde{D} \mid D}^{pp} \right)$,
-%
-which is implemented with an integral over probability density 
-functions,
+distributions is the \emph{Kullback-Leibler divergence}, 
 %
 \begin{equation*}
-\mathrm{KL} \! \left( \PP_{\widetilde{D}} \mid\mid 
-\PP_{\widetilde{D} \mid D}^{pp} \right)
-= \int 
-\frac{p^{pp} \! \left( \tilde{d} \mid d \right)}{p \! \left( \tilde{d} \right)}
-p \! \left( \tilde{d} \right) \dd d.
+\mathrm{KL} \! \left( \pi_{1} \mid\mid \pi_{2} \right)
+=
+\mathbb{E}_{\pi_{1}} \! \left[ \frac{ \dd \pi_{1} }{ \dd \pi_{2} } \right],
 \end{equation*}
 %
-When the posterior predictive distribution matches the
-latent data generating process the divergence vanishes,
-and as the posterior predictive distribution becomes a
-worse and worse fit for the latent data generating process
-the divergence grows.
+or, in terms of densities,
+%
+\begin{equation*}
+\mathrm{KL} \! \left( \pi_{1} \mid\mid \pi_{2} \right)
+= \int \frac{ p_{1} \! \left( \theta \right) }{ p_{2} \! \left( \theta \right) }
+p_{1} \! \left( \theta \right) \dd \theta.
+\end{equation*}
+%
+When the two distributions are the same the divergence 
+vanishes, and as the two distributions deviate the divergence 
+grows.
 
-Ultimately the Kullback-Leibler divergence defines a
-measure of \emph{predictive performance} which serves
+The Kullback-Leibler divergence between the posterior predictive
+distribution and the latent data generating process, 
+$\mathrm{KL} ( \pi_{D} \mid\mid p_{\widetilde{D} \mid D}^{pp} )$
+defines a measure of \emph{predictive performance} which serves
 as an expected utility function, allowing us to rank all possible 
-sets of assumptions \emph{relative} to each other.  Those that 
-yield a small divergence with the latent data generating process
-yield better fits, and those that yield larger divergences yield
-worse fits (Figure \ref{fig:predictive_performance}).  What the 
-predictive performance does not do is provide an \emph{absolute} 
-validation of our model assumptions independent of other 
-possible assumptions.  An absolute validation would require 
-that we impose a threshold on the divergence below which 
-models are considered valid and above which invalid.  In 
-practice, however, there is no real motivation for a setting 
-such a threshold and absolute statements are largely ill-posed.
+sets of assumptions \emph{relative} to each other.  Those models
+with a posterior predictive distribution deviating only slightly from
+the latent data generating process yield better fits, while those that 
+yield larger divergences yield worse fits 
+(Figure \ref{fig:predictive_performance}).  What the predictive 
+performance does not do is provide an \emph{absolute} validation 
+of our model assumptions independent of other possible assumptions.  
+An absolute validation would require that we impose a threshold on the 
+divergence below which models are considered valid and above which 
+invalid and, in practice, there is no real motivation for setting such a 
+threshold.  This leaves absolute statements as largely ill-posed.
 
 \begin{figure*}
 \centering
@@ -492,13 +558,13 @@ such a threshold and absolute statements are largely ill-posed.
   \end{scope}
   
   \fill[color=white] (-7, 3) circle (8pt)
-  node[right, color=white] {$\PP_{\widetilde{D}}$};
+  node[right, color=white] {$\pi_{\widetilde{D}}$};
 \end{tikzpicture}
 \caption{The Kullback-Leibler divergence between the
-latent data generating process and the predictive distribution
-of a model defines a measure of predictive performance which 
-allows us to rank the performance of model assumptions relative
-to each other.  The smaller the divergence the closer the predictive
+latent data generating process and the posterior predictive distribution
+of a Bayesian model defines a measure of predictive performance 
+which allows us to rank the performance of various model assumptions 
+relative to each other.  The smaller the divergence the closer the predictive
 distribution is to the latent data generating process.
 }
 \label{fig:predictive_performance}
@@ -506,15 +572,15 @@ distribution is to the latent data generating process.
 
 The Kullback-Leibler divergence is an ideal way to compare 
 modeling assumptions in theory, but in practice it is of limited
-use because it cannot actually be computed without knowledge
-of the latent data generating process itself!  Consequently a variety 
-of approximations have been developed through the years that
-estimate the divergence by using a measurement at least twice:
-once to infer a posterior and again to estimate the divergence.
-Depending on the exact approach taken, these approximations
-reduce to many popular model comparison techniques ubiquitous 
-in the literature, including cross validation and the many information 
-criteria.
+use because we can't compute expectations with respect to
+the latent data generation process unless we already know it!
+Consequently a variety of approximations have been developed 
+through the years that estimate the divergence by using a 
+measurement at least twice: once to infer a posterior and again 
+to estimate the divergence.  Depending on the exact approach 
+taken, these approximations reduce to many popular model 
+comparison techniques ubiquitous in the literature, including 
+cross validation and the many information criteria.
 
 \subsection{Posterior Predictive Checks}
 
@@ -528,10 +594,10 @@ component of the measurement space, $D^{*}$, that is easy to
 visualize and ideally sensitive to the most suspect model 
 assumptions.  We then construct the posterior predictive check by 
 visually comparing the marginalized posterior predictive distribution 
-over $D^{*}$ to not the entire latent data generating process but
-just the measurement itself.  If the measurement is far from the 
-predictive distribution then either the measure itself was exceedingly 
-unlikely or our model is exhibiting misfit (Figure \ref{fig:predictive_misfit}).
+over $D^{*}$ to just the measurement itself.  If the measurement is 
+far from the predictive distribution then either the measure itself was 
+exceedingly unlikely or our model is exhibiting misfit (Figure
+\ref{fig:predictive_misfit}).
 
 \begin{figure*}
 \centering
@@ -572,15 +638,15 @@ rare measurement or our model assumptions are insufficient.
 \end{figure*}
 
 As in the general case, these visual predictive checks are not
-calibrated and so we cannot discriminate between rare 
-measurements and the illegitimacy of our model assumptions.
-In practice, however, we can appeal to some implicit baseline
-predictive performance to make qualitative judgements as to 
-when the tension is strong enough to be suspect.  Suspicion 
-then motivates a careful study of the model assumptions that 
-manifest in the chosen component of the measurement, and 
-potentially the updating of our model into one more capable 
-of capturing the intricacies of our data (Figure \ref{fig:model_updating}).
+calibrated and so we cannot discriminate between rare measurements 
+and the illegitimacy of our model assumptions.  In practice, however, we 
+can appeal to some implicit baseline predictive performance to make 
+qualitative judgements as to when the tension is strong enough to be 
+suspect.  Suspicion then motivates a careful study of the model 
+assumptions that manifest in the chosen component of the 
+measurement, and potentially the updating of our model into one more
+capable of capturing the intricacies of our data 
+(Figure \ref{fig:model_updating}).
 
 \begin{figure*}
 \centering
@@ -593,10 +659,10 @@ of capturing the intricacies of our data (Figure \ref{fig:model_updating}).
   \node at (12, -6) {$\mathcal{P}_{D}$};
   
   \draw[color=dark, dashed] (3, -1) ellipse (6 and 3);
-  \node[color=white] at (8.5, -3.5) {$\Theta$};
+  \node[color=white] at (8.5, -3.5) {$\mathcal{S}$};
   
   \fill[color=white] (-7, 3) circle (8pt)
-  node[right, color=white] {$\PP_{D}$};
+  node[right, color=white] {$\pi_{D}$};
   
   \begin{scope}
     \clip (3, -1) ellipse (6 and 3);
@@ -615,7 +681,7 @@ of capturing the intricacies of our data (Figure \ref{fig:model_updating}).
   \node at (12, -6) {$\mathcal{P}_{D}$};
   
   \draw[color=dark, dashed] (1, 0) ellipse (10 and 6);
-  \node[color=white] at (8.5, -3.5) {$\Theta$};
+  \node[color=white] at (8.5, -3.5) {$\mathcal{S}$};
   
    \begin{scope}
     \clip (1, 0) ellipse (10 and 6);
@@ -625,7 +691,7 @@ of capturing the intricacies of our data (Figure \ref{fig:model_updating}).
   \end{scope}
   
   \fill[color=white] (-7, 3) circle (8pt)
-  node[right, color=white] {$\PP_{D}$};
+  node[right, color=white] {$\pi_{D}$};
 \end{tikzpicture}
 }
 \caption{Posterior predictive checks are powerful ways to
@@ -645,13 +711,13 @@ surprisingly straightforward.  Using our expertise about a
 system we construct a prior that quantifies our initial
 assumptions about the system and a likelihood that
 quantifies our assumptions about the latent data generating
-process itself.  Given these two inputs we can immediately
-construct a posterior distribution, and then all inferential
-summaries and decisions reduce to computing the 
-corresponding expectations.  Although conceptually simple,
+process itself.  These two distributions then immediately
+define a posterior distribution quantifying our updated uncertainty
+about our system, and all inferential summaries and decisions 
+reduce to posterior expectations.  Although conceptually simple,
 neither of these steps is particularly easy.
 
-Building robust models is an immensely challenging tasks
+Building robust models is an immensely challenging task
 that requires both expertise with a given system and familiarity
 with the wealth of potential techniques for constructions priors
 and likelihoods.  Many of these techniques are discussed in
@@ -670,8 +736,6 @@ distributions until we have constructed the complete likelihood.
 The generative nature of these models facilities communication
 and helps to identify which features may be most suspect, 
 motivating targeted posterior predictive checks and model updates.
-\textbf{Constructive example mirroring the motivating example
-in the introduction.}
 
 Once we have specified our assumptions and collected our
 data, there many options for approximating the resulting
@@ -682,17 +746,18 @@ be careful to validate the accuracy of the estimation, lest a
 biased or highly variable estimator spoil the carefully crafted
 model.  Such validation is easier in some computational
 techniques than others, and sometimes the fastest algorithms
-are the most vulnerable to problems.
+are the most vulnerable to bias!
 
 Although the modeling and computation steps should ideally
 be completely decoupled, in practice they will always interact.
 More complex models strain the approximation algorithms in
 our toolbox, exhausting our computational resources or
-compromising the accuracy of the estimators, and in either 
-case undermining the robustness of our analysis.  In practice
+compromising the accuracy of the estimators and, in either 
+case, undermining the robustness of our analysis.  In practice
 we often have to iterate, using the success or failure of a
 fit to inform the next generation of model.  Provided we do
-this deliberately, taking care to validate both the model assumptions 
-and fits, we can use Bayesian inference to make powerful
-statements about the world around us.
+this deliberately, taking care to validate both the model 
+assumptions and the fit themselves, we can use Bayesian 
+inference to make powerful statements about the world around 
+us.
 

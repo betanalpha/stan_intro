@@ -274,31 +274,53 @@ probability distributions in practice.
 
 \subsection{The Lebesgue Measure and Density Functions}
 
-The Lebesgue measure, $\lambda$ assigns to each well-defined 
-subset of the real numbers a measure proportional to its \emph{volume}.  
-For example, the Lebesgue measure of any rectangular neighborhood, 
+\textbf{Lebesgue measure on R assigns measure based on interval
+length, then generalize as a product of Lebesgue measures that
+assigns measure based on volume.}
+
+The Lebesgue measure on the one-dimensional real numbers
+assigns to each interval,
 %
 \begin{equation*}
-E_{R} = 
-\left[a_{1}, b_{1} \right] \times \ldots \times \left[a_{D}, b_{D} \right] 
+I = \left[a, b \right] \subset \RR,
+\end{equation*}
+%
+a measure proportional to its length,
+%
+\begin{equation*}
+\lambda \! \left( I \right) = b - a.  
+\end{equation*}
+
+This generalizes to the general Lebesgue measure, $\lambda$, 
+which assigns to each rectangular neighborhood
+%
+\begin{equation*}
+I_{D} = \prod_{d=1}^{D} I_{d} = \prod_{d=1}^{D} \left[a_{d}, b_{d} \right]
 \subset \RR^{D},
 \end{equation*}
 %
-is defined to be the enclosed volume,
+a measure proportional to its volume,
 %
 \begin{equation*}
-\lambda \! \left( E_{R} \right) = 
+\lambda \! \left( I_{d} \right) = 
 \prod_{d = 1}^{D} \left(b_{d} - a_{d} \right).  
 \end{equation*}
 %
 Although not immediately obvious, this condition implies that the 
-Lebesgue measure of arbitrary events reduces to the Riemann integral 
-over that event
+Lebesgue measure of an arbitrary event is also given by the
+enclosed volume specified by the Riemann integral over that event
 %
 \begin{equation*}
-\lambda \! \left( E \right])= \int_{E} \dd \theta.
+\lambda \! \left( E \right)= \int_{E} \dd^{D} \theta.
 \end{equation*}
 %
+Because of this equivalence, it is common shorthand to write the 
+Lebesgue measure on $\Theta = R^{D}$ as 
+%
+\begin{equation*}
+\lambda = \dd^{D} \theta = \prod_{d = 1}^{D} \dd \theta_{d}.
+\end{equation*}
+
 Similarly, Lebesgue integrals with respect to the Lebesgue measure
 (mathematicians have sick sense of humor) also reduce to Riemann
 integrals,
@@ -401,7 +423,7 @@ of the Jacobian matrix quantifies how the nonlinear transformation
 warps volumes and hence the Lebesgue measure.
 
 This nontrivial relationship between Lebesgue measures and their
-pushforwads has an important consequence for density functions.  
+pushforwards has an important consequence for density functions.  
 Density functions do not transform as we might naively expect,
 %
 \begin{equation*}

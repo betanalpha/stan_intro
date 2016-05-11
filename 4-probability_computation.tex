@@ -2,13 +2,13 @@
 
 The beauty of probability theory is that, once we have selected a
 \emph{target} probability distribution, the only well-posed computations
-are expectations.  As noted above, the many subtleties and apparent 
-paradoxes of probability theory are readily overcome by ignoring our
-typically-biased intuition and instead posing questions as expectations
-and computing.
+are expectations.  As noted in the previous chapter, the many subtleties 
+and apparent paradoxes of probability theory are readily overcome by 
+ignoring our typically-biased intuition and instead posing questions as 
+expectations and computing.
 
 Once we've settled on an implementation of our probability distribution, 
-these computations reduce to straightforward computations, either 
+these computations reduce to straightforward computations, for example
 summation in the discrete case or integration in the real case.  
 Unfortunately, the conceptual elegance of these computations does not 
 imply that the calculations themselves are trivial.  
@@ -20,7 +20,7 @@ accurate estimation is to exhaustively survey the sample space, and
 for large sample spaces the cost of such surveys easily overwhelms our 
 finite computational resources.  Consequently, computationally efficient 
 yet accurate estimates require more sophisticated approaches that take
-advantage of the geometry of the target probability distribution itself.
+exploit the geometry of the target probability distribution itself.
 
 In this section we study the geometry of probability distributions
 on high-dimensional sample spaces, especially how that geometry 
@@ -42,20 +42,21 @@ they should be equivalent for equivalent sample spaces.
 
 Naively, we might consider a neighborhood around the mode of our 
 representative probability density function where the density, and 
-presumably also contributions to any integral, is largest.  This
-neighborhood, however, is dependent on the particular sample
-space and hence doesn't have the necessary invariance properties.
-Our intuition must be missing something important.
+presumably also contributions to any integral, is largest.  Because
+this neighborhood is dependent on the particular representation,
+however, it doesn't have the necessary invariance properties.  Our 
+initial intuition must be missing something important.
 
 Indeed, our naive intuition overlooks the \emph{volume} over which 
 we integrate the probability density functions.  Although probability 
-density functions concentrate around their modes, the volume over which
-we integrate does not.  As we move towards infinity there is more and
-more room over which we can integrate, especially in high-dimensions.
-Consequently the integrand, which incorporates both the density and the volume, 
-concentrates in a singular neighborhood somewhere in the  middle denoted 
-the \emph{typical set} (Figure \ref{fig:typical_set}).  This ubiquitous phenomenon 
-is known as \emph{concentration of measure}
+density functions concentrate around their modes, the Lebesgue 
+measure over which we integrate does not.  As we move away from
+the mode towards infinity there is more and more volume over which 
+we can integrate, especially in high-dimensions.  Consequently the 
+integrand, which incorporates both the density and the volume, 
+concentrates in a singular neighborhood somewhere in between
+which we denote the \emph{typical set} (Figure \ref{fig:typical_set}).  
+This ubiquitous phenomenon is known as \emph{concentration of measure}
 
 \begin{figure*}
 \centering
@@ -72,7 +73,7 @@ is known as \emph{concentration of measure}
     }  
   \end{scope}
 \end{tikzpicture}
-\caption{On high-dimensional samples spaces all well-behaved probability 
+\caption{On high-dimensional samples spaces well-behaved probability 
 distributions concentrate in a neighborhood called the \emph{typical set}.  
 In order to estimate the integrals needed to compute probabilities and 
 expectations we have to be able to identify where the typical set lies in 
@@ -85,7 +86,7 @@ Transformations between equivalent sample spaces may change where
 the probability density and volume concentrate, but these changes always 
 cancel exactly to yield an equivalent typical set.  Concentration of measure 
 and the typical set are properties of a probability distribution itself and not 
-of any particular sample space we use to express that distribution.
+of any particular representation.
 
 Although this analysis is too vague to help us identify the typical set
 for a given probability distribution, it does provide crucial understanding 
@@ -95,12 +96,12 @@ no \emph{single} point in the sample space yields a good approximation
 to all expectations:
 %
 \begin{quote}
-\emph{to construct estimators that are accurate for many expectations 
+\emph{to construct estimators that are accurate for diverse expectations 
 we need to quantify the entire typical set.}
 \end{quote}
 %
-Moreover, because points outside of the typical set contribute little to 
-nothing to any integral,
+Moreover, because points outside of the typical set do not contribute to 
+any integral,
 %
 \begin{quote}
 \emph{we need to focus the entirely of our computational resources on 
@@ -112,56 +113,73 @@ itself,
 %
 \begin{quote}
 \emph{all of our computational algorithms should be independent of the 
-details of any particular expression, such as the shape of a probability 
+details of any particular representation, such as the shape of a probability 
 density function.}
 \end{quote}
 
 \section{An Explicit Example of Concentration of Measure}
 
 Concentration of measure can be difficult to reconcile with our
-low-dimensional intuition, so let's examine an explicit example.  Consider 
-a probability distribution over the $D$-dimensional real numbers 
-represented by a product of Gaussian probability density functions,
+low-dimensional intuition, so let's examine an explicit example.  
+Consider a probability distribution over the $D$-dimensional real 
+numbers represented by a product of Gaussian probability density 
+functions,
 %
 \begin{equation*}
-p \! \left( \theta \right) = 
+p_{\Theta} \! \left( \theta \right) = 
 \prod_{d = 1}^{D} \frac{1}{\sqrt{2 \pi \sigma^{2} } }
 \exp \! \left( - \frac{\theta_{d}^{2}}{2 \sigma^{2}} \right),
 \end{equation*}
 %
-with the corresponding differential volume,
+with the corresponding rectangular Lebesgue measure,
 %
 \begin{equation*}
-\dd V = \prod_{d = 1}^{D} \dd \theta_{d}.
+\dd^{n} \theta = \prod_{d = 1}^{D} \dd \theta_{d}.
 \end{equation*}
-%
-In order to identify which neighborhoods of the sample space contribute
-most to generic expectations, we now transform to a sample space with 
-spherical coordinates.  This yields the probability density function
+
+Because both the probability density function and Lebesgue
+measure are invariant to rotations, it is easier to analyze this
+distribution with hyper-spherical coordinates.  In hyper-spherical
+coordinates the original probability density function appears as
 %
 \begin{equation*}
-p \! \left( r, \phi_{1}, \ldots, \phi_{D - 1} \right) = 
+p_{\Theta} \! \left( r, \phi_{1}, \ldots, \phi_{D - 1} \right) = 
 \left( \frac{1}{2 \pi \sigma^{2} } \right)^{\frac{D}{2}}
 \exp \! \left( - \frac{r^{2}}{2 \sigma^{2}} \right),
 \end{equation*}
 %
-with the corresponding differential volume,
+and with respect to the hyper-spherical Lebesgue measure
+the rectangular Lebesgue measure appears as
 %
 \begin{equation*}
-\dd V = 
-r^{D - 1} \dd r 
-\prod_{d = 1}^{D - 1} \sin^{D - d - 1} \! \left( \phi_{d} \right) \dd \phi_{d}.
+\dd^{n} \theta =
+r^{D - 1} \prod_{d = 1}^{D - 1} \sin^{D - d - 1} \! \left( \phi_{d} \right) 
+\cdot \dd r \prod_{d = 1}^{D} \dd \phi_{d}.
 \end{equation*}
 %
-Because the probability density function does not depend on
-any of the hyperspherical angles, neither will any probabilities
-and, consequently, any neighborhood of high probability must be
-spherically symmetric.  To see where these neighborhoods concentrate
-radially we can marginalize out the hyperspherical angles analytically
+From the hyper-spherical perspective, our original probability
+density function concentrates around the mode and rapidly
+decays with increasing radius, $r$.  The rectangular Lebesgue 
+measure, however, becomes increasingly larger at higher
+radius where there is more and more volume over which to 
+integrate (Figure \ref{fig:conc_of_meas_anal})
+
+To see where the probability distribution concentrates radially
+we pushforward the probabiltiy density function,
+%
+\begin{equation*}
+p_{\Phi} \! \left( r, \phi_{1}, \ldots, \phi_{D - 1} \right)
+=
+\left( \frac{1}{2 \pi \sigma^{2} } \right)^{\frac{D}{2}}
+\exp \! \left( - \frac{r^{2}}{2 \sigma^{2}} \right)
+r^{D - 1} \prod_{d = 1}^{D - 1} \sin^{D - d - 1} \! \left( \phi_{d} \right),
+\end{equation*}
+%
+and then marginalize out the hyperspherical angles analytically
 to give the radial probability density function,
 %
 \begin{equation*}
-p \! \left( r \right) = 
+p_{R} \! \left( r \right) = 
 \left( 2 \sigma^{2} \right)^{-\frac{D}{2} }
 \frac{ 2 }{ \Gamma \! \left( \frac{D}{2} \right) }
 r^{D - 1} \exp \! \left( - \frac{r^{2}}{2 \sigma^{2}} \right),
@@ -169,10 +187,10 @@ r^{D - 1} \exp \! \left( - \frac{r^{2}}{2 \sigma^{2}} \right),
 %
 which is exactly the scaled $\chi$ distribution.  In particular, for
 large $D$ all of the probability concentrates in a neighborhood
-around $r \approx \sigma \sqrt{D}$ with width around $\sigma / \sqrt{2}$.  
-In other words, almost all of our target probability can be found in a 
-thin shell at $r = \sigma \sqrt{D}$ and the relative width of that shell 
-concentrates tighter and tighter as we add more and more dimensions 
+around $r \approx \sigma \sqrt{D}$ with width approximately equal
+to $\sigma / \sqrt{2}$.  In other words, almost all of our target probability 
+can be found in a thin shell at $r = \sigma \sqrt{D}$ and the relative 
+width of that shell decreases as we add more and more dimensions 
 (Figure \ref{fig:conc_of_meas_anal}).
 
 \begin{figure*}
@@ -187,9 +205,9 @@ from the mode.  These two opposing trends balance to give the typical set.}
 \label{fig:conc_of_meas_anal}
 \end{figure*}
 
-Because samples recover all expectations, they must concentrate across 
-the typical set (Figure \ref{fig:samples}).  Consequently, we can also use 
-samples to simulate concentration of measure.  For a given $D$ we can 
+Because samples recover all expectations, they too must concentrate 
+across the typical set (Figure \ref{fig:samples}).  Consequently, we can also 
+use samples to simulate concentration of measure.  For a given $D$ we 
 generate a sample from our target probability using a univariate Gaussian 
 random number generator available in any computing library,
 %
@@ -197,10 +215,10 @@ random number generator available in any computing library,
 \theta_{d} \sim \mathcal{N} \! \left(0, \sigma^{2} \right),
 \end{equation*}
 %
-with the corresponding radial distance $r = \sqrt{ \sum_{d = 1}^{D} x_{d}^{2} }$.
-Generating a sequence of samples and then histogramming the radial 
-distance reveals the same $\chi$ distribution that we arrived at analytically
-(Figure \ref{fig:concentration_of_measure_emp}).
+and compute the corresponding radial distance 
+$r = \sqrt{ \sum_{d = 1}^{D} x_{d}^{2} }$.  Generating a sequence of samples 
+and then histogramming the radial distance reveals the same $\chi$ distribution 
+that we arrived at analytically (Figure \ref{fig:concentration_of_measure_emp}).
 
 \begin{figure*}
 \centering
