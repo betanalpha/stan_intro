@@ -2,11 +2,19 @@
 
 While logic provides a framework for how we can describe systems 
 with certainty, probability theory allow us to assign \emph{uncertainty} 
-to logical propositions.  We begin this chapter with an introduction of
-measures, which allow us to assign arbitrary values to propositions, 
-and then probability measures, which limit those value to probabilities
-that quantify uncertainty.  We end with a discussion of conditional 
-probability distributions over implications.
+to logical propositions. Jaynes noted that "[Logic] is the kind of
+reasoning we would like to use all the time; but... in almost all 
+the situations confronting us we do not have the right kind of 
+information to allow this kind of reasoning." (Jaynes Ch. 1) 
+When we are uncertain about our target system then we cannot
+guarantee that any particular logical statement is absolutely
+true or false. 
+
+We begin this chapter with an introduction of measures, which allow us
+to assign arbitrary values to propositions, and then probability measures, 
+which limit those value to probabilities that quantify uncertainty. 
+We end with a discussion of conditional probability distributions 
+over implications.
 
 Unfortunately, the abstraction of probability theory means that we 
 cannot rely on explicit examples, and consequently visualizations, 
@@ -156,7 +164,7 @@ s_{*} \mu_{\Theta} \! \left( E_{\Omega} \right)
 \mu_{\Theta} \! \left( s^{-1} \! \left( E_{\Omega} \right) \right).
 \end{equation*}
 %
-As with measurable spaces, the measurable in measurable 
+As with measurable spaces, the 'measurable' in measurable 
 maps refers to this particular application in pushing measures 
 forward from one space to another.
 
@@ -177,14 +185,14 @@ depend on the particular details of any one of them.
 
 \section{Probability Distributions}
 
-When we are uncertain about our target system then we cannot
-guarantee that any particular logical statement is absolutely
-true or false.  In order to quantify uncertainty about our descriptions 
-we attenuate logical propositions by assigning to each statement
-a \emph{probability} that quantifies how plausible it is be true.  
-Probabilities are bounded between $0$, indicating that the 
-statement is absolutely false, and $1$, indicating that the statement 
-is absolutely true.
+As mentioned in the introduction to this chapter, we wish to quantify 
+uncertainty about our descriptions of systems where logical certainty is 
+impossible. In order to apply the concept of a measure, we first need to 
+associate a quantity, a \emph{probability}, to each logical proposition 
+whose truth or falsity may be unknown. This intuitively quantifies how 
+plausible it is. To relate these to logical propositions, we assert that 
+Probabilities are bounded between $0$, indicating that the statement is 
+false, and $1$, indicating that the statement is true.
 
 A \emph{probability distribution} quantifies the uncertainty about
 the entire system by assigning probabilities to each event in a
