@@ -3,29 +3,29 @@
 
 Naturally curious as a species, we all have a strong intuition
 for how we can better understand the world around us.  We
-first make observations and then try to gleam insight from 
+first make observations and then try to glean insight from
 those observations.  Formalizing this intuition into a robust
 methodology for inference, however, is a delicate process.
 
-Consider, for example, a ball flying through the air, slowly 
-falling under the force of gravity.  After diligently recording the 
-positions of the ball over its trajectory we want to identify a 
+Consider, for example, a ball flying through the air, slowly
+falling under the force of gravity.  After diligently recording the
+positions of the ball over its trajectory we want to identify a
 physical model that quantitatively describes its motion.  Perfect
-position measurements would strongly constraint the possible
-models, allowing us to exactly recover not only the trajectory 
-taken by the ball but also any latent model parameters, such as 
-the acceleration due to gravity, $g$ (Figure \ref{fig:motivating_example}a).  
+position measurements would strongly constrain the possible
+models, allowing us to exactly recover not only the trajectory
+taken by the ball but also any latent model parameters, such as
+the acceleration due to gravity, $g$ (Figure \ref{fig:motivating_example}a).
 
 Of course we cannot make perfect measurements in practice.
-The observations we can make are limited by an inherent variability 
+The observations we can make are limited by an inherent variability
 that obscures the underlying trajectory; multiple trajectories, and
 hence multiple physical models, are all consistent with the noisy
 measurements (Figure \ref{fig:motivating_example}b).  In order
-to learn from these realistic measurements we need not only 
+to learn from these realistic measurements not only do we need
 models of the ball's motion and models of the variability in the
-measurements, but also a means of quantifying the uncertainty
-in which of those models are consistent with the observations.
-\emph{The only conclusive statement we can make is how uncertain 
+measurements, but we also need a means of quantifying the uncertainty
+about which of those models are consistent with the observations.
+\emph{The only conclusive statement we can make is how uncertain
 we are.}
 
 \begin{figure*}
@@ -34,35 +34,35 @@ we are.}
 \begin{tikzpicture}[scale=0.25, thick]
   \draw[dashed, rotate=180, color=gray70] (0, -10) parabola (-20, 0);
 
-  \fill[color=dark] (2, -0.025 * 2 * 2 + 10) circle (7pt);  
-  \fill[color=light] (2, -0.025 * 2 * 2 + 10) circle (5pt);  
-  
-  \fill[color=dark] (5, -0.025 * 5 * 5 + 10) circle (7pt);  
-  \fill[color=light] (5, -0.025 * 5 * 5 + 10) circle (5pt);  
-  
-  \fill[color=dark] (7, -0.025 * 7 * 7 + 10) circle (7pt);  
-  \fill[color=light] (7, -0.025 * 7 * 7 + 10) circle (5pt);  
-  
-  \fill[color=dark] (10, -0.025 * 10 * 10 + 10) circle (7pt);  
-  \fill[color=light] (10, -0.025 * 10 * 10 + 10) circle (5pt);  
-  
-  \fill[color=dark] (13, -0.025 * 13 * 13 + 10) circle (7pt);  
-  \fill[color=light] (13, -0.025 * 13 * 13 + 10) circle (5pt);  
-  
-  \fill[color=dark] (14, -0.025 * 14 * 14 + 10) circle (7pt);  
-  \fill[color=light] (14, -0.025 * 14 * 14 + 10) circle (5pt);  
-  
-  \fill[color=dark] (17, -0.025 * 17 * 17 + 10) circle (7pt);  
-  \fill[color=light] (17, -0.025 * 17 * 17 + 10) circle (5pt);  
-  
-  \fill[color=dark] (18, -0.025 * 18 * 18 + 10) circle (7pt);  
-  \fill[color=light] (18, -0.025 * 18 * 18 + 10) circle (5pt);  
+  \fill[color=dark] (2, -0.025 * 2 * 2 + 10) circle (7pt);
+  \fill[color=light] (2, -0.025 * 2 * 2 + 10) circle (5pt);
 
-  \fill[color=dark] (19, -0.025 * 19 * 19 + 10) circle (7pt);  
-  \fill[color=light] (19, -0.025 * 19 * 19 + 10) circle (5pt);  
-  
+  \fill[color=dark] (5, -0.025 * 5 * 5 + 10) circle (7pt);
+  \fill[color=light] (5, -0.025 * 5 * 5 + 10) circle (5pt);
+
+  \fill[color=dark] (7, -0.025 * 7 * 7 + 10) circle (7pt);
+  \fill[color=light] (7, -0.025 * 7 * 7 + 10) circle (5pt);
+
+  \fill[color=dark] (10, -0.025 * 10 * 10 + 10) circle (7pt);
+  \fill[color=light] (10, -0.025 * 10 * 10 + 10) circle (5pt);
+
+  \fill[color=dark] (13, -0.025 * 13 * 13 + 10) circle (7pt);
+  \fill[color=light] (13, -0.025 * 13 * 13 + 10) circle (5pt);
+
+  \fill[color=dark] (14, -0.025 * 14 * 14 + 10) circle (7pt);
+  \fill[color=light] (14, -0.025 * 14 * 14 + 10) circle (5pt);
+
+  \fill[color=dark] (17, -0.025 * 17 * 17 + 10) circle (7pt);
+  \fill[color=light] (17, -0.025 * 17 * 17 + 10) circle (5pt);
+
+  \fill[color=dark] (18, -0.025 * 18 * 18 + 10) circle (7pt);
+  \fill[color=light] (18, -0.025 * 18 * 18 + 10) circle (5pt);
+
+  \fill[color=dark] (19, -0.025 * 19 * 19 + 10) circle (7pt);
+  \fill[color=light] (19, -0.025 * 19 * 19 + 10) circle (5pt);
+
   \draw[->] (22, 13) node[above] {$g$} -- (22, 10);
-      
+
   \draw[->] (0, 0) -- (25,0) node[right] {$x$};
   \draw[->] (0, 0) -- (0,15) node[above] {$y$};
 \end{tikzpicture}
@@ -74,176 +74,176 @@ we are.}
   \draw[dashed, rotate=180, color=gray70] (0, -12) parabola (-20.25, 0);
   \draw[dashed, rotate=180, color=gray70] (0, -10) parabola (-21, 0);
 
-  \fill[color=dark] (2, -0.025 * 2 * 2 + 10 -1.123067470) circle (7pt);  
-  \fill[color=light] (2, -0.025 * 2 * 2 + 10 -1.123067470) circle (5pt);  
-  
-  \fill[color=dark] (5, -0.025 * 5 * 5 + 10 -0.330845947) circle (7pt);  
-  \fill[color=light] (5, -0.025 * 5 * 5 + 10 -0.330845947) circle (5pt);  
-  
-  \fill[color=dark] (7, -0.025 * 7 * 7 + 10 -0.642779020) circle (7pt);  
-  \fill[color=light] (7, -0.025 * 7 * 7 + 10 -0.642779020) circle (5pt);  
-  
-  \fill[color=dark] (10, -0.025 * 10 * 10 + 10 + 2.174536596) circle (7pt);  
-  \fill[color=light] (10, -0.025 * 10 * 10 + 10 + 2.174536596) circle (5pt);  
-  
-  \fill[color=dark] (13, -0.025 * 13 * 13 + 10 -1.043929042) circle (7pt);  
-  \fill[color=light] (13, -0.025 * 13 * 13 + 10 -1.043929042) circle (5pt);  
-  
-  \fill[color=dark] (14, -0.025 * 14 * 14 + 10 -0.526778959) circle (7pt);  
-  \fill[color=light] (14, -0.025 * 14 * 14 + 10 -0.526778959) circle (5pt);  
-  
-  \fill[color=dark] (17, -0.025 * 17 * 17 + 10 + 1.290826126) circle (7pt);  
-  \fill[color=light] (17, -0.025 * 17 * 17 + 10 + 1.290826126) circle (5pt);  
-  
-  \fill[color=dark] (18, -0.025 * 18 * 18 + 10 + 0.008352532) circle (7pt);  
-  \fill[color=light] (18, -0.025 * 18 * 18 + 10 + 0.008352532) circle (5pt);  
+  \fill[color=dark] (2, -0.025 * 2 * 2 + 10 -1.123067470) circle (7pt);
+  \fill[color=light] (2, -0.025 * 2 * 2 + 10 -1.123067470) circle (5pt);
 
-  \fill[color=dark] (19, -0.025 * 19 * 19 + 10 -0.508723224) circle (7pt);  
-  \fill[color=light] (19, -0.025 * 19 * 19 + 10 -0.508723224) circle (5pt);  
-  
+  \fill[color=dark] (5, -0.025 * 5 * 5 + 10 -0.330845947) circle (7pt);
+  \fill[color=light] (5, -0.025 * 5 * 5 + 10 -0.330845947) circle (5pt);
+
+  \fill[color=dark] (7, -0.025 * 7 * 7 + 10 -0.642779020) circle (7pt);
+  \fill[color=light] (7, -0.025 * 7 * 7 + 10 -0.642779020) circle (5pt);
+
+  \fill[color=dark] (10, -0.025 * 10 * 10 + 10 + 2.174536596) circle (7pt);
+  \fill[color=light] (10, -0.025 * 10 * 10 + 10 + 2.174536596) circle (5pt);
+
+  \fill[color=dark] (13, -0.025 * 13 * 13 + 10 -1.043929042) circle (7pt);
+  \fill[color=light] (13, -0.025 * 13 * 13 + 10 -1.043929042) circle (5pt);
+
+  \fill[color=dark] (14, -0.025 * 14 * 14 + 10 -0.526778959) circle (7pt);
+  \fill[color=light] (14, -0.025 * 14 * 14 + 10 -0.526778959) circle (5pt);
+
+  \fill[color=dark] (17, -0.025 * 17 * 17 + 10 + 1.290826126) circle (7pt);
+  \fill[color=light] (17, -0.025 * 17 * 17 + 10 + 1.290826126) circle (5pt);
+
+  \fill[color=dark] (18, -0.025 * 18 * 18 + 10 + 0.008352532) circle (7pt);
+  \fill[color=light] (18, -0.025 * 18 * 18 + 10 + 0.008352532) circle (5pt);
+
+  \fill[color=dark] (19, -0.025 * 19 * 19 + 10 -0.508723224) circle (7pt);
+  \fill[color=light] (19, -0.025 * 19 * 19 + 10 -0.508723224) circle (5pt);
+
   \draw[->] (22, 13) node[above] {$g?$} -- (22, 10);
-      
+
   \draw[->] (0, 0) -- (25,0) node[right] {$x$};
   \draw[->] (0, 0) -- (0,15) node[above] {$y$};
 \end{tikzpicture}
 }
 \caption{(a) Perfect measurements of a ball falling under the influence
-of gravity would strongly constrain any physical model of that motion, 
+of gravity would strongly constrain any physical model of that motion,
 including latent parameters such as the the strength of gravity, $g$.
-(b) In practice, however, measurements are inherently variable, which 
-limits our ability to infer the exact trajectory and hence any model of how 
-the trajectory itself.  Here and in all measurements, uncertainty is intrinsic 
+(b) In practice, however, measurements are inherently variable, which
+limits our ability to infer the exact trajectory and hence any model of
+the trajectory itself.  Here, and in all measurements, uncertainty is intrinsic
 to learning.}
 \label{fig:motivating_example}
 \end{figure*}
 
-This simple example demonstrates a intrinsic principle that underlies 
+This simple example demonstrates a intrinsic principle that underlies
 science, industry, medicine, and any other field that attempts to learn from
 observations: uncertainty is inherent to learning and decision making.
 In particular, if we want to develop any formal methodology for inference
 and decision making then we first need a formal procedure for quantifying
-and manipulating uncertainty itself.  \emph{Bayesian inference} uses 
-\emph{probability theory} to quantify all forms of uncertainty, including not 
-only the intrinsic variability of measurements but also ignorance in the 
+and manipulating uncertainty itself.  \emph{Bayesian inference} uses
+\emph{probability theory} to quantify all forms of uncertainty, including not
+only the intrinsic variability of measurements but also the ignorance in the
 learning process itself.  This unified perspective provides an elegant and
 powerful approach for first making inferences and then making robust
 decisions.
 
 \section{Our Objectives}
 
-While reading this review we want the reader to learn how probability 
+While reading this review we want the reader to learn how probability
 theory can be used to quantify uncertainty both in theory and in practice,
-ultimately motivating Bayesian inference itself.  Unfortunately, this seemingly 
-straightforward objective ends up being quickly complicated by the subtle 
-and often counterintuitive nature of probability theory itself.  
+ultimately motivating Bayesian inference itself.  Unfortunately, this seemingly
+straightforward objective ends up being quickly complicated by the subtle
+and often counterintuitive nature of probability theory itself.
 
 Many introductory treatments of Bayesian inference ignore these subtleties
-entirely, oversimplifying the subject and neglecting many of its finer technical 
+entirely, oversimplifying the subject and neglecting many of its finer technical
 aspects.  Unfortunately, these technicalities are not irrelevant -- indeed they
-often have a strong influence on practical applications of  the theory.  Without 
-at least a conceptual understanding of these technicalities, the readier is then 
-subject to dangerous fallacies and, ultimately, fragile analyses.  
+often have a strong influence on practical applications of  the theory.  Without
+at least a conceptual understanding of these technicalities, the reader is then
+subject to dangerous fallacies and, ultimately, fragile analyses.
 
-On the other hand, the more formal treatments of probability theory that do 
-address these subtleties are typically mired in abstract, mathematical pedantry 
-with little or not discussion of how the theory applies to inference.  A few
+On the other hand, the more formal treatments of probability theory that do
+address these subtleties are typically mired in abstract, mathematical pedantry
+with little or no discussion of how the theory applies to inference.  A few
 treatments will introduce the application of these ideas to frequentist inference,
 but rarely is there any discussion of the more general Bayesian perspective.
 
-In this review we attempt an intermediate treatment where we provide a deeper 
+In this review we attempt an intermediate treatment where we provide a deeper
 introduction to probability theory and Bayesian inference than most introductory
 references, but focus entirely on concepts rather than proofs.  We hope that
-this will give Stan users the foundational understanding they need to properly 
+this will give Stan users the foundational understanding they need to properly
 wield Bayesian inference in practice and take full advantage of their measurements.
 
 \section{Our Strategy}
 
 Probability theory, like much of higher mathematics, is challenging because
-of its abstraction; the theory is defined in complete generality with only abstract 
+of its abstraction; the theory is defined in complete generality with only abstract
 objects and manipulations.  While much can be proved about the behavior
-of these abstractions, there is no general way to explicitly specify these objects 
+of these abstractions, there is no general way to explicitly specify these objects
 and implement their manipulations.  Without explicit examples it then becomes
 difficult to develop accurate intuition and understanding.
 
-To apply probability theory in practice we need to first define a \emph{representation} 
-that maps these abstractions into an explicit context where we can compute.  
-For example, we can map into a discrete space where manipulations reduce 
-to counting or a real space where manipulations reduce to integration.  The 
-challenge in using these representations is to ensure that the calculations depend 
+To apply probability theory in practice we need to first define a \emph{representation}
+that maps these abstractions into an explicit context where we can compute.
+For example, we can map into a discrete space where manipulations reduce
+to counting or a real space where manipulations reduce to integration.  The
+challenge in using these representations is to ensure that the calculations depend
 only on the properties of the original abstract system and not on any irrelevant details
-of the representation itself.  Understanding exactly what details are relevant or 
+of the representation itself.  Understanding exactly what details are relevant or
 not, however, requires at least some comprehension of the abstract theory.
 
-Many introductions to probability and statistics simply jump into one of these 
-representations immediately, ignoring the abstractions, and the subtitles as to
-which operations are valid, altogether.  This approach inevitably leads to 
+Many introductions to probability and statistics simply jump into one of these
+representations immediately---ignoring the abstractions and the subtitles as to
+which operations are valid altogether.  This approach inevitably leads to
 confused frustration.  \emph{What do you mean a probability \emph{density} isn't
 a probability?  What do you mean most observations won't be near the mode
 of the probability density?}.  Unfortunately, this confusion manifests not just in
 frustration but also incorrect statistical analyses that can have serious consequences.
 
 In this introduction we will not ignore the abstractions of probability theory.
-As with more formal treatments we will instead being by discussion the abstract
+As with more formal treatments we will instead begin by discussing the abstract
 theory and only then discuss representations and the explicit computations that
-they allow.   Unlike those treatments, however, our presentation will be largely
-conceptual, meanings lots of definitions of abstract objects and their manipulations
+they allow.  Unlike those treatments, however, our presentation will be largely
+conceptual: meaning there will be lots of definitions of abstract objects and their manipulations
 but little concern for any technical details that do not end up affecting the
-application of the theory in practice.  As we develop representations we'll discuss 
-more and more specific examples to develop as much intuitive context as can while 
+application of the theory in practice.  As we develop representations we will discuss
+more and more specific examples to develop as much intuitive context as we can while
 also emphasizing the limitations of these representations.
 
-We'll first introduce logic as a means of quantifying information with certainty,
-and then probability theory as a means of quantifying uncertainty about that 
-information.  In both cases we'll first consider abstract definitions and then the 
-explicit representations of these concepts needed in practice.  Next we'll discuss 
-how to implement probabilistic computations and discuss many popular computational 
-methods.  Finally we'll show how all of these ideas come together in Bayesian 
+We will first introduce logic as a means of quantifying information with certainty
+and then probability theory as a means of quantifying uncertainty about that
+information.  In both cases we will first consider abstract definitions and then the
+explicit representations of these concepts needed in practice.  Next we will discuss
+how to implement probabilistic computations and discuss many popular computational
+methods.  Finally we will show how all of these ideas come together in Bayesian
 inference.
 
-This will not be an easy journey.  It requires a significant investment from the 
-reader, but that investment will be rewarded with a robust understanding of 
-statistics that will enable some amazing science. 
+This will not be an easy journey.  It will require a significant investment from the
+reader, but that investment will be rewarded with a robust understanding of
+statistics that will enable some amazing science.
 
 \section{Mathematical Background and Notation}
 
 A thorough review of probability theory and its application requires a nontrivial
 mathematical background.  We have attempted to make this review as
-self-contained as possible regarding probability theory itself, but we do have to 
-assume that the reader is comfortable with the basics of set theory and differential 
-and integral calculus over the real numbers.  We highly encourage anyone whose 
+self-contained as possible regarding probability theory itself, but we do have to
+assume that the reader is comfortable with the basics of set theory and differential
+and integral calculus over the real numbers.  We highly encourage anyone whose
 math might be rusty to brush up before proceeding.
 
 Throughout we will use common set theory notation.  If $A$ is a set
 then any element of the set is written as $a \in A$ while a subset is written
 as $S \subset A$.  Sets are also sometimes denoted by their elements, for
 example $A = \left\{ a_{1}, \ldots, a_{N} \right\}$.  The \emph{set builder
-notation} is similarly used to denote subsets as 
+notation} is similarly used to denote subsets as
 $S = \left\{ a \in A \mid \cdot \right\}$, where $\cdot$ is the condition identifying
 which elements of $A$ are in the subset $S \subset A$.  For example, we
-can define the positive real numbers as 
+can define the positive real numbers as
 %
 \begin{equation*}
 \RR^{+} = \left\{ x \in \RR \mid x \ge 0 \right\}.
 \end{equation*}
 %
-The \emph{union} of two sets, $A \cup B$ is the combination of all 
-elements in either set while the \emph{intersection} of two sets, 
+The \emph{union} of two sets, $A \cup B$ is the combination of all
+elements in either set while the \emph{intersection} of two sets,
 $A \cap B$ contains only those elements that appear in both sets.
-If $S \subset A$ is a subset then its \emph{complement}, $S^{c}$ is 
+If $S \subset A$ is a subset then its \emph{complement}, $S^{c}$ is
 the collection of all elements of $A$ not in $S$.
 
-\emph{Spaces} are sets endowed with a structure called a 
+\emph{Spaces} are sets endowed with a structure called a
 \emph{topology} that allows us to separate ``well-behaved subsets''
 from ``pathological subsets''.  We will assume that all of our sets
-have such a structure and consequently for all intents and purposes 
+have such a structure and consequently for all intents and purposes
 set and space will be used interchangeably.  Topologies are also
 useful for characterizing spaces.  For example, the familiar properties
-of discrete spaces and continuous spaces, such as the real numbers, 
+of discrete spaces and continuous spaces, such as the real numbers,
 are defined are defined by their respective topologies.
 
-Throughout we will use the common notation for maps from one set into 
-another, $f : A \rightarrow B$ which defines $f$ as a map taking elements 
-of the set $A$ to elements of the set $B$. In other words, $f(a) \in B$ for 
+Throughout we will use the common notation for maps from one set into
+another, $f : A \rightarrow B$ which defines $f$ as a map taking elements
+of the set $A$ to elements of the set $B$. In other words, $f(a) \in B$ for
 any $a \in A$.  Sometimes we will be more explicit regarding the action
 on a given point and write
 %
@@ -252,13 +252,13 @@ f &: A \rightarrow B \\
   &\quad a \mapsto f \! \left( a \right).
 \end{align*}
 
-At times we will be less precise.  For example, when discussing computation 
-we will liberally use $\approx$ to define when two objects are approximately 
-equal, or when we \emph{assume} that they are approximately equal, without 
+At times we will be less precise.  For example, when discussing computation
+we will liberally use $\approx$ to define when two objects are approximately
+equal, or when we \emph{assume} that they are approximately equal, without
 making any effort to formally define what ``approximately equal'' means.
-Similarly, we will make no attempt at the full mathematical rigor necessary for 
-a complete understanding of the intricacies of probability theory, and instead 
-focus on developing a high-level, conceptual intuition.  In particular, in many 
-places we will appeal to vague notions like ``well-behaved'', as their technical 
+Similarly, we will make no attempt at the full mathematical rigor necessary for
+a complete understanding of the intricacies of probability theory and instead
+focus on developing a high-level, conceptual intuition.  In particular, in many
+places we will appeal to vague notions like ``well-behaved'', as their technical
 definitions do not offer much pedagogical benefit.
 
